@@ -5,13 +5,15 @@
      <meta http-equiv="X-UA-Compatible" content="IE=edge">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <title>pick machine</title>
-     <link rel="stylesheet" href="./css/sub.min.css">
+     <link rel="stylesheet" href="./css/common.min.css">
+     <link rel="stylesheet" href="./css/pick-machine.css">
 </head>
 <body>
     <div class="wrap">
+        <div data-include-path="header.html"></div>
         <div class="inner p_r">
             <div class="start_area">
-                <button class="learn-more">START</button>
+                <button class="start_btn">START</button>
             </div>
 
             <div class="machine_area">
@@ -26,11 +28,18 @@
             </div>
         </div>
     </div>
+<!-- jQuery cdn -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js'></script>
-<!--jQuery 소스삽입  cdnjs 플러그인 사용 -->
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
-<!--jQuery-ui 소스삽입 (aniamtion 기능, 다양한 ui component)  cdnjs 플러그인 사용 -->
+<!-- my script -->
+<script src="./js/js.js"></script>
 <script>
+
+$(document).ready(function() {
+    $('.start_btn').click(function() {
+        $(this).parent().fadeOut();
+        $('.machine_area').fadeIn();
+    });
+});
 
 </script>
 </body>
