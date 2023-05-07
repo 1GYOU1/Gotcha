@@ -9,14 +9,17 @@
      <link rel="stylesheet" href="./css/pick-machine.css">
 </head>
 <body>
+    <div data-include-path="header.html"></div>
+
     <div class="wrap">
-        <div data-include-path="header.html"></div>
-        <div class="inner p_r">
-            <div class="start_area">
+        <div class="start_area">
+            <div class="inner p_r">
                 <button class="start_btn">START</button>
             </div>
+        </div>
 
-            <div class="machine_area">
+        <div class="machine_area">
+            <div class="inner p_r">
                 <div class="machine">
                     <!-- <div class="machine_top">
 
@@ -32,15 +35,5 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js'></script>
 <!-- my script -->
 <script src="./js/js.js"></script>
-<script>
-
-$(document).ready(function() {
-    $('.start_btn').click(function() {
-        $(this).parent().fadeOut();
-        $('.machine_area').fadeIn();
-    });
-});
-
-</script>
 </body>
 </html>

@@ -3,12 +3,20 @@ header{
     position:fixed;
     top:0;
     left:0;
+    // &.fixed{
+    //     position:fixed;
+    //     top:0;
+    //     left:0;
+    // }
     width:100%;
     display: flex;
     justify-content: space-between;
+    background-color:#ffe2ea;
+    opacity: 0.8;
     z-index: 99;
     h1{
         font-size: 28px;
         margin-left:10px;
+        padding:5px 0;
     }
 }

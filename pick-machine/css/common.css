@@ -6,9 +6,12 @@ header {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  background-color: #ffe2ea;
+  opacity: 0.8;
   z-index: 99;
 }
 header h1 {
   font-size: 28px;
   margin-left: 10px;
+  padding: 5px 0;
 }/*# sourceMappingURL=common.css.map */

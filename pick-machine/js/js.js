@@ -15,3 +15,21 @@ window.addEventListener('load', function() {
         }
     });
 });
+
+//start button event
+$('.start_btn').click(function() {
+    $(this).parent().fadeOut();
+    $('.machine_area').fadeIn();
+});
+
+//header fixed
+// if($('div[data-include-path="header.html"]').length > 0) {
+//     $(window).on('scroll', function() {
+//         if($(window).scrollTop() >= $('.wrap').offset().top) {
+//             $('header').addClass('fixed');
+//         }
+//         else {
+//             $('header').removeClass('fixed');
+//         }
+//     });
+// }
