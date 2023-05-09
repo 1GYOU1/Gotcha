@@ -19,7 +19,9 @@ window.addEventListener('load', function() {
 //start button event
 $('.start_btn').click(function() {
     $(this).parent().fadeOut();
-    $('.machine_area').fadeIn();
+    setTimeout(function() {//스크롤 생기면서 버튼이 밀리는 현상때문에 setTimeout 사용
+        $('.machine_area').fadeIn()
+    }, 500);
 });
 
 //header fixed
