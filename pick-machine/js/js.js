@@ -20,7 +20,7 @@ window.addEventListener('load', function() {
 $('.start_btn').click(function() {
     $(this).parent().fadeOut();
     setTimeout(function() {//스크롤 생기면서 버튼이 밀리는 현상때문에 setTimeout 사용
-        $('.machine_area').fadeIn()
+        $('.main_area').fadeIn()
     }, 500);
 });
 
