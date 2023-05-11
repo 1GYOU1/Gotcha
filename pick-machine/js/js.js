@@ -35,3 +35,27 @@ $('.start_btn').click(function() {
 //         }
 //     });
 // }
+
+//coin drag and drop event
+// 처음 드래그 요소가 위치하고 있는 좌측 박스 영역
+const CoinDragArea = document.querySelector(".coin_drag_area");
+
+CoinDragArea.addEventListener("dragover", (e) => {
+  e.preventDefault();
+});
+CoinDragArea.addEventListener("drop", (e) => {
+  e.preventDefault();
+  console.log("드래그 요소가 '첫' 번째 박스 영역에 드롭");
+});
+
+
+// 드래그 요소가 이동하여 위치할 우측 박스 영역
+const CoinDropArea = document.querySelector(".coin_drop_area");
+
+CoinDropArea.addEventListener("dragover", (e) => {
+  e.preventDefault();
+});
+CoinDropArea.addEventListener("drop", (e) => {
+  e.preventDefault();
+  console.log("드래그 요소가 '두' 번째 박스 영역에 드롭");
+});

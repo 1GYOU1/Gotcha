@@ -11,128 +11,25 @@
 /* machine area */
 .main_area{display:none;margin-top:100px;}
 .main_area .inner{display:flex;justify-content:center;}
-.main_area .machine_area{width:400px;}
+.main_area .machine_area{width:350px;}
 .main_area .machine_area .machine{width:100%;}
-.main_area .machine_area .balls{position:absolute;top:120px;left:50%;transform:translateX(-50%);}
-.main_area .machine_area .balls img{width:360px;}
-.main_area .machine_area .handle{position:absolute;top:490px;left:50%;transform:translateX(-50%);margin-left:4px;width:78px;}
-.main_area .machine_area strong{position:absolute;top:603px;right:284px;width:76px;text-align:center;font-size:18px;}
-.main_area .machine_area .coin_enter{position:absolute;top:578px;left:286px;width:80px;height:80px;cursor:pointer;}
-.main_area .machine_area .capsule_exit{position:absolute;top:604px;left:50%;transform:translateX(-50%);width:116px;height:109px;margin-left:3px;overflow:hidden;cursor:pointer;}
-.main_area .machine_area .capsule_exit img{position:absolute;top:5px;left:0.7vw;width:100px;}
+.main_area .machine_area .balls{position:absolute;top:101px;left:50%;transform:translateX(-50%);}
+.main_area .machine_area .balls img{width:294px;}
+.main_area .machine_area .handle{position:absolute;top:407px;left:50%;transform:translateX(-50%);width:70px;}
+.main_area .machine_area .handle:hover{transform:translateX(-50%) rotate(-30deg) scale(1.2);transition:all ease 0.5s;}
+.main_area .machine_area strong{position:absolute;top:511px;right:249px;width:74px;text-align:center;font-size:18px;}
+.main_area .machine_area .coin_enter{position:absolute;top:485px;left:248px;width:80px;height:80px;cursor:pointer;}
+.main_area .machine_area .capsule_exit{position:absolute;top:512px;left:50%;transform:translateX(-50%);width:97px;height:92px;overflow:hidden;cursor:pointer;}
+.main_area .machine_area .capsule_exit img{position:absolute;top:2px;left:0.3vw;width:90px;}
 .main_area .machine_area .capsule_exit.on img{-webkit-animation:bounce-in-top 1.1s both;animation:bounce-in-top 1.1s both;}
-
- @-webkit-keyframes bounce-in-top {
-	0% {
-	  -webkit-transform: translateY(-500px);
-			  transform: translateY(-500px);
-	  -webkit-animation-timing-function: ease-in;
-			  animation-timing-function: ease-in;
-	  opacity: 0;
-	}
-	38% {
-	  -webkit-transform: translateY(0);
-			  transform: translateY(0);
-	  -webkit-animation-timing-function: ease-out;
-			  animation-timing-function: ease-out;
-	  opacity: 1;
-	}
-	55% {
-	  -webkit-transform: translateY(-65px);
-			  transform: translateY(-65px);
-	  -webkit-animation-timing-function: ease-in;
-			  animation-timing-function: ease-in;
-	}
-	72% {
-	  -webkit-transform: translateY(0);
-			  transform: translateY(0);
-	  -webkit-animation-timing-function: ease-out;
-			  animation-timing-function: ease-out;
-	}
-	81% {
-	  -webkit-transform: translateY(-28px);
-			  transform: translateY(-28px);
-	  -webkit-animation-timing-function: ease-in;
-			  animation-timing-function: ease-in;
-	}
-	90% {
-	  -webkit-transform: translateY(0);
-			  transform: translateY(0);
-	  -webkit-animation-timing-function: ease-out;
-			  animation-timing-function: ease-out;
-	}
-	95% {
-	  -webkit-transform: translateY(-8px);
-			  transform: translateY(-8px);
-	  -webkit-animation-timing-function: ease-in;
-			  animation-timing-function: ease-in;
-	}
-	100% {
-	  -webkit-transform: translateY(0);
-			  transform: translateY(0);
-	  -webkit-animation-timing-function: ease-out;
-			  animation-timing-function: ease-out;
-	}
-  }
-  @keyframes bounce-in-top {
-	0% {
-	  -webkit-transform: translateY(-500px);
-			  transform: translateY(-500px);
-	  -webkit-animation-timing-function: ease-in;
-			  animation-timing-function: ease-in;
-	  opacity: 0;
-	}
-	38% {
-	  -webkit-transform: translateY(0);
-			  transform: translateY(0);
-	  -webkit-animation-timing-function: ease-out;
-			  animation-timing-function: ease-out;
-	  opacity: 1;
-	}
-	55% {
-	  -webkit-transform: translateY(-65px);
-			  transform: translateY(-65px);
-	  -webkit-animation-timing-function: ease-in;
-			  animation-timing-function: ease-in;
-	}
-	72% {
-	  -webkit-transform: translateY(0);
-			  transform: translateY(0);
-	  -webkit-animation-timing-function: ease-out;
-			  animation-timing-function: ease-out;
-	}
-	81% {
-	  -webkit-transform: translateY(-28px);
-			  transform: translateY(-28px);
-	  -webkit-animation-timing-function: ease-in;
-			  animation-timing-function: ease-in;
-	}
-	90% {
-	  -webkit-transform: translateY(0);
-			  transform: translateY(0);
-	  -webkit-animation-timing-function: ease-out;
-			  animation-timing-function: ease-out;
-	}
-	95% {
-	  -webkit-transform: translateY(-8px);
-			  transform: translateY(-8px);
-	  -webkit-animation-timing-function: ease-in;
-			  animation-timing-function: ease-in;
-	}
-	100% {
-	  -webkit-transform: translateY(0);
-			  transform: translateY(0);
-	  -webkit-animation-timing-function: ease-out;
-			  animation-timing-function: ease-out;
-	}
-  }
-  
-
-.main_area .coin{position:absolute;top:576px;right:0;width:80px;height:80px;background-color:#f0ddea;border-radius:50%;border:3px solid #9b7283;color:#9b7283;}
+.main_area .machine_area .capsule_exit.on img:hover{transform:scale(1.2);}
+.main_area .coin{position:relative;width:80px;height:80px;background-color:#f0ddea;border-radius:50%;border:3px solid #9b7283;color:#9b7283;}
 .main_area .coin .dash_line{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:70px;height:70px;border-radius:50%;border:1px dashed #9b7283}
 .main_area .coin .date{position:absolute;top:4px;left:50%;transform:translateX(-50%);font-size:9px;}
 .main_area .coin strong{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);margin-top:-2px;font-size:24px;-webkit-text-stroke:1.0px #9b7283;-webkit-text-fill-color:transparent}
 .main_area .coin .bank{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);font-size:8px;}
+.main_area .coin_drag_area{position:absolute;top:480px;right:50px;padding:20px;background-color:lightblue;}
+.main_area .coin_drop_area{position:absolute;top:480px;right:200px;padding:20px;background-color:lightyellow;}
 
 /* responsive start ************************************************/
 @media screen and (max-width:768px){

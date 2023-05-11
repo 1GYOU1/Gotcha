@@ -1,0 +1,1 @@
+machine_design -> 공 이미지 따로 png로 저장 필요.
