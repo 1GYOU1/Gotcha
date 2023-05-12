@@ -41,28 +41,115 @@
                     </div>
                     <img class="handle" src="./img/machine_handle.png" alt="">
                     <strong>￦ <span>1000</span></strong>
-                    <div class="coin_enter"></div>
                     <div class="capsule_exit on">
                         <img src="./img/pink_ball_1.png" alt="">
                     </div>
-                </div>
-                <div class="coin_drag_area">
-                    <div class="coin">
-                        <span class="dash_line"></span>
-                        <span class="date">2023</span>
-                        <strong>500</strong>
-                        <span class="bank">1GYOU1</span>
-                    </div>
-                </div>
-                <div class="coin_drop_area">
-
+                    <div class="coin_drop_area"></div>
                 </div>
             </div>
+
+            <div class="coin_drag_area">
+                <a class="coin">
+                    <img src="./img/coin.png" alt="">
+                </a>
+            </div>
+
         </div>
     </div>
 <!-- jQuery cdn -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js'></script>
 <!-- my script -->
 <script src="./js/js.js"></script>
+
+<script>
+
+var dragItem = document.querySelector(".coin_drag_area");
+var container = document.querySelector(".main_area");
+
+var active = false;
+var currentX;
+var currentY;
+var initialX;
+var initialY;
+var xOffset = 0;
+var yOffset = 0;
+
+container.addEventListener("touchstart", dragStart, false);
+container.addEventListener("touchend", dragEnd, false);
+container.addEventListener("touchmove", drag, false);
+
+container.addEventListener("mousedown", dragStart, false);
+container.addEventListener("mouseup", dragEnd, false);
+container.addEventListener("mousemove", drag, false);
+
+function dragStart(e) {
+    if (e.type === "touchstart") {
+    initialX = e.touches[0].clientX - xOffset;
+    initialY = e.touches[0].clientY - yOffset;
+    } else {
+    initialX = e.clientX - xOffset;
+    initialY = e.clientY - yOffset;
+    }
+
+    if (e.target === dragItem) {
+    active = true;
+    }
+}
+
+function dragEnd(e) {
+    initialX = currentX;
+    initialY = currentY;
+
+    active = false;
+}
+
+function drag(e) {
+    if (active) {
+    
+    e.preventDefault();
+    
+    if (e.type === "touchmove") {
+        currentX = e.touches[0].clientX - initialX;
+        currentY = e.touches[0].clientY - initialY;
+    } else {
+        currentX = e.clientX - initialX;
+        currentY = e.clientY - initialY;
+    }
+
+    xOffset = currentX;
+    yOffset = currentY;
+
+    setTranslate(currentX, currentY, dragItem);
+    }
+}
+
+function setTranslate(xPos, yPos, el) {
+    el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
+}
+
+// coin drag and drop event
+// 처음 드래그 요소가 위치하고 있는 좌측 박스 영역
+// const CoinDragArea = document.querySelector(".coin_drag_area");
+
+// CoinDragArea.addEventListener("dragover", (e) => {
+//   e.preventDefault();
+// });
+// CoinDragArea.addEventListener("drop", (e) => {
+//   e.preventDefault();
+//   console.log("드래그 요소가 '첫' 번째 박스 영역에 드롭");
+// });
+
+
+// // 드래그 요소가 이동하여 위치할 우측 박스 영역
+// const CoinDropArea = document.querySelector(".coin_drop_area");
+
+// CoinDropArea.addEventListener("dragover", (e) => {
+//   e.preventDefault();
+// });
+// CoinDropArea.addEventListener("drop", (e) => {
+//   e.preventDefault();
+//   console.log("드래그 요소가 '두' 번째 박스 영역에 드롭");
+// });
+</script>
 </body>
 </html>
