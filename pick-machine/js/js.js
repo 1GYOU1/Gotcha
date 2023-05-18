@@ -61,12 +61,12 @@ window.addEventListener('load', function() {
   // });
   
   
-  //코인 이미지 이동, 드롭 이벤트
+  //코인 이미지 이동, 드롭 이벤트 start
   var coinImg = document.querySelector(".coin_drag_area a img");
   var coinDragArea = document.querySelector(".main_area");
-  var targetElement = document.querySelector(".coin_drop_area");
   var coinDropArea = document.querySelector(".coin_drop_area");
   
+  //드래그 이벤트 처리를 위한 변수들
   var active = false;
   var currentX;
   var currentY;
@@ -75,6 +75,7 @@ window.addEventListener('load', function() {
   var xOffset = 0;
   var yOffset = 0;
   
+  //터치 이벤트와 마우스 이벤트를 등록합니다. 이벤트 종류에 따라 dragStart, dragEnd, drag 함수가 호출
   coinDragArea.addEventListener("touchstart", dragStart, false);
   coinDragArea.addEventListener("touchend", dragEnd, false);
   coinDragArea.addEventListener("touchmove", drag, false);
@@ -96,6 +97,12 @@ window.addEventListener('load', function() {
           active = true;
       }
   }
+  /*
+    드래그가 시작될 때 호출되는 함수.
+    터치 이벤트인 경우 touches[0]을 사용하여 초기 좌표를 설정.
+    마우스 이벤트인 경우 마우스의 클라이언트 좌표와 xOffset, yOffset을 사용하여 초기 좌표를 설정.
+    coinImg를 클릭한 경우에만 active를 true로 설정.
+  */
   
   function dragEnd(e) {
       initialX = currentX;
@@ -106,6 +113,12 @@ window.addEventListener('load', function() {
       // 드래그 종료 시 특정 요소 진입 확인 함수 호출
       checkElementEnter();
   }
+  /*
+    드래그가 종료될 때 호출되는 함수.
+    initialX, initialY를 현재 좌표로 업데이트.
+    active를 false로 설정하여 드래그 중이 아님을 나타냄.
+    checkElementEnter() 함수를 호출하여 특정 요소에 진입되었는지 확인.
+  */
   
   function drag(e) {
       if (active) {
@@ -128,20 +141,37 @@ window.addEventListener('load', function() {
           checkElementEnter();
       }
   }
+    /*
+    drag 함수는 드래그 중에 호출되는 함수입니다.
+    active가 true인 경우에만 실행됩니다.
+    이벤트의 기본 동작을 막기 위해 e.preventDefault()를 호출합니다.
+    터치 이벤트와 마우스 이벤트에 따라 현재 좌표(currentX, currentY)를 업데이트합니다.
+    좌표의 변화량(xOffset, yOffset)를 업데이트합니다.
+    setTranslate 함수를 호출하여 이미지를 현재 좌표로 이동시킵니다.
+    checkElementEnter() 함수를 호출하여 특정 요소에 진입되었는지 확인합니다.
+    */
   
-  function setTranslate(xPos, yPos, el) {
-      el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
-  }
+    function setTranslate(xPos, yPos, el) {
+        el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
+    }
+    /*
+    setTranslate 함수는 요소를 주어진 좌표로 이동시키는 역할을 합니다.
+    xPos와 yPos를 이용하여 요소의 transform 속성을 업데이트합니다.
+    */
   
-  function handleElementEnter() {
-      console.log("Entered the target element!");
-      // 특정 요소에 진입했을 때 처리할 내용을 여기에 작성합니다.
-  }
+    function handleElementEnter() {
+        console.log("Entered the target element!");
+        // 특정 요소에 진입했을 때 처리할 내용을 여기에 작성합니다.
+    }
+
+    /*
+    handleElementEnter 함수는 특정 요소에 진입했을 때 호출되는 함수.
+    */
 
     var count = 0; // 카운트 변수
-    var mouseDown = false; // 마우스 클릭 여부를 나타내는 변수
+    var mouseDown = false; // 마우스 클릭 여부를 나타내는 변수 - true면 클릭이 눌려져있는 상태
 
-    var isDragging = false;
+    var isDragging = false; // 드래그 중인지 여부를 나타내는 변수 - true이면 현재 드래그 중인 상태
 
     coinDragArea.addEventListener("mousedown", function(e) {
         if (e.target === coinImg) {
@@ -149,6 +179,10 @@ window.addEventListener('load', function() {
             mouseDown = true; // 마우스 클릭 시 mouseDown 변수를 true로 설정
         }
     }, false);
+    /*
+    coinDragArea 요소에서 마우스 버튼이 눌릴 때(마우스 다운) 발생하는 이벤트에 대한 리스너
+    이벤트의 대상이 coinImg인 경우에만 isDragging을 true로 설정하고, mouseDown을 true로 설정
+    */
     
     coinDragArea.addEventListener("mouseup", function(e) {
         if (isDragging) {
@@ -161,11 +195,20 @@ window.addEventListener('load', function() {
         isDragging = false;
         mouseDown = false; // mouseDown 변수를 false로 재설정
     }, false);
+    /*
+    coinDragArea 요소에서 마우스 버튼이 눌린 후(마우스 업) 발생하는 이벤트에 대한 리스너
+    isDragging이 true인 경우에만 실행되며, 마우스 업이 coinDropArea 내부에서 발생하고 mouseDown이 true인 경우에만 count를 증가시킵니다. 그리고 isDragging과 mouseDown을 false로 재설정
+    */
+
     
     coinDragArea.addEventListener("mouseleave", function() {
         isDragging = false;
         mouseDown = false; // 마우스 영역을 벗어나면 드래그 중이 아니라고 설정
     }, false);
+    /*
+    coinDragArea 요소를 마우스가 벗어났을 때 발생하는 이벤트에 대한 리스너
+    드래그 중이 아니라고(isDragging과 mouseDown을 false로 설정) 설정
+    */
     
     function isMouseUpInElement(event, element) {
         var rect = element.getBoundingClientRect();
@@ -173,9 +216,16 @@ window.addEventListener('load', function() {
         var mouseY = event.clientY;
         return mouseX >= rect.left && mouseX <= rect.right && mouseY >= rect.top && mouseY <= rect.bottom;
     }
+    /*
+    마우스 업 이벤트가 특정 요소 내에서 발생했는지를 확인하는 역할을 합니다.
+    event는 마우스 이벤트 객체이고, element는 확인하려는 요소입니다.
+    getBoundingClientRect()를 사용하여 요소의 경계 사각형 정보(rect)를 가져옵니다.
+    이벤트의 클라이언트 좌표(event.clientX, event.clientY)를 사용하여 마우스의 위치를 확인합니다.
+    마우스의 위치가 요소의 경계 사각형
+    */
   
   function checkElementEnter() {
-      var targetRect = targetElement.getBoundingClientRect();
+      var targetRect = coinDropArea.getBoundingClientRect();
       var coinRect = coinImg.getBoundingClientRect();
   
       if (
@@ -188,26 +238,15 @@ window.addEventListener('load', function() {
           handleElementEnter();
       }
   }
-  
+  /*
+    targetRect와 coinRect 변수:
 
-/*
-1. 코드의 첫 부분은 필요한 요소들을 선택하는 변수들을 정의합니다. coinImg는 동전 이미지를 나타내는 <img> 요소를 선택하고, coinDragArea는 드래그 가능한 영역을 나타내는 요소를 선택합니다. targetElement는 동전을 드롭할 목표 영역을 선택합니다.
+    targetRect: coinDropArea 요소의 경계 사각형 정보를 저장합니다. getBoundingClientRect()를 사용하여 요소의 위치와 크기를 가져옵니다.
+    coinRect: coinImg 요소의 경계 사각형 정보를 저장합니다. 마찬가지로 getBoundingClientRect()를 사용하여 요소의 위치와 크기를 가져옵니다.
 
-2. active, currentX, currentY, initialX, initialY, xOffset, yOffset 등의 변수들을 초기화합니다. 이들 변수는 드래그 동작을 추적하고 제어하는 데 사용됩니다.
+    if 문을 사용하여 coinRect와 targetRect 간의 상대적인 위치 관계를 확인합니다.
+    coinRect.left가 targetRect.left보다 크거나 같고, coinRect.right가 targetRect.right보다 작거나 같으며, coinRect.top이 targetRect.top보다 크거나 같고, coinRect.bottom이 targetRect.bottom보다 작거나 같은 경우를 확인합니다.
+    이 조건을 만족하는 경우, 즉 coinImg가 coinDropArea 완전히 포함되는 경우에만 아래의 코드 블록이 실행됩니다.
 
-3. coinDragArea 요소에 터치 이벤트와 마우스 이벤트에 대한 리스너들을 추가합니다. 이벤트들은 드래그 시작, 드래그 종료, 드래그 중에 호출될 함수들을 지정합니다.
-
-4. dragStart 함수는 드래그가 시작될 때 호출되는 함수입니다. 이 함수는 이벤트의 타입에 따라 초기 좌표를 설정하고, 동전 이미지를 드래그 중으로 표시하기 위해 active 변수를 활성화합니다.
-
-5. dragEnd 함수는 드래그가 종료될 때 호출되는 함수입니다. 이 함수는 최종 위치를 업데이트하고 active 변수를 비활성화합니다. 또한 checkElementEnter 함수를 호출하여 특정 요소에 진입했는지 확인합니다.
-
-6. drag 함수는 드래그 중에 호출되는 함수로, 드래그 중인 경우에만 동작합니다. 이 함수는 현재 좌표를 업데이트하고 이미지의 위치를 변경합니다. 또한 checkElementEnter 함수를 호출하여 특정 요소에 진입했는지 확인합니다.
-
-7. setTranslate 함수는 요소의 위치를 변경하기 위해 transform 속성을 설정합니다. 이 함수는 xPos와 yPos 매개변수로 전달된 좌표를 사용하여 요소를 이동시킵니다.
-
-8. handleElementEnter 함수는 특정 요소에 진입했을 때 실행되는 처리를 수행하는 함수입니다. 현재 구현에서는 간단한 콘솔 로그만 포함되어 있습니다. 이 함수는 필요에 따라 특정 요소에 진입했을 때 수행해야 할 작업을 추가할 수 있습니다.
-
-9. checkElementEnter 함수는 동전 이미지와 목표 영역의 경계를 비교하여 특정 요소에 진입했는지
-
-10. checkElementEnter 함수는 동전 이미지와 목표 영역의 경계를 비교하여 특정 요소에 진입했는지를 확인합니다. getBoundingClientRect() 메서드를 사용하여 동전 이미지와 목표 영역의 위치와 크기를 가져옵니다. 그런 다음, 동전 이미지가 목표 영역 내에 들어왔는지를 확인하기 위해 좌표 비교를 수행합니다. 동전 이미지가 목표 영역 내에 위치하면 handleElementEnter 함수를 호출하여 특정 요소에 진입했음을 처리합니다.
-*/
+    특정 요소에 진입했을 때 처리할 함수인 handleElementEnter를 호출합니다.
+  */
