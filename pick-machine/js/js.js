@@ -65,6 +65,7 @@ window.addEventListener('load', function() {
   var coinImg = document.querySelector(".coin_drag_area a img");
   var coinDragArea = document.querySelector(".main_area");
   var targetElement = document.querySelector(".coin_drop_area");
+  var coinDropArea = document.querySelector(".coin_drop_area");
   
   var active = false;
   var currentX;
@@ -135,8 +136,43 @@ window.addEventListener('load', function() {
   function handleElementEnter() {
       console.log("Entered the target element!");
       // 특정 요소에 진입했을 때 처리할 내용을 여기에 작성합니다.
-      // 예: 콘솔 로그, 추가 작업 등
   }
+
+    var count = 0; // 카운트 변수
+    var mouseDown = false; // 마우스 클릭 여부를 나타내는 변수
+
+    var isDragging = false;
+
+    coinDragArea.addEventListener("mousedown", function(e) {
+        if (e.target === coinImg) {
+            isDragging = true;
+            mouseDown = true; // 마우스 클릭 시 mouseDown 변수를 true로 설정
+        }
+    }, false);
+    
+    coinDragArea.addEventListener("mouseup", function(e) {
+        if (isDragging) {
+            var isMouseUpInDropArea = isMouseUpInElement(e, coinDropArea);
+            if (isMouseUpInDropArea && mouseDown) {
+                count++; // 마우스 클릭을 뗐을 때만 카운트 증가
+                console.log("Count:", count); // 콘솔에 카운트 출력
+            }
+        }
+        isDragging = false;
+        mouseDown = false; // mouseDown 변수를 false로 재설정
+    }, false);
+    
+    coinDragArea.addEventListener("mouseleave", function() {
+        isDragging = false;
+        mouseDown = false; // 마우스 영역을 벗어나면 드래그 중이 아니라고 설정
+    }, false);
+    
+    function isMouseUpInElement(event, element) {
+        var rect = element.getBoundingClientRect();
+        var mouseX = event.clientX;
+        var mouseY = event.clientY;
+        return mouseX >= rect.left && mouseX <= rect.right && mouseY >= rect.top && mouseY <= rect.bottom;
+    }
   
   function checkElementEnter() {
       var targetRect = targetElement.getBoundingClientRect();
