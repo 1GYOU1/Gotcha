@@ -1,10 +1,10 @@
 //include html
 window.addEventListener('load', function() {
-    var allElements = document.getElementsByTagName('*');
+    let allElements = document.getElementsByTagName('*');
     Array.prototype.forEach.call(allElements, function(el) {
-        var includePath = el.dataset.includePath;
+        let includePath = el.dataset.includePath;
         if (includePath) {
-            var xhttp = new XMLHttpRequest();
+            let xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     el.outerHTML = this.responseText;
@@ -62,27 +62,33 @@ $('.start_btn').click(function() {
     
     
 //코인 이미지 이동, 드롭 이벤트 start
-var coinImg = document.querySelector(".coin_drag_area a img");
-var coinDragArea = document.querySelector(".main_area");
-var coinDropArea = document.querySelector(".coin_drop_area");
+let coinImg = document.querySelector(".coin_drag_area a img");
+let coinDragArea = document.querySelector(".main_area");
+let coinDropArea = document.querySelector(".coin_drop_area");
 
 //가격
-var price = document.querySelector(".machine_area .price span").innerText;
+let price = document.querySelector(".machine_area .price span").innerText;
 
 //내가 낸 동전
-var coinCount = document.querySelector(".coin_count strong span");
+let coinCount = document.querySelector(".coin_count strong span");
+
+//핸들
+let handle = document.querySelector(".handle");
 
 //핸들 돌려! 알림
-var turn = document.querySelector(".turn");
+let turn = document.querySelector(".turn");
+
+//가챠 출구 캡슐 이미지
+let capsule = document.querySelector(".capsule_exit");
   
 //드래그 이벤트 처리를 위한 변수들
-var active = false;
-var currentX;
-var currentY;
-var initialX;
-var initialY;
-var xOffset = 0;
-var yOffset = 0;
+let active = false;
+let currentX;
+let currentY;
+let initialX;
+let initialY;
+let xOffset = 0;
+let yOffset = 0;
   
 //터치 이벤트와 마우스 이벤트를 등록. 이벤트 종류에 따라 dragStart, dragEnd, drag 함수가 호출
 coinDragArea.addEventListener("touchstart", dragStart, false);
@@ -176,10 +182,10 @@ function handleElementEnter() {
 handleElementEnter 함수는 특정 요소에 진입했을 때 호출되는 함수.
 */
 
-var count = 0; // 카운트 변수
-var mouseDown = false; // 마우스 클릭 여부를 나타내는 변수 - true면 클릭이 눌려져있는 상태
+let count = 0; // 카운트 변수
+let mouseDown = false; // 마우스 클릭 여부를 나타내는 변수 - true면 클릭이 눌려져있는 상태
 
-var isDragging = false; // 드래그 중인지 여부를 나타내는 변수 - true이면 현재 드래그 중인 상태
+let isDragging = false; // 드래그 중인지 여부를 나타내는 변수 - true이면 현재 드래그 중인 상태
 
 coinDragArea.addEventListener("mousedown", function(e) {
     if (e.target === coinImg) {
@@ -194,7 +200,7 @@ coinDragArea 요소에서 마우스 버튼이 눌릴 때(마우스 다운) 발�
     
 coinDragArea.addEventListener("mouseup", function(e) {
     if (isDragging) {
-        var isMouseUpInDropArea = isMouseUpInElement(e, coinDropArea);
+        let isMouseUpInDropArea = isMouseUpInElement(e, coinDropArea);
         if (isMouseUpInDropArea && mouseDown) {
             if(parseInt(count) < parseInt(price)){//가격표보다 카운트가 적을 때만 실행(가격표보다 적을때만 동전 넣을 수 있음)
                 count += 500; // 마우스 클릭을 뗐을 때만 카운트 500씩 증가
@@ -204,6 +210,14 @@ coinDragArea.addEventListener("mouseup", function(e) {
             if(parseInt(count) == parseInt(price)){
                 turn.classList.add('on');
                 console.log('돌려 !')
+                handle.addEventListener("click", function(){
+                    turn.classList.remove('on');
+                    handle.classList.add('go');
+                    setTimeout(function(){
+                        handle.classList.remove('go');
+                        capsule.classList.add('on');
+                    }, 2000);
+                })
             }
         }
     }
@@ -226,9 +240,9 @@ coinDragArea 요소를 마우스가 벗어났을 때 발생하는 이벤트에 �
 */
 
 function isMouseUpInElement(event, element) {
-    var rect = element.getBoundingClientRect();
-    var mouseX = event.clientX;
-    var mouseY = event.clientY;
+    let rect = element.getBoundingClientRect();
+    let mouseX = event.clientX;
+    let mouseY = event.clientY;
     return mouseX >= rect.left && mouseX <= rect.right && mouseY >= rect.top && mouseY <= rect.bottom;
 }
 /*
@@ -240,8 +254,8 @@ getBoundingClientRect()를 사용하여 요소의 경계 사각형 정보(rect)�
 */
 
 function checkElementEnter() {
-    var targetRect = coinDropArea.getBoundingClientRect();
-    var coinRect = coinImg.getBoundingClientRect();
+    let targetRect = coinDropArea.getBoundingClientRect();
+    let coinRect = coinImg.getBoundingClientRect();
 
     if (
         coinRect.left >= targetRect.left &&
@@ -265,3 +279,10 @@ coinRect.left가 targetRect.left보다 크거나 같고, coinRect.right가 targe
 
 특정 요소에 진입했을 때 처리할 함수인 handleElementEnter를 호출합니다.
 */
+
+function coinRefresh(){
+    coinImg.classList.add('on');
+    setTimeout(function(){
+        coinImg.classList.remove('on');
+    }, 3000);
+}
