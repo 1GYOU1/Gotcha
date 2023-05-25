@@ -77,6 +77,9 @@ let turn = document.querySelector(".turn");
 //가챠 출구 캡슐 이미지
 let capsule = document.querySelector(".capsule_exit");
 
+//가챠 캡슐 이미지
+let balls = document.querySelector(".balls");
+
 //드래그 이벤트 처리를 위한 변수
 let initialX = parseInt(getComputedStyle(coinImg).top);//초기 동전 이미지의 left 값
 let initialY = parseInt(getComputedStyle(coinImg).left);//초기 동전 이미지의 top 값
@@ -127,23 +130,29 @@ function checkElementEnter() {
     ) {
         // 진입했을 때 처리할 함수 호출
         console.log('coin_drop_area 진입 !')
+        priceCount()
+    }
+}
 
-        if(parseInt(count) < parseInt(price)){//가격표보다 카운트가 적을 때만 실행(가격표보다 적을때만 동전 넣을 수 있음)
-            count += 500; // 마우스 클릭을 뗐을 때만 카운트 500씩 증가
-            coinCount.textContent = count;
-            console.log("Count:", count); // 콘솔에 카운트 출력
-        } 
-        if(parseInt(count) == parseInt(price)){
-            turn.classList.add('on');
-            console.log('돌려 !')
-            handle.addEventListener("click", function(){
-                turn.classList.remove('on');
-                handle.classList.add('on');
-                setTimeout(function(){
-                    handle.classList.remove('on');
-                    capsule.classList.add('on');
-                }, 2000);
-            })
-        }
+function priceCount(){
+    if(parseInt(count) < parseInt(price)){//가격표보다 카운트가 적을 때만 실행(가격표보다 적을때만 동전 넣을 수 있음)
+        count += 500; // 마우스 클릭을 뗐을 때만 카운트 500씩 증가
+        coinCount.textContent = count;
+        console.log("Count:", count); // 콘솔에 카운트 출력
+    } 
+    if(parseInt(count) == parseInt(price)){
+        turn.classList.add('on');
+        console.log('돌려 !')
+        handle.addEventListener("click", function(){
+            turn.classList.remove('on');
+            handle.classList.add('on');//핸들 애니메이션
+            setTimeout(function(){
+                handle.classList.remove('on');
+                balls.classList.add('on');//캡슐 전체 애니메이션
+            }, 1700);
+            setTimeout(function(){
+                capsule.classList.add('on');//캡슐 떨어지는 애니메이션
+            }, 2800);
+        })
     }
 }

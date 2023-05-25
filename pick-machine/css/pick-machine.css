@@ -13,8 +13,25 @@
 .main_area .inner{display:flex;justify-content:center;}
 .main_area .machine_area{width:350px;}
 .main_area .machine_area .machine{width:100%;}
-.main_area .machine_area .balls{position:absolute;top:101px;left:50%;transform:translateX(-50%);}
-.main_area .machine_area .balls img{width:294px;}
+.main_area .machine_area .balls{position:absolute;top:101px;left:50%;margin-left:-155px;width:310px;height:290px;}
+.main_area .machine_area .balls.on{animation: vibrate-1 0.3s linear 3 both;}
+/* .main_area .machine_area .balls .all_balls{width:294px;position:absolute;top:0;left:50%;transform:translateX(-50%);opacity: 0.3;} */
+.main_area .machine_area .balls img{position:absolute;width:85px;}
+.main_area .machine_area .balls img.ball_1{bottom:7px;left:6px;}
+.main_area .machine_area .balls img.ball_2{bottom:5px;left:68px;z-index:1;}
+.main_area .machine_area .balls img.ball_3{bottom:5px;left:140px;}
+.main_area .machine_area .balls img.ball_4{bottom:3px;left:213px;}
+.main_area .machine_area .balls img.ball_5{bottom:55px;left:38px;}
+.main_area .machine_area .balls img.ball_6{bottom:65px;left:107px;}
+.main_area .machine_area .balls img.ball_7{bottom:49px;left:180px;z-index:1;}
+.main_area .machine_area .balls img.ball_8{bottom:100px;left:217px;}
+.main_area .machine_area .balls img.ball_9{bottom:111px;left:145px;}
+.main_area .machine_area .balls img.ball_10{bottom:126px;left:71px;}
+.main_area .machine_area .balls img.ball_11{bottom:111px;left:7px;}
+.main_area .machine_area .balls img.ball_12{bottom:166px;left:197px;}
+.main_area .machine_area .balls img.ball_13{bottom:181px;left:126px;z-index:1;}
+.main_area .machine_area .balls img.ball_14{bottom:175px;left:15px;z-index:1;}
+.main_area .machine_area .balls img.ball_15{bottom:205px;left:72px;}
 .main_area .machine_area .handle{position:absolute;top:407px;left:50%;margin-left:-10%;width:70px;cursor:pointer;}
 .main_area .machine_area .handle:hover{transform:rotate(-30deg) scale(1.2);transition:all ease 0.5s;}
 .main_area .machine_area .handle.on{animation: rotate-scale-up 0.8s linear both 2;}
