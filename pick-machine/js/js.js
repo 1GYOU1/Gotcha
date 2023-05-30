@@ -50,11 +50,15 @@ window.addEventListener('load', function() {
 7. 뽑은 캡슐 클릭 시 
 
 
+갈라지는 이미지 만들기, opacity 0 되면서, 뽑은 거 보여주기
+뽑았던 이미지 인벤토리 저장소,
+
+
+
 ++ 뽑은 캡슐 클릭 시 딤처리, 애니메이션 효과, 줌인, 캡슐 열리기
 ++ 화살표 이미지 변경
 ++ 캐릭터 이미지 모으기 PNG
 ++ 플레이 여러번 -> 캡슐 이미지 출구로 나오는 이미지 주소 변경, 캡슐 이미지 매칭하면서 갯수 줄이기
-
 */
 
 let coinDragArea = document.querySelector(".main_area");//메인 영역
@@ -187,14 +191,14 @@ function capsuleOut(){
     turn.classList.add('on');
     console.log('돌려 !')
     handle.addEventListener("click", handleAni);//애니메이션 실행
-    // 동전, 카운트 초기화
-    coinCount = 0;
-    moneyCount.textContent = 0;
 }
 
 function handleAni(){
     turn.classList.remove('on');
     handle.classList.add('on');//핸들 애니메이션
+    // 동전, 카운트 초기화
+    coinCount = 0;
+    moneyCount.textContent = 0;
     setTimeout(function(){
         handle.classList.remove('on');
         balls.classList.add('on');//캡슐 전체 애니메이션
