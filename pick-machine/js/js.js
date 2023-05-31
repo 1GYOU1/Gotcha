@@ -84,10 +84,13 @@ let handle = document.querySelector(".handle");
 let turn = document.querySelector(".turn");
 
 // 출구
-let capsule = document.querySelector(".capsule_exit");
+let ballExit = document.querySelector(".capsule_exit");
 
 // 캡슐 이미지 전체 셀렉
 let balls = document.querySelector(".balls");
+
+// 뽑은 캡슐 딤처리
+let outBallDim = document.querySelector(".capsule_open");
 
 // 드래그 이벤트 처리를 위한 변수
 let initialX = parseInt(getComputedStyle(coinImg).top);//초기 동전 이미지의 style css left 값
@@ -206,9 +209,9 @@ function handleAni(){
     setTimeout(function(){
         balls.classList.remove('on');
         myCapsule();//내가 뽑은 캡슐
-        capsule.classList.add('on');//캡슐 떨어지는 애니메이션
+        ballExit.classList.add('on');//캡슐 떨어지는 애니메이션
     }, 2800);
-    handle.removeEventListener("click", handleAni);//클릭 이벤트 제거
+    handle.removeEventListener("click", handleAni);//핸들 클릭 이벤트 제거
 }
 
 //(8) 내가 뽑은 캡슐
@@ -220,5 +223,10 @@ function myCapsule(){
     outBall.setAttribute("class", "my_ball")
     outBall.setAttribute("src", "./img/ball_" + playCount + ".png")
     outBall.setAttribute("alt", "내가 뽑은 캡슐")
-    capsule.append(outBall)
+    ballExit.append(outBall)
+    //뽑은 캡슐 딤처리
+    outBall.addEventListener('click', function(){
+        outBallDim.classList.add('on');
+        outBallDim.append(outBall)
+    })
 }
