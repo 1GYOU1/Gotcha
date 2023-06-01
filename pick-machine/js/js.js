@@ -36,29 +36,27 @@ window.addEventListener('load', function() {
 
 2. for문으로 캡슐 이미지 태그 생성
 
-2. 동전 이미지 드래그(pc), 터치(mobile) 시 메인 영역('.main_area')안에서 움직이는 효과 transform:"translate3d(X ,Y, 0) 또는 position top, left
-                                                                                -> 웹 문서 기준으로 각각 얼마나 떨어져 있는지 clientX축, clientY축 구해서 스타일 변경
+3. 동전 이미지 드래그(pc), 터치(mobile) 시 메인 영역('.main_area')안에서 움직이는 효과 
+   position top, left을 웹 문서 기준으로 각각 얼마나 떨어져 있는지 clientX축, clientY축 구해서 스타일 변경
 
-3. 동전 넣는 곳('.coin_drop_area') 영역에 진입했는지, 해당 영역에서 마우스를 떼는 동작을 했는지 체크
+4. 동전 넣는 곳('.coin_drop_area') 영역에 진입했는지, 해당 영역에서 마우스를 떼는 동작을 했는지 체크
 
-4. 동전 몇 번 넣었는지 카운팅
+5. 동전 몇 번 넣었는지 카운팅 ++
 
-5. 동전 이미지 위치 초기화
+6. 동전 이미지 위치 초기화
 
-6. 가격과 넣은 동전의 갯수가 같을 때 애니메이션 실행
+7. 가격과 넣은 동전의 갯수가 같을 때 애니메이션 실행
 
-7. 뽑은 캡슐 클릭 시 
+8. 플레이 카운트 횟수 이용해서 뽑은 캡슐 이미지 매칭
 
-
-갈라지는 이미지 만들기, opacity 0 되면서, 뽑은 거 보여주기
-뽑았던 이미지 인벤토리 저장소,
+9. 뽑은 캡슐 클릭 시 딤처리, 확대 효과, 캡슐 오픈, 이어서 하기 버튼 클릭 이벤트
 
 
-
-++ 뽑은 캡슐 클릭 시 딤처리, 애니메이션 효과, 줌인, 캡슐 열리기
-++ 화살표 이미지 변경
+++ 터치 드래그 모드 추가
+++ 화살표, 이어서 계속하기 버튼 이미지 변경
 ++ 캐릭터 이미지 모으기 PNG
-++ 플레이 여러번 -> 캡슐 이미지 출구로 나오는 이미지 주소 변경, 캡슐 이미지 매칭하면서 갯수 줄이기
+++ 뽑았던 이미지 인벤토리 저장소
+
 */
 
 let coinDragArea = document.querySelector(".main_area");//메인 영역
@@ -151,7 +149,7 @@ function dragEnd() {
 //(4) 동전 넣는 영역에 진입했는지 체크
 function checkElementEnter() {
     let targetRect = coinDropArea.getBoundingClientRect();//웹 문서상 위치 값
-    let coinRect = coinImg.getBoundingClientRect();//웹 문서상 위치 값
+    let coinRect = coinImg.getBoundingClientRect();//웹 문서상 동전이미지 위치 값
     if (
         coinRect.left >= targetRect.left &&
         coinRect.right <= targetRect.right &&
@@ -204,29 +202,57 @@ function handleAni(){
     moneyCount.textContent = 0;
     setTimeout(function(){
         handle.classList.remove('on');
-        balls.classList.add('on');//캡슐 전체 애니메이션
+        balls.classList.add('on');//캡슐통 애니메이션
     }, 1700);
     setTimeout(function(){
         balls.classList.remove('on');
-        myCapsule();//내가 뽑은 캡슐
+        myCapsule();//통에 있던 캡슐이랑 이미지 매칭
         ballExit.classList.add('on');//캡슐 떨어지는 애니메이션
     }, 2800);
     handle.removeEventListener("click", handleAni);//핸들 클릭 이벤트 제거
 }
 
-//(8) 내가 뽑은 캡슐
+//(8) 통에 있던 캡슐이랑 이미지 매칭
 function myCapsule(){
     playCount++;//플레이 카운트 횟수 ++
-    let removeBall = document.querySelector(".ball_" + playCount)
+    let removeBall = document.querySelector(".ball_" + playCount);
     removeBall.remove();
     let outBall = document.createElement("img");
-    outBall.setAttribute("class", "my_ball")
-    outBall.setAttribute("src", "./img/ball_" + playCount + ".png")
-    outBall.setAttribute("alt", "내가 뽑은 캡슐")
-    ballExit.append(outBall)
-    //뽑은 캡슐 딤처리
-    outBall.addEventListener('click', function(){
+    outBall.setAttribute("class", "my_ball");
+    outBall.setAttribute("src", "./img/ball_" + playCount + ".png");
+    outBall.setAttribute("alt", "뽑은 캡슐");
+    ballExit.append(outBall);
+    outBallDimEvent(outBall);//딤처리
+}
+
+//(9) 뽑은 캡슐 딤처리, 오픈, 이어서 하기 버튼
+function outBallDimEvent(e){
+    let keepGoingbtn = document.createElement("img");
+    e.addEventListener('click', () => {
         outBallDim.classList.add('on');
-        outBallDim.append(outBall)
-    })
+        outBallDim.append(e);
+        let outBallDimImg = document.querySelector(".capsule_open.on img");
+        outBallDimImg.addEventListener('click', function(){//결과 이미지 노출
+            e.setAttribute("class", "open_ball");
+            e.setAttribute("src", "./img/open_img_" + playCount + ".png");
+        console.log('뽑은 횟수 : ',playCount);
+            e.setAttribute("alt", "뽑은 캡슐 오픈");
+            //이어서 하기 버튼 생성
+            keepGoingbtn.setAttribute("class", "keep_going_btn");
+            keepGoingbtn.setAttribute("src", "./img/open_img_v2_6.png");
+            keepGoingbtn.setAttribute("alt", "계속");
+            outBallDim.append(keepGoingbtn);
+        })
+    }, {once : true})//한 번만 실행
+    keepGoingbtn.addEventListener('click', function(){
+        outBallDim.classList.remove('on');
+        keepGoingbtn.remove();//이어서 하기 버튼 제거
+        e.remove();//뽑은 이미지 제거
+        if(playCount <= 15){//이어서 뽑기
+            coinImgDisplay();//동전이미지 노출    
+        }else{//끝 !
+            return false
+        }
+        
+    });
 }
