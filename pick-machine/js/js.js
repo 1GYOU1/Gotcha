@@ -239,7 +239,7 @@ function outBallDimEvent(e){
             e.setAttribute("alt", "뽑은 캡슐 오픈");
             //이어서 하기 버튼 생성
             keepGoingbtn.setAttribute("class", "keep_going_btn");
-            keepGoingbtn.setAttribute("src", "./img/open_img_v2_6.png");
+            keepGoingbtn.setAttribute("src", "./img/open_img_v2_7.png");
             keepGoingbtn.setAttribute("alt", "계속");
             outBallDim.append(keepGoingbtn);
         })
