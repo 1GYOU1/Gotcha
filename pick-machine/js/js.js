@@ -51,10 +51,7 @@ window.addEventListener('load', function() {
 
 9. 뽑은 캡슐 클릭 시 딤처리, 확대 효과, 캡슐 오픈, 이어서 하기 버튼 클릭 이벤트
 
-
-++ 터치 드래그 모드 추가
 ++ 화살표, 이어서 계속하기 버튼 이미지 변경
-++ 캐릭터 이미지 모으기 PNG
 ++ 뽑았던 이미지 인벤토리 저장소
 
 */
@@ -97,6 +94,20 @@ let currentX;//현재 동전 이미지의 left 값
 let currentY;//현재 동전 이미지의 top 값
 let active = false;//동전 이미지의 드래그인지 확인하기 위한 변수
 
+//랜덤 결과
+let arr = [];
+let randomArr = [];
+for(let i=1; i<=15; i++){
+    arr.push(i);
+}
+while(randomArr.length < 15){
+    let randomNum = Math.floor(Math.random() * 15) + 1;
+    if(!randomArr.includes(randomNum)){
+        randomArr.push(randomNum);
+    }
+}
+ console.log(randomArr);
+
 //(1) start !
 $('.start_btn').click(function() {
     $(this).parent().fadeOut();
@@ -122,6 +133,10 @@ coinDragArea.addEventListener("mousedown", dragStart);//마우스 왼쪽 버튼�
 coinDragArea.addEventListener("mouseup", dragEnd);//마우스 왼쪽 버튼을 누르고 있다가 뗄 때
 coinDragArea.addEventListener("mousemove", drag);//마우스 왼쪽 버튼을 누르면서 움직일 때
 
+coinDragArea.addEventListener("touchstart", dragStart);//스크린에 손가락이 닿을 때
+coinDragArea.addEventListener("touchend", dragEnd);//스크린에서 손가락을 뗄 때
+coinDragArea.addEventListener("touchmove", drag);//스크린에 손가락이 닿은 채로 움직일 때
+
 function dragStart(e) {
     if (e.target === coinImg) {
         active = true;
@@ -132,8 +147,13 @@ function dragStart(e) {
 function drag(e) {
     if (active) {
         e.preventDefault();//드래그 기본 동작 취소, 이벤트 발생할 때 style 업데이트
-        currentX = e.clientX - (coinImg.getBoundingClientRect().width)/2;//현재 top 값은 웹 문서상 top 값과 같음, 마우스 가운데 정렬
-        currentY = e.clientY - (coinImg.getBoundingClientRect().height)/2;//현재 left 값은 웹 문서상 left 값과 같음, 마우스 가운데 정렬
+        if (e.type === "touchmove") {
+            currentX = e.touches[0].clientX - (coinImg.getBoundingClientRect().width)/2;//첫번째 터치액션값
+            currentY = e.touches[0].clientY - (coinImg.getBoundingClientRect().height)/2;
+        }else{
+            currentX = e.clientX - (coinImg.getBoundingClientRect().width)/2;//현재 top 값은 웹 문서상 top 값과 같음, 마우스 가운데 정렬
+            currentY = e.clientY - (coinImg.getBoundingClientRect().height)/2;//현재 left 값은 웹 문서상 left 값과 같음, 마우스 가운데 정렬
+        }
         coinImg.style.left = currentX + "px";
         coinImg.style.top = currentY + "px";
         // console.log('drag')
@@ -233,9 +253,10 @@ function outBallDimEvent(e){
         outBallDim.append(e);
         let outBallDimImg = document.querySelector(".capsule_open.on img");
         outBallDimImg.addEventListener('click', function(){//결과 이미지 노출
+            //랜덤 결과 이미지 start
+            console.log('뽑은 횟수 : ',playCount);
             e.setAttribute("class", "open_ball");
-            e.setAttribute("src", "./img/open_img_" + playCount + ".png");
-        console.log('뽑은 횟수 : ',playCount);
+            e.setAttribute("src", "./img/open_img_" + randomArr[playCount - 1] + ".png");//랜덤 배열 기준으로 결과 이미지 노출
             e.setAttribute("alt", "뽑은 캡슐 오픈");
             //이어서 하기 버튼 생성
             keepGoingbtn.setAttribute("class", "keep_going_btn");
@@ -244,15 +265,19 @@ function outBallDimEvent(e){
             outBallDim.append(keepGoingbtn);
         })
     }, {once : true})//한 번만 실행
+    keepGoingEvent(keepGoingbtn, e);
+}
+
+//(10) 이어서 뽑기
+function keepGoingEvent(keepGoingbtn, item){
     keepGoingbtn.addEventListener('click', function(){
         outBallDim.classList.remove('on');
         keepGoingbtn.remove();//이어서 하기 버튼 제거
-        e.remove();//뽑은 이미지 제거
+        item.remove();//뽑은 이미지 제거
         if(playCount <= 15){//이어서 뽑기
             coinImgDisplay();//동전이미지 노출    
         }else{//끝 !
-            return false
+            return false;
         }
-        
     });
 }
