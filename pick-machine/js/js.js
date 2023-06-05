@@ -54,11 +54,9 @@ window.addEventListener('load', function() {
 10. 뽑은 캡슐 클릭 시 딤처리, 확대 효과, 캡슐 오픈, 이어서 하기 버튼 클릭 이벤트
 
 ++ 화살표, 이어서 계속하기 버튼 이미지 변경
-++ 뽑았던 이미지 인벤토리 저장소
-++ 사칙연산, 퀴즈 등 맞춰야 다음 단계로 넘어가는 기능 - 문제를 선택할 수 있게 ? 제비뽑기 형식으로 만들기
-++ 모바일 사파리에서 버튼 깨지는 현상 해결
-++ 나가기 버튼
-++ 효과음 넣기
+++ 사칙연산, 퀴즈 등 맞춰야 동전 지급
+++ 효과음 넣기 (https://inpa.tistory.com/entry/JS-%F0%9F%93%9A-%EC%9D%8C%EC%95%85-%EA%B0%9D%EC%B2%B4Audio-%EB%8B%A4%EB%A3%A8%EA%B8%B0)
+++ 뽑기 열기 전에 인벤토리 창 열면 결과 이미지 보이는 오류
 
 */
 
@@ -69,7 +67,7 @@ let startArea = document.querySelector(".start_area");
 let startBtn = document.querySelector(".start_btn");
 
 // 메인 영역
-let coinDragArea = document.querySelector(".main_area");
+let mainArea = document.querySelector(".main_area");
 
 // 동전 이미지
 let coinImg = document.querySelector(".coin");
@@ -97,6 +95,33 @@ let balls = document.querySelector(".balls");
 
 // 뽑은 캡슐 딤처리
 let outBallDim = document.querySelector(".capsule_open");
+
+// 인벤토리창 오픈 아이콘
+let myBag = document.querySelector(".my_bag");
+
+// 인벤토리창 딤처리
+let inventoryDim = document.querySelector(".inventory_open");
+
+// 인벤토리창 레이어 리스트 영역
+let inventoryList = document.querySelector(".inventory_open .layer ul");
+
+// 인벤토리창 닫기
+let inventoryClose = document.querySelector(".inventory_open .close");
+
+// 인벤토리창 자세히 보기
+let inventoryDetail = document.querySelector(".inventory_open .detail");
+
+// 퀴즈 버튼
+let quiz = document.querySelector(".quiz");
+
+// 퀴즈창 닫기
+let quizClose = document.querySelector(".quiz_list .close");
+
+// 퀴즈 딤처리 레이어
+let quizList = document.querySelector(".quiz_list");
+
+// 다시 시작 하기
+let resetBtn = document.querySelector(".reset");
 
 // 랜덤 배열
 let arr = [];
@@ -126,11 +151,14 @@ function startBtnEvent(){
         startBtn.classList.remove('on');
         startArea.classList.remove('out');
         startArea.style.display = 'none';
-        coinDragArea.classList.add('on');
-        coinDragArea.style.display = 'block';
+        mainArea.classList.add('on');
+        mainArea.style.display = 'block';
         randomResult();//랜덤 결과 생성
         createBallImg();//캡슐 이미지 생성
     }, 1000);
+    setTimeout(function(){
+        mainArea.classList.remove('on');
+    }, 1500)
 }
 
 //(2) 랜덤 결과
@@ -159,13 +187,13 @@ function createBallImg(){
 }
 
 //(4) 동전 드래그 이벤트
-coinDragArea.addEventListener("mousedown", dragStart);//마우스 왼쪽 버튼을 누를 때
-coinDragArea.addEventListener("mouseup", dragEnd);//마우스 왼쪽 버튼을 누르고 있다가 뗄 때
-coinDragArea.addEventListener("mousemove", drag);//마우스 왼쪽 버튼을 누르면서 움직일 때
+mainArea.addEventListener("mousedown", dragStart);//마우스 왼쪽 버튼을 누를 때
+mainArea.addEventListener("mouseup", dragEnd);//마우스 왼쪽 버튼을 누르고 있다가 뗄 때
+mainArea.addEventListener("mousemove", drag);//마우스 왼쪽 버튼을 누르면서 움직일 때
 
-coinDragArea.addEventListener("touchstart", dragStart);//스크린에 손가락이 닿을 때
-coinDragArea.addEventListener("touchend", dragEnd);//스크린에서 손가락을 뗄 때
-coinDragArea.addEventListener("touchmove", drag);//스크린에 손가락이 닿은 채로 움직일 때
+mainArea.addEventListener("touchstart", dragStart);//스크린에 손가락이 닿을 때
+mainArea.addEventListener("touchend", dragEnd);//스크린에서 손가락을 뗄 때
+mainArea.addEventListener("touchmove", drag);//스크린에 손가락이 닿은 채로 움직일 때
 
 function dragStart(e) {
     if (e.target === coinImg) {
@@ -247,9 +275,9 @@ function capsuleOut(){
 function handleAni(){
     turn.classList.remove('on');
     handle.classList.add('on');//핸들 애니메이션
-    // 동전, 카운트 초기화
-    coinCount = 0;
-    moneyCount.textContent = 0;
+    // 동전, 카운트 계산
+    coinCount = coinCount - price;
+    moneyCount.textContent = coinCount;
     setTimeout(function(){
         handle.classList.remove('on');
         balls.classList.add('on');//캡슐통 애니메이션
@@ -310,4 +338,64 @@ function keepGoingEvent(keepGoingbtn, item){
             return false;
         }
     });
+}
+
+//(12) 인벤토리 창 오픈
+myBag.addEventListener("click", inventoryOpen);
+function inventoryOpen(){
+    inventoryDim.classList.add('on');
+    for(let i=1;i<=15;i++){//빈 칸 이미지 생성
+        let inventoryListItem = document.createElement("li");
+        let inventoryListItemImg = document.createElement("img");
+        inventoryList.append(inventoryListItem)
+        inventoryListItemImg.setAttribute("src", "./img/q_icon.png");
+        inventoryListItemImg.setAttribute("alt", "빈 칸");
+        inventoryListItem.append(inventoryListItemImg)
+    };
+    if(playCount > 0){//뽑은 이미지 생성
+        for(let e=1;e<=playCount;e++){//playCount == e
+            let inventoryGetItem = document.querySelector('.inventory_open .layer ul li:nth-of-type('+ e +') img')
+            inventoryGetItem.setAttribute("src", "./img/open_img_" + randomArr[e - 1] + ".png");//랜덤 배열 index 기준으로 결과 이미지 노출
+            inventoryGetItem.setAttribute("alt", "내 아이템 " + e);
+            inventoryGetItem.addEventListener("click", function(){
+                inventoryDetail.classList.add("on");
+                let inventoryDetailImg = document.createElement("img");
+                inventoryDetailImg.setAttribute("src", "./img/open_img_" + randomArr[e - 1] + ".png");//랜덤 배열 index 기준으로 결과 이미지 노출
+                inventoryDetailImg.setAttribute("alt", "내 아이템 "+ e +" 자세히 보기");
+                inventoryDetail.append(inventoryDetailImg)
+                inventoryDetail.addEventListener("click", function(){//자세히 보기
+                    inventoryDetail.classList.remove("on");
+                    inventoryDetailImg.remove();//자세히 보기 이미지 제거
+                });
+            });
+        };
+    };
+    inventoryClose.addEventListener("click",function(){//인벤토리 창 닫기
+        inventoryDim.classList.remove('on');
+        let inventoryListItemAll = document.querySelectorAll(".inventory_open ul li")
+        inventoryListItemAll.forEach(function(el){
+            el.remove();//인벤토리 이미지 제거
+        });
+    });
+}
+
+//(13) 퀴즈
+quiz.addEventListener("click", quizEvent);
+function quizEvent(){
+    quizList.classList.add('on');
+    quizClose.addEventListener("click", function(){
+        quizList.classList.remove('on');
+    })
+    //작성중 !!@
+}
+
+//(14) 리셋
+resetBtn.addEventListener("click", resetEvent);
+function resetEvent(){
+    playCount = 0;//플레이 횟수 초기화
+    coinCount = 0;//동전 카운트 초기화
+    moneyCount.textContent = 0;//동전 카운트 텍스트 초기화
+    coinImg.style.display = 'none';//동전 이미지 숨김
+    startArea.style.display = "block";
+    mainArea.style.display = "none";
 }
