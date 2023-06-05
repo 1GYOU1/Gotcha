@@ -1,15 +1,16 @@
 /* layout */
 .inner{max-width:1100px;margin:0 auto;}
 /* start area */
+.start_area.out{animation:fade-out 0.3s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;}
 .start_area .inner{display:flex;align-items:center;justify-content:center;min-height:100vh;}
-.start_area .start_btn{position:relative;display:inline-block;font-size:inherit;font-family:inherit;}
-.start_area .start_btn{font-weight:600;color:#382b22;padding:20px 30px;background:#fff0f0;border:2px solid #b18597;border-radius:0.75em;transform-style:preserve-3d;transition:transform 150ms cubic-bezier(0, 0, 0.58, 1);}
-.start_area .start_btn::before{position:absolute;content:"";width:100%;height:100%;top:0;left:0;right:0;bottom:0;background:#f9c4d2;border-radius:inherit;box-shadow:0 0 0 2px #b18597, 0 0.625em 0 0 #ffe3e2;transform:translate3d(0, 0.75em, -1em);transition:transform 150ms cubic-bezier(0, 0, 0.58, 1), box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);}
-.start_area .start_btn:hover{background:#ffe9e9;}
-.start_area .start_btn:active{background:#ffe9e9;transform:translateY(0.75em);}
-.start_area .start_btn:active::before{box-shadow:0 0 0 2px #b18597, 0 0 #ffe3e2;transform:translate3d(0, 0, -1em);}
+.start_area .start_btn{position:relative;width:110px;height:70px;border: 2px solid #b18597;border-radius: 0.75em;background:#f9c4d2;}
+.start_area .start_btn span:nth-of-type(1){position:absolute;top:-12px;left:-2px;width:110px;height:70px;display: flex;align-items: center;justify-content: center;border-radius: 0.75em;border: 2px solid #b18597;background:#fff0f0;color: #382b22;font-weight: 600;z-index:2;}
+.start_area .start_btn span:nth-of-type(2){position:absolute;top:10px;left:0;width:100%;height:100%;background:#fde3e2;border-radius: 0.75em;z-index:-1;}
+.start_area .start_btn.on span:nth-of-type(1){animation: button-click-top 0.5s linear both;}
+.start_area .start_btn.on span:nth-of-type(2){animation: button-click-btm 0.5s linear both;}
 /* machine area */
 .main_area{display:none;padding-top:7vw;width:100%;height:100vh;}
+.main_area.on{animation:fade-in 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;}
 .main_area .inner{display:flex;flex-direction:column;justify-content:center;align-items:center;}
 .main_area .coin_count{font-size:24px;text-align:right;width:80%;}
 .main_area .coin_count strong{font-size:32px;}
@@ -22,17 +23,17 @@
 .main_area .machine_area .balls img.ball_14{bottom:5px;left:68px;z-index:1;}
 .main_area .machine_area .balls img.ball_13{bottom:5px;left:140px;}
 .main_area .machine_area .balls img.ball_12{bottom:3px;left:213px;}
-.main_area .machine_area .balls img.ball_11{bottom:55px;left:38px;}
-.main_area .machine_area .balls img.ball_10{bottom:65px;left:107px;}
-.main_area .machine_area .balls img.ball_9{bottom:49px;left:180px;z-index:1;}
-.main_area .machine_area .balls img.ball_8{bottom:100px;left:217px;}
-.main_area .machine_area .balls img.ball_7{bottom:111px;left:145px;}
-.main_area .machine_area .balls img.ball_6{bottom:126px;left:71px;}
-.main_area .machine_area .balls img.ball_5{bottom:111px;left:7px;}
-.main_area .machine_area .balls img.ball_4{bottom:166px;left:197px;}
-.main_area .machine_area .balls img.ball_3{bottom:181px;left:126px;z-index:1;}
-.main_area .machine_area .balls img.ball_2{bottom:175px;left:15px;z-index:1;}
-.main_area .machine_area .balls img.ball_1{bottom:205px;left:72px;}
+.main_area .machine_area .balls img.ball_11{bottom:59px;left:38px;}
+.main_area .machine_area .balls img.ball_10{bottom:74px;left:107px;z-index:1;}
+.main_area .machine_area .balls img.ball_9{bottom:61px;left:180px;z-index:1;}
+.main_area .machine_area .balls img.ball_8{bottom:110px;left:217px;}
+.main_area .machine_area .balls img.ball_7{bottom:127px;left:148px;z-index:1;}
+.main_area .machine_area .balls img.ball_6{bottom:133px;left:72px;z-index:2;}
+.main_area .machine_area .balls img.ball_5{bottom:114px;left:4px;z-index:1;}
+.main_area .machine_area .balls img.ball_4{bottom:180px;left:200px;}
+.main_area .machine_area .balls img.ball_3{bottom:192px;left:124px;z-index:2;}
+.main_area .machine_area .balls img.ball_2{bottom:185px;left:11px;z-index:3;}
+.main_area .machine_area .balls img.ball_1{bottom:215px;left:68px;}
 .main_area .machine_area .handle{position:absolute;top:407px;left:50%;margin-left:-35px;width:70px;cursor:pointer;}
 .main_area .machine_area .handle:hover{transform:rotate(30deg) scale(1.2);transition:all ease 0.5s;}
 .main_area .machine_area .handle.on{animation: rotate-scale-up 0.8s linear both 2;}
@@ -65,10 +66,6 @@
 }
 @media screen and (max-width:768px){
 	.inner{width:100vw;}
-	.start_area .start_btn:hover,
-	.start_area .start_btn:focus{
-		background:#fff0f0;
-	}
 }
 @media screen and (max-width:600px){
 	.main_area .coin{left:30px;}

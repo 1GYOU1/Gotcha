@@ -1,3 +1,38 @@
+// 페이드 노출 효과
+@-webkit-keyframes fade-in {
+	0% {
+	  opacity: 0;
+	}
+	100% {
+	  opacity: 1;
+	}
+}
+  @keyframes fade-in {
+	0% {
+	  opacity: 0;
+	}
+	100% {
+	  opacity: 1;
+	}
+}
+
+@-webkit-keyframes fade-out {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+  @keyframes fade-out {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
 // header 하트 이미지 애니메이션
 @-webkit-keyframes rotate-vert-center {
 	0% {
@@ -17,6 +52,30 @@
 	100% {
 	  -webkit-transform: rotateY(360deg);
 			  transform: rotateY(360deg);
+	}
+}
+
+//start 버튼 클릭
+@keyframes button-click-top {
+	0% {
+		top:-12px;
+	}
+	50%{
+		top:0;
+	}
+	100%{
+		top:-12px;
+	}
+}
+@keyframes button-click-btm {
+	0% {
+		top:10px;
+	}
+	50%{
+		top:0;
+	}
+	100%{
+		top:10px;
 	}
 }
 
@@ -271,24 +330,6 @@
 			  transform: translate(0);
 	}
   }
- 
-// 딤처리 노출 효과
- @-webkit-keyframes fade-in {
-	0% {
-	  opacity: 0;
-	}
-	100% {
-	  opacity: 1;
-	}
-}
-  @keyframes fade-in {
-	0% {
-	  opacity: 0;
-	}
-	100% {
-	  opacity: 1;
-	}
-}
 
 //딤처리 뽑은 캡슐 hover 애니메이션
  @-webkit-keyframes heartbeat {

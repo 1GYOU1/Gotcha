@@ -27,12 +27,50 @@ header a {
 header a img {
   width: 100%;
 }
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
 @keyframes rotate-vert-center {
   0% {
     transform: rotateY(0);
   }
   100% {
     transform: rotateY(360deg);
+  }
+}
+@keyframes button-click-top {
+  0% {
+    top: -12px;
+  }
+  50% {
+    top: 0;
+  }
+  100% {
+    top: -12px;
+  }
+}
+@keyframes button-click-btm {
+  0% {
+    top: 10px;
+  }
+  50% {
+    top: 0;
+  }
+  100% {
+    top: 10px;
   }
 }
 @keyframes bounce-in-top {
@@ -123,14 +161,6 @@ header a img {
   }
   100% {
     transform: translate(0);
-  }
-}
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
   }
 }
 @keyframes heartbeat {
