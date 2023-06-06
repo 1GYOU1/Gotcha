@@ -53,11 +53,21 @@ window.addEventListener('load', function() {
 
 10. 뽑은 캡슐 클릭 시 딤처리, 확대 효과, 캡슐 오픈, 이어서 하기 버튼 클릭 이벤트
 
+11. 이어서 뽑기, 엔딩
+
+12. 인벤토리
+
+13. 퀴즈 리스트 팝업
+
+14. 문제 풀기 팝업
+
+15. 리셋
+
 ++ 화살표, 이어서 계속하기 버튼 이미지 변경
-++ 사칙연산, 퀴즈 등 맞춰야 동전 지급
+++ 퀴즈 맞춰야 동전 지급
 ++ 효과음 넣기 (https://inpa.tistory.com/entry/JS-%F0%9F%93%9A-%EC%9D%8C%EC%95%85-%EA%B0%9D%EC%B2%B4Audio-%EB%8B%A4%EB%A3%A8%EA%B8%B0)
 ++ 뽑기 열기 전에 인벤토리 창 열면 결과 이미지 보이는 오류
-
+ 
 */
 
 // 첫 화면 영역
@@ -114,18 +124,27 @@ let inventoryDetail = document.querySelector(".inventory_open .detail");
 // 퀴즈 버튼
 let quiz = document.querySelector(".quiz");
 
-// 퀴즈창 닫기
-let quizClose = document.querySelector(".quiz_list .close");
-
 // 퀴즈 딤처리 레이어
 let quizList = document.querySelector(".quiz_list");
+
+// 퀴즈 리스트 팝업 닫기 버튼
+let quizListClose = document.querySelector(".quiz_list .close");
+
+// 퀴즈 리스트
+let quizListLi = document.querySelectorAll(".quiz_list ul li");
+
+// 퀴즈 문제 팝업
+let quizPop = document.querySelector(".quiz_pop");
+
+// 퀴즈 문제 팝업 닫기 버튼
+let quizPopClose = document.querySelector(".quiz_pop .close");
 
 // 다시 시작 하기
 let resetBtn = document.querySelector(".reset");
 
 // 랜덤 배열
 let arr = [];
-let randomArr = [];
+let newRandomArr = [];
 
 // 게임 플레이 카운트
 let playCount = 0;
@@ -159,10 +178,12 @@ function startBtnEvent(){
     setTimeout(function(){
         mainArea.classList.remove('on');
     }, 1500)
+    coinImgDisplay();//동전 위치 초기화
 }
 
 //(2) 랜덤 결과
 function randomResult(){
+    let randomArr = [];
     for(let i=1; i<=15; i++){
         arr.push(i);
     }
@@ -172,7 +193,8 @@ function randomResult(){
             randomArr.push(randomNum);
         }
     }
-    console.log(randomArr);    
+    console.log(randomArr);
+    newRandomArr = randomArr;//전역 배열에 넣어주기 
 }
 
 //(3) 캡슐 이미지 생성
@@ -314,7 +336,7 @@ function outBallDimEvent(e){
             //랜덤 결과 이미지
             console.log('뽑은 횟수 : ',playCount);
             e.setAttribute("class", "open_ball");
-            e.setAttribute("src", "./img/open_img_" + randomArr[playCount - 1] + ".png");//랜덤 배열 index 기준으로 결과 이미지 노출
+            e.setAttribute("src", "./img/open_img_" + newRandomArr[playCount - 1] + ".png");//랜덤 배열 index 기준으로 결과 이미지 노출
             e.setAttribute("alt", "뽑은 캡슐 오픈");
             //이어서 하기 버튼 생성
             keepGoingbtn.setAttribute("class", "keep_going_btn");
@@ -334,8 +356,11 @@ function keepGoingEvent(keepGoingbtn, item){
         item.remove();//뽑은 이미지 제거
         if(playCount <= 15){//이어서 뽑기
             coinImgDisplay();//동전이미지 노출    
-        }else{//끝 !
+        }else{//엔딩
             return false;
+            
+            //작성중 !!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
         }
     });
 }
@@ -355,12 +380,12 @@ function inventoryOpen(){
     if(playCount > 0){//뽑은 이미지 생성
         for(let e=1;e<=playCount;e++){//playCount == e
             let inventoryGetItem = document.querySelector('.inventory_open .layer ul li:nth-of-type('+ e +') img')
-            inventoryGetItem.setAttribute("src", "./img/open_img_" + randomArr[e - 1] + ".png");//랜덤 배열 index 기준으로 결과 이미지 노출
+            inventoryGetItem.setAttribute("src", "./img/open_img_" + newRandomArr[e - 1] + ".png");//랜덤 배열 index 기준으로 결과 이미지 노출
             inventoryGetItem.setAttribute("alt", "내 아이템 " + e);
             inventoryGetItem.addEventListener("click", function(){
                 inventoryDetail.classList.add("on");
                 let inventoryDetailImg = document.createElement("img");
-                inventoryDetailImg.setAttribute("src", "./img/open_img_" + randomArr[e - 1] + ".png");//랜덤 배열 index 기준으로 결과 이미지 노출
+                inventoryDetailImg.setAttribute("src", "./img/open_img_" + newRandomArr[e - 1] + ".png");//랜덤 배열 index 기준으로 결과 이미지 노출
                 inventoryDetailImg.setAttribute("alt", "내 아이템 "+ e +" 자세히 보기");
                 inventoryDetail.append(inventoryDetailImg)
                 inventoryDetail.addEventListener("click", function(){//자세히 보기
@@ -379,17 +404,34 @@ function inventoryOpen(){
     });
 }
 
-//(13) 퀴즈
-quiz.addEventListener("click", quizEvent);
-function quizEvent(){
+//(13) 퀴즈 리스트 팝업
+quiz.addEventListener("click", quizListEvent);
+function quizListEvent(){
     quizList.classList.add('on');
-    quizClose.addEventListener("click", function(){
+    quizListLi.forEach((el, item) => {
+        el.addEventListener("click", function(){
+            quizList.classList.remove('on');//팝업 닫기
+            quizPop.classList.add('on');//문제 팝업 열기
+
+            //작성중 !!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+        })
+    })
+    quizListClose.addEventListener("click", function(){//팝업 닫기
         quizList.classList.remove('on');
     })
-    //작성중 !!@
 }
 
-//(14) 리셋
+//(14) 퀴즈 문제 팝업
+quizPopClose.addEventListener("click", quizPopEvent);
+function quizPopEvent(){
+    quizPop.classList.remove("on");//팝업 닫기
+    
+    //작성중 !!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+}
+
+//(15) 리셋
 resetBtn.addEventListener("click", resetEvent);
 function resetEvent(){
     playCount = 0;//플레이 횟수 초기화
