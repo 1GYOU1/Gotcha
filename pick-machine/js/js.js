@@ -121,8 +121,8 @@ let inventoryClose = document.querySelector(".inventory_open .close");
 // 인벤토리창 자세히 보기
 let inventoryDetail = document.querySelector(".inventory_open .detail");
 
-// 퀴즈 버튼
-let quiz = document.querySelector(".quiz");
+// 퀴즈 아이콘
+let quizBtn = document.querySelector(".quiz");
 
 // 퀴즈 딤처리 레이어
 let quizList = document.querySelector(".quiz_list");
@@ -133,8 +133,11 @@ let quizListClose = document.querySelector(".quiz_list .close");
 // 퀴즈 리스트
 let quizListLi = document.querySelectorAll(".quiz_list ul li");
 
-// 퀴즈 문제 팝업
-let quizPop = document.querySelector(".quiz_pop");
+// 퀴즈 문제 팝업 딤처리
+let quizPopDim = document.querySelector(".quiz_pop");
+
+// 퀴즈 문제 팝업 레이어
+// let quizPop = document.querySelector(".quiz_pop .layer");
 
 // 퀴즈 문제 팝업 닫기 버튼
 let quizPopClose = document.querySelector(".quiz_pop .close");
@@ -270,7 +273,7 @@ function priceCount(){
         console.log("Count:", coinCount);
         coinImgDisplay();//동전 위치 초기화
     } 
-    if(parseInt(coinCount) == parseInt(price)){//내가 낸 동전이 가격과 같을 때
+    if(parseInt(coinCount) == parseInt(price) || parseInt(coinCount) > parseInt(price) ){//내가 낸 동전이 가격과 같거나, 클 때
         capsuleOut();//캡슐 애니메이션 실행
     }
 }
@@ -405,29 +408,45 @@ function inventoryOpen(){
 }
 
 //(13) 퀴즈 리스트 팝업
-quiz.addEventListener("click", quizListEvent);
+quizBtn.addEventListener("click", quizListEvent);
 function quizListEvent(){
-    quizList.classList.add('on');
-    quizListLi.forEach((el, item) => {
-        el.addEventListener("click", function(){
-            quizList.classList.remove('on');//팝업 닫기
-            quizPop.classList.add('on');//문제 팝업 열기
+    quizList.classList.add('on');//리스트 팝업 열기
+    quizListLi.forEach((el, idx) => {
+        el.addEventListener("click", function(){//문제 선택
+            quizPopDim.classList.add('on');//선택한 문제 풀기 팝업 열기
 
-            //작성중 !!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+            //선택한 문제 풀기 팝업 start
+            let quizPopLayer = document.querySelector(".quiz_pop .quiz_" + (idx + 1) + ".layer");
+            let quizPopCheck = document.querySelectorAll(".quiz_pop .quiz_" + (idx + 1) + ".layer ul li label");
+            let quizPopLayerClose = document.querySelector(".quiz_pop .quiz_" + (idx + 1) + ".layer .close");
+            quizPopLayer.classList.add('on');//선택한 문제 idx에 따라서 매칭, 팝업 오픈
 
+            quizPopCheck.forEach((e, i)=>{
+                e.addEventListener("click", function(){
+                    let quizSelect = e.getAttribute("for");//선택한 label의 for값 가져오기
+                    let quizId = document.getElementById(quizSelect);//for랑 일치하는 id가진 태그 찾기
+                    let quizPlusCoin = parseInt(quizId.value);
+                    coinCount += quizPlusCoin//value 만큼 동전 추가
+                    moneyCount.textContent = coinCount;//동전 카운트 텍스트 동기화
+                    priceCount();
+                    alert("정답 선택 완료");
+                })
+            })
+            
+
+            quizPopLayerClose.addEventListener("click", function(){
+                quizPopLayer.classList.remove('on')//닫기 매칭
+                quizPopDim.classList.remove('on')//딤처리 제거
+            })
         })
     })
-    quizListClose.addEventListener("click", function(){//팝업 닫기
+    quizListClose.addEventListener("click", function(){//리스트 팝업 닫기
         quizList.classList.remove('on');
     })
 }
 
-//(14) 퀴즈 문제 팝업
-quizPopClose.addEventListener("click", quizPopEvent);
-function quizPopEvent(){
-    quizPop.classList.remove("on");//팝업 닫기
-    
-    //작성중 !!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+//(14) 선택한 문제 풀기 팝업 정답
+function quizSelectEvent(){
 
 }
 
@@ -441,3 +460,99 @@ function resetEvent(){
     startArea.style.display = "block";
     mainArea.style.display = "none";
 }
+
+
+/*
+문제 정답 리스트
+
+1. 쿠로미가 속한 애니메이션 제목은? ->500
+- 마이멜로디 ㅇㅇ
+- 쿠로미
+- 시나모롤
+- 헬로키티
+
+2. 산리오 캐릭터가 아닌 것은 ? ->500
+- 헬로키티
+- 마이멜로디
+- 시나모롤
+- 짱구 ㅇㅇㅇ
+
+3. 마이멜로디의 리본 컬러는 ? ->1000
+- 핑크 ㅇㅇㅇ
+- 하늘색
+- 하얀색
+- 노란색
+
+4. 쿠로미의 꼬리 색은 ? ->1000
+- 핑크
+- 블랙 ㅇㅇㅇ
+- 회색
+- 보라색
+
+5. 마이멜로디가 운동하는 방법 ->1000
+- 귀 굽혀펴기ㅇㅇㅇ
+- 귀 철봉
+- 귀 아령
+- 귀 물구나무서기
+
+6. 마이멜로디의 보물은 ? ->1500
+- 두건ㅇㅇㅇㅇ
+- 리본
+- 앞치마
+- 꽃
+
+7. 헬로키티의 최애 음식은 ? ->1500
+- 애플 파이 ㅇㅇㅇㅇㅇ
+- 푸딩
+- 아몬드파운드 케이크
+- 시나몬 컵케익
+
+8. 쿠로미가 흑화한 이유는 ? ->2000
+- 마이멜로디랑 비교를 당해서ㅇㅇ
+- 쿠로미가 사춘기라서
+- 검은색이 최애라서
+- 마이멜로디가 생일을 까먹어서
+
+9. 쿠로미가 최근에 빠진 소설 종류는 ? ->2000
+- 추리소설
+- 판타지소설
+- 연애소설 ㅇㅇㅇㅇㅇㅇㅇ
+- 스릴러 소설
+
+10. 헬로키티 친구인 로티의 성격은 ? ->2000
+- 다혈질
+- 건방짐
+- 느긋함ㅇㅇㅇㅇㅇ
+- 온화함
+ 
+11. 마이멜로디의 친구가 아닌 캐릭터는 ? ->2500
+- 캥거루
+- 마이스윗피아노
+- 나비
+- 기린ㅇㅇㅇㅇ
+
+12. 마이멜로디의 남동생 이름은? ->2500
+- 플랫
+- 음표
+- 크레센도
+- 리듬ㅇㅇㅇ
+
+13. 시나모롤의 친구가 아닌 캐릭터는 ? ->3500 
+- 카푸치노
+- 모카
+- 에스프레소
+- 라떼ㅇㅇㅇㅇㅇ
+
+14. 헬로키티의 형제 이름은 ? ->3500
+- 피피
+- 미미ㅇㅇㅇㅇ
+- 나나
+- 키키
+
+15. 쿠로미즈 파이브가 아닌 캐릭터는 ? ->3000
+- 팡미ㅇㅇㅇㅇ
+- 왕미
+- 콘미
+- 츄미
+
+*/
