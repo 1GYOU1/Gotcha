@@ -28,7 +28,7 @@ window.addEventListener('load', function() {
 //     });
 // }
 
-/*
+/* -------------------------------------------------------------------
 
 캡슐 뽑기 이벤트 동작 순서
 
@@ -62,12 +62,26 @@ window.addEventListener('load', function() {
 14. 문제 풀기 팝업
 
 15. 리셋
-
-++ 화살표, 이어서 계속하기 버튼 이미지 변경
-++ 퀴즈 맞춰야 동전 지급
-++ 효과음 넣기 (https://inpa.tistory.com/entry/JS-%F0%9F%93%9A-%EC%9D%8C%EC%95%85-%EA%B0%9D%EC%B2%B4Audio-%EB%8B%A4%EB%A3%A8%EA%B8%B0)
-++ 뽑기 열기 전에 인벤토리 창 열면 결과 이미지 보이는 오류
  
+-------------------------------------------------------------------PLAN
+
+2023년 6월 2주차
+- 퀴즈 맞춰야 동전 지급 기능 (완료 ✔︎)
+- 캡슐 이미지 불러오는 방식 createBallImg() 수정 (완료 ✔︎)
+- 뽑기 열기 전에 인벤토리 창 열면 결과 이미지 보이는 오류 해결 (완료 ✔︎)
+
+2023년 6월 3주차
+- 화살표, 이어서 계속하기, 리셋 버튼 이미지 변경
+- 효과음 찾아보기 (https://inpa.tistory.com/entry/JS-%F0%9F%93%9A-%EC%9D%8C%EC%95%85-%EA%B0%9D%EC%B2%B4Audio-%EB%8B%A4%EB%A3%A8%EA%B8%B0)
+
+2023년 6월 4주차
+- 효과음 적용
+- 퀴즈 문제 풀이 부분 object 형식으로 불러오도록 바꿔보기
+
+2023년 6월 5주차
+- 엔딩
+- document.cookie 또는 localstorage 이용해서 플레이 기록 저장해보기 (뽑은 캡슐 갯수)
+
 */
 
 // 첫 화면 영역
@@ -100,7 +114,7 @@ let turn = document.querySelector(".turn");
 // 출구
 let ballExit = document.querySelector(".capsule_exit");
 
-// 캡슐 이미지 전체 셀렉
+// 캡슐통
 let balls = document.querySelector(".balls");
 
 // 뽑은 캡슐 딤처리
@@ -136,13 +150,10 @@ let quizListLi = document.querySelectorAll(".quiz_list ul li");
 // 퀴즈 문제 팝업 딤처리
 let quizPopDim = document.querySelector(".quiz_pop");
 
-// 퀴즈 문제 팝업 레이어
-// let quizPop = document.querySelector(".quiz_pop .layer");
-
 // 퀴즈 문제 팝업 닫기 버튼
 let quizPopClose = document.querySelector(".quiz_pop .close");
 
-// 다시 시작 하기
+// 리셋 버튼
 let resetBtn = document.querySelector(".reset");
 
 // 랜덤 배열
@@ -154,6 +165,9 @@ let playCount = 0;
 
 // 동전 갯수 카운트
 let coinCount = 0;
+
+// 인벤토리 아이템 카운트
+let inventoryCount = 0;
 
 // 드래그 이벤트 처리를 위한 변수
 let initialX = parseInt(getComputedStyle(coinImg).top);//초기 동전 이미지의 style css left 값
@@ -200,14 +214,20 @@ function randomResult(){
     newRandomArr = randomArr;//전역 배열에 넣어주기 
 }
 
-//(3) 캡슐 이미지 생성
+//(3) 캡슐 통 이미지 생성, 변경
 function createBallImg(){
-    for(let i=1;i<=15;i++){
+    if(parseInt(playCount) == 0){//처음 시작 모든 갯수 이미지 캡슐 노출
         let createBall = document.createElement("img");
-        createBall.setAttribute("class", "ball_" + i);
-        createBall.setAttribute("src", "./img/ball_" + i + ".png");
-        createBall.setAttribute("alt", "캡슐 " + i);
-        balls.append(createBall);
+        createBall.setAttribute("src", "./img/ball_box_" + parseInt(playCount + 1) + ".png");
+        createBall.setAttribute("alt", "캡슐 " + parseInt(playCount + 1));
+        balls.append(createBall);   
+    }else if(playCount == 15){//모든 캡슐 소진했을 경우
+        let ballsImg = document.querySelector(".balls img");
+        ballsImg.remove();
+    }else{//여러번 실행했을 경우, 이미지 업데이트
+        let ballsImg = document.querySelector(".balls img");
+        ballsImg.setAttribute("src", "./img/ball_box_" + parseInt(playCount + 1) + ".png");
+        ballsImg.setAttribute("alt", "캡슐 " + parseInt(playCount + 1)); 
     }
 }
 
@@ -296,7 +316,6 @@ function capsuleOut(){
     console.log('돌려 !')
     handle.addEventListener("click", handleAni);//애니메이션 실행
 }
-
 function handleAni(){
     turn.classList.remove('on');
     handle.classList.add('on');//핸들 애니메이션
@@ -309,17 +328,16 @@ function handleAni(){
     }, 1700);
     setTimeout(function(){
         balls.classList.remove('on');
-        myCapsule();//통에 있던 캡슐이랑 이미지 매칭
+        playCount++;//플레이 카운트 횟수 ++
+        createBallImg();//캡슐 통 이미지 업데이트
+        myCapsule();//뽑은 캡슐 이미지 노출
         ballExit.classList.add('on');//캡슐 떨어지는 애니메이션
     }, 2800);
     handle.removeEventListener("click", handleAni);//핸들 클릭 이벤트 제거
-}
+};
 
-//(9) 통에 있던 캡슐이랑 이미지 매칭
+//(9) 뽑은 캡슐 이미지 노출
 function myCapsule(){
-    playCount++;//플레이 카운트 횟수 ++
-    let removeBall = document.querySelector(".ball_" + playCount);
-    removeBall.remove();
     let outBall = document.createElement("img");
     outBall.setAttribute("class", "my_ball");
     outBall.setAttribute("src", "./img/ball_" + playCount + ".png");
@@ -346,24 +364,25 @@ function outBallDimEvent(e){
             keepGoingbtn.setAttribute("src", "./img/open_img_v2_7.png");//버튼 이미지
             keepGoingbtn.setAttribute("alt", "계속");
             outBallDim.append(keepGoingbtn);
+
+            inventoryCount++;//인벤토리 카운트 횟수 ++
+            console.log('인벤토리 아이템 ' + inventoryCount + '개 획득 !')
         })
     }, {once : true})//한 번만 실행
     keepGoingEvent(keepGoingbtn, e);
 }
 
-//(11) 이어서 뽑기, 엔딩
+//(11) 이어서 뽑기
 function keepGoingEvent(keepGoingbtn, item){
     keepGoingbtn.addEventListener('click', function(){
         outBallDim.classList.remove('on');//딤 제거
         keepGoingbtn.remove();//이어서 하기 버튼 제거
         item.remove();//뽑은 이미지 제거
-        if(playCount <= 15){//이어서 뽑기
-            coinImgDisplay();//동전이미지 노출    
-        }else{//엔딩
+        //내가 가진 동전이 가격과 같거나, 클 때 계속 실행
+        if(parseInt(coinCount) == parseInt(price) || parseInt(coinCount) > parseInt(price)){
+            capsuleOut();//캡슐 애니메이션 실행
+        }else{
             return false;
-            
-            //작성중 !!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
         }
     });
 }
@@ -380,8 +399,8 @@ function inventoryOpen(){
         inventoryListItemImg.setAttribute("alt", "빈 칸");
         inventoryListItem.append(inventoryListItemImg)
     };
-    if(playCount > 0){//뽑은 이미지 생성
-        for(let e=1;e<=playCount;e++){//playCount == e
+    if(inventoryCount > 0){//뽑은 이미지 생성
+        for(let e=1;e<=inventoryCount;e++){
             let inventoryGetItem = document.querySelector('.inventory_open .layer ul li:nth-of-type('+ e +') img')
             inventoryGetItem.setAttribute("src", "./img/open_img_" + newRandomArr[e - 1] + ".png");//랜덤 배열 index 기준으로 결과 이미지 노출
             inventoryGetItem.setAttribute("alt", "내 아이템 " + e);
@@ -413,45 +432,51 @@ function quizListEvent(){
     quizList.classList.add('on');//리스트 팝업 열기
     quizListLi.forEach((el, idx) => {
         el.addEventListener("click", function(){//문제 선택
-            quizPopDim.classList.add('on');//선택한 문제 풀기 팝업 열기
+            if(el.classList.contains('off') == false){//안 푼 문제일때만 실행
+                quizPopDim.classList.add('on');//선택한 문제 풀기 팝업 열기
 
-            //선택한 문제 풀기 팝업 start
-            let quizPopLayer = document.querySelector(".quiz_pop .quiz_" + (idx + 1) + ".layer");
-            // let quizPopListOff = document.querySelector(".quiz_pop .quiz_" + (idx + 1) + ".layer ul li");
-            let quizPopCheck = document.querySelectorAll(".quiz_pop .quiz_" + (idx + 1) + ".layer ul li label");
-            let quizPopLayerClose = document.querySelector(".quiz_pop .quiz_" + (idx + 1) + ".layer .close");
-            quizPopLayer.classList.add('on');//선택한 문제 idx에 따라서 매칭, 팝업 오픈
+                //선택한 문제 풀기 팝업 start
+                let quizPopLayer = document.querySelector(".quiz_pop .quiz_" + (idx + 1) + ".layer");
+                let quizPopCheck = document.querySelectorAll(".quiz_pop .quiz_" + (idx + 1) + ".layer ul li label");
+                let quizPopLayerClose = document.querySelector(".quiz_pop .quiz_" + (idx + 1) + ".layer .close");
+                quizPopLayer.classList.add('on');//선택한 문제 idx에 따라서 매칭, 팝업 오픈
 
-            quizPopCheck.forEach((e, i)=>{
-                e.addEventListener("click", function(){
-                    let quizSelect = e.getAttribute("for");//선택한 label의 for값 가져오기
-                    let quizId = document.getElementById(quizSelect);//for랑 일치하는 id가진 태그 찾기
-                    let quizPlusCoin = parseInt(quizId.value);
-                    coinCount += quizPlusCoin//value 만큼 동전 추가
-                    moneyCount.textContent = coinCount;//동전 카운트 텍스트 동기화
-                    priceCount();
-                    alert("정답 선택 완료");
-                    quizPopDim.classList.remove('on');//문제 풀기 딤처리 해제
-                    quizPopLayer.classList.remove('on');//문제 풀기 팝업 닫기
-                    el.classList.add('off')//리스트 팝업 푼 문제 체크
+                quizPopCheck.forEach((e)=>{//동전 지급 이벤트
+                    e.addEventListener("click", function(){
+                        console.log(e)
+                        let quizSelect = e.getAttribute("for");//선택한 label의 for값 가져오기
+                        let quizId = document.getElementById(quizSelect);//for랑 일치하는 id가진 태그 찾기
+                        let quizPlusCoin = parseInt(quizId.value);
+                        console.log(quizPlusCoin)
+                        coinCount += quizPlusCoin//value 만큼 동전 추가
+                        moneyCount.textContent = coinCount;//동전 카운트 텍스트 동기화
+
+                        if(parseInt(coinCount) == parseInt(price) || parseInt(coinCount) > parseInt(price) ){//동전이 가격과 같거나, 클 때
+                            capsuleOut();//캡슐 애니메이션 실행
+                        }
+
+                        // alert("정답 선택 완료");
+                        quizPopDim.classList.remove('on');//문제 풀기 딤처리 해제
+                        quizPopLayer.classList.remove('on');//문제 풀기 팝업 닫기
+                        el.classList.add('off')//리스트 팝업 푼 문제 체크
+                    })
                 })
-            })
-            
 
-            quizPopLayerClose.addEventListener("click", function(){
-                quizPopLayer.classList.remove('on')//닫기 매칭
-                quizPopDim.classList.remove('on')//딤처리 제거
-            })
+                quizPopLayerClose.addEventListener("click", function(){//문제 풀기 팝업 닫기 버튼 클릭
+                    if(confirm("지금 창을 닫으면 다시 이 문제를 풀 수 없습니다. 그래도 닫으시겠습니까 ?")){//"예" 선택
+                        quizPopLayer.classList.remove('on')//문제 풀기 팝업 닫기
+                        quizPopDim.classList.remove('on')//문제 풀기 딤처리 해제
+                        el.classList.add('off')//리스트 팝업 푼 문제 체크
+                    }else{//"아니오" 선택
+                       return false;
+                    }
+                }) 
+            }
         })
     })
     quizListClose.addEventListener("click", function(){//리스트 팝업 닫기
         quizList.classList.remove('on');
     })
-}
-
-//(14) 선택한 문제 풀기 팝업 정답
-function quizSelectEvent(){
-
 }
 
 //(15) 리셋
@@ -479,7 +504,7 @@ function resetEvent(){
 - 헬로키티
 - 마이멜로디
 - 시나모롤
-- 짱구 ㅇㅇㅇ
+- 흰둥이 ㅇㅇㅇ
 
 3. 마이멜로디의 리본 컬러는 ? ->1000
 - 핑크 ㅇㅇㅇ
