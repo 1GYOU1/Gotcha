@@ -417,6 +417,7 @@ function quizListEvent(){
 
             //선택한 문제 풀기 팝업 start
             let quizPopLayer = document.querySelector(".quiz_pop .quiz_" + (idx + 1) + ".layer");
+            // let quizPopListOff = document.querySelector(".quiz_pop .quiz_" + (idx + 1) + ".layer ul li");
             let quizPopCheck = document.querySelectorAll(".quiz_pop .quiz_" + (idx + 1) + ".layer ul li label");
             let quizPopLayerClose = document.querySelector(".quiz_pop .quiz_" + (idx + 1) + ".layer .close");
             quizPopLayer.classList.add('on');//선택한 문제 idx에 따라서 매칭, 팝업 오픈
@@ -430,6 +431,9 @@ function quizListEvent(){
                     moneyCount.textContent = coinCount;//동전 카운트 텍스트 동기화
                     priceCount();
                     alert("정답 선택 완료");
+                    quizPopDim.classList.remove('on');//문제 풀기 딤처리 해제
+                    quizPopLayer.classList.remove('on');//문제 풀기 팝업 닫기
+                    el.classList.add('off')//리스트 팝업 푼 문제 체크
                 })
             })
             

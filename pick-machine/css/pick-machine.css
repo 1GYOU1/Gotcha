@@ -87,9 +87,11 @@
 .main_area .quiz_list .layer .close{position:absolute;top:20px;right:25px;width:40px;height:40px;}
 .main_area .quiz_list .layer .close img{width:100%;}
 .main_area .quiz_list .layer ul{display:flex;flex-wrap:wrap;justify-content:center;width:95%;margin:0 auto;}
-.main_area .quiz_list .layer ul li{width:18%;padding:20px 0;border:2px solid #382b22;border-radius:10px;margin-right:10px;margin-bottom:10px;overflow:hidden;text-align:center;}
+.main_area .quiz_list .layer ul li{position:relative;width:18%;padding:20px 0;border:2px solid #382b22;border-radius:10px;margin-right:10px;margin-bottom:10px;overflow:hidden;text-align:center;}
 .main_area .quiz_list .layer ul li:hover{background:#fef388;font-weight:bold;cursor:pointer;}
 .main_area .quiz_list .layer ul li:nth-of-type(5n){margin-right:0;}
+.main_area .quiz_list .layer ul li.off:after{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.4);cursor:auto;content: '';}
+.main_area .quiz_list .layer ul li.off:hover{background:transparent;font-weight:500;}
 .main_area .quiz_list .layer ul li strong{font-size:18px;}
 .main_area .quiz_list .layer ul li span{display:flex;justify-content:center;align-items:center;margin-top:10px;}
 .main_area .quiz_list .layer ul li span i{background:url('../img/coin.png')0 0/100% no-repeat;width:30px;height:30px;display:inline-block;margin-right:3px;}
@@ -103,16 +105,12 @@
 .main_area .quiz_pop .layer .close img{width:100%;}
 .main_area .quiz_pop .layer p{text-align:center;width:85%;margin:0 auto 30px auto;font-size:18px;}
 .main_area .quiz_pop .layer ul{display:flex;flex-wrap:wrap;width:80%;margin:0 auto;}
-.main_area .quiz_pop .layer ul li{width:50%;padding:5px 10px;cursor:pointer;}
+.main_area .quiz_pop .layer ul li{width:50%;padding:5px 10px;cursor:pointer;overflow:hidden;}
 .main_area .quiz_pop .layer ul li input{display:none;}
-.main_area .quiz_pop .layer ul li label{padding-left:30px;background:url('../img/chk_bg.png')0 2px/21px no-repeat;}
+.main_area .quiz_pop .layer ul li label{padding-left:30px;background:url('../img/chk_bg.png')0 0/12% no-repeat;}
 .main_area .quiz_pop .layer ul li label span{width:150px;display:inline-flex;}
 .main_area .quiz_pop .layer ul li input:checked + label{background-position-y:100%;font-weight:bold;}
 /* responsive start ************************************************/
-@media screen and (max-width:970px){
-}
-@media screen and (max-width:850px){
-}
 @media screen and (max-width:768px){
 	.inner{width:100vw;}
 	.main_area .my_bag{width:70px;bottom:15px;right:15px;}
