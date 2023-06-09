@@ -1,8 +1,19 @@
 # Gotcha
 Gotcha
 
-드래그 앤 드롭 기능
+2023년 6월 2주차
+- 퀴즈 맞춰야 동전 지급 기능
+- 캡슐 열기 전에 인벤토리 창 열면 결과 이미지 보이는 오류 해결
+- 캡슐 이미지 불러오는 방식 createBallImg() 수정
 
-[참고 사이트 - 블로그](https://inpa.tistory.com/entry/%EB%93%9C%EB%9E%98%EA%B7%B8-%EC%95%A4-%EB%93%9C%EB%A1%AD-Drag-Drop-%EA%B8%B0%EB%8A%A5)
+2023년 6월 3주차
+- 화살표, 이어서 계속하기, 리셋 버튼 이미지 변경
+- 효과음 찾아보기
 
-[참고 사이트 - 모던 자바스크립트](https://ko.javascript.info/mouse-drag-and-drop)
+2023년 6월 4주차
+- 효과음 적용
+- 퀴즈 문제 풀이 부분 object 형식으로 불러오도록 바꿔보기
+
+2023년 6월 5주차
+- 엔딩 화면
+- document.cookie 또는 localstorage 이용해서 플레이 기록 저장해보기 (뽑은 캡슐 갯수)
