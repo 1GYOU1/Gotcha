@@ -17,7 +17,6 @@
 .main_area .top_area .reset img{width:100%;}
 .main_area .top_area .my_money{font-size:24px;text-align:right;}
 .main_area .top_area .my_money strong{font-size:30px;}
-
 .main_area .machine_area{width:350px;}
 .main_area .machine_area .machine{width:100%;}
 .main_area .machine_area .balls{position:absolute;top:95px;left:50%;margin-left:-151px;width:300px;}
@@ -34,6 +33,7 @@
 .main_area .machine_area .capsule_exit:hover{width:100px;overflow:visible;}
 .main_area .machine_area .capsule_exit img{width:100%;display:none;}
 .main_area .machine_area .capsule_exit.on img{-webkit-animation:bounce-in-top 1.1s both;animation:bounce-in-top 1.1s both;display:block;}
+.main_area .pay_coin{font-size:16px;margin-top:15px;}
 .main_area .coin{position:absolute;top:480px;left:50px;display:block;width:70px;cursor:pointer;z-index:2;}
 .main_area .coin.on{width:60px;transition:all ease 0.5s;}
 .main_area .my_bag{position:absolute;bottom:50px;right:50px;width:100px;display:block;}
