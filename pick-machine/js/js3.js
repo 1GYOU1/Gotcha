@@ -82,6 +82,16 @@ window.addEventListener('load', function() {
 - 엔딩 ()
 - document.cookie 또는 localstorage 이용해서 플레이 기록 저장해보기 (뽑은 캡슐 갯수)
 
+
+
+
+
+내가 얻은 동전갯수 카운트..
+무료동전 다써도... 내가 얻은 동전 보여주기
+
+1. 퀴즈 클릭 target 잡기
+2. object 방식으로 넣어ㅓ주기
+
 */
 
 //문제 리스트
@@ -193,11 +203,14 @@ let coinImg = document.querySelector(".coin");
 // 동전 넣는 영역
 let coinDropArea = document.querySelector(".coin_drop_area");
 
-// 가격
-let price = document.querySelector(".machine_area .price span").innerText;
+// 가격에 맞는 동전 갯수
+let priceCoin = parseInt(document.querySelector(".machine_area .price span").textContent) / 500;
 
-// 내가 낸 동전 문구 영역
-let moneyCount = document.querySelector(".coin_count strong span");
+// 현재 내가 가진 돈 텍스트 영역
+let myMoney = document.querySelector(".my_money strong span");
+
+// 현재 내가 가진 동전 갯수
+let myCoinCount = parseInt(myMoney.textContent) / 500;
 
 // 핸들 이미지
 let handle = document.querySelector(".handle");
@@ -258,10 +271,7 @@ let newRandomArr = [];
 let playCount = 0;
 
 // 동전 갯수 카운트
-let coinCount = 0;
-
-// 무료 동전 갯수 카운트
-let freeCoin = 4;
+let payCoinCount = 0;
 
 // 내가 맞춘 문제 수
 let correctCount = 0;
@@ -387,24 +397,16 @@ function checkElementEnter() {
 
 //(6) 넣은 동전 카운트
 function priceCount(){
-    //무료 동전 4개
-    if(freeCoin > 0){
-        coinCount += 500;
-        freeCoin--;
-        moneyCount.textContent = coinCount;//내가 낸 동전 화면에 보여주기
-        console.log("Count:", coinCount);
-        coinImgDisplay();
-        console.log('무료 동전 4개')
-        console.log('freeCoin : ', freeCoin)
+    if(myCoinCount > 0){
+        payCoinCount++;//지불한 동전 카운트 ++
+        myCoinCount--;//내가 가진 동전 카운트 --
+        myMoney.textContent = myCoinCount * 500;//내가 가진 동전 텍스트 업데이트
+
+        console.log(myCoinCount)
+        console.log(myMoney)
+        coinImgDisplay();//동전 위치 초기화
     }
-    //무료 동전 0개, price보다 동전이 적을 때
-    if(freeCoin == 0 && parseInt(coinCount) > 0 && parseInt(coinCount) < parseInt(price)){
-        console.log('무료 동전 0개, price보다 동전이 적을 때')
-        return false;
-    }
- 
-    //price랑 동전이 같거나 클 때
-    if(parseInt(coinCount) == parseInt(price) || parseInt(coinCount) > parseInt(price)){
+    if(priceCoin <= payCoinCount){
         capsuleOut();//캡슐 애니메이션 실행
     }
 }
@@ -412,15 +414,12 @@ function priceCount(){
 //(7) 동전 위치 초기화
 function coinImgDisplay(){
     coinImg.style.display = 'none';
-    //내가 낸 동전이 가격과 같을 때 제외, 무료 동전이 남아있을 때
-    if(parseInt(coinCount) !== parseInt(price) && freeCoin > 0){
-        // if(freeCoin > 0){
-            setTimeout(function(){
-                coinImg.style.display = 'block';
-                coinImg.style.left = initialY + "px";
-                coinImg.style.top = initialX + "px";
-            }, 500)
-        // }
+    if(myCoinCount > 0){//동전 이미지 생성
+        setTimeout(function(){
+            coinImg.style.display = 'block';
+            coinImg.style.left = initialY + "px";
+            coinImg.style.top = initialX + "px";
+        }, 500)
     }
 }
 
@@ -433,11 +432,6 @@ function capsuleOut(){
 function handleAni(){
     turn.classList.remove('on');
     handle.classList.add('on');//핸들 애니메이션
-    // 동전, 카운트 계산
-    coinCount = coinCount - price;
-    moneyCount.textContent = coinCount;
-    console.log('coinCount = coinCount - price', coinCount)
-    console.log('moneyCount.textContent = coinCount', moneyCount.textContent)
     setTimeout(function(){
         handle.classList.remove('on');
         balls.classList.add('on');//캡슐통 애니메이션
@@ -482,6 +476,9 @@ function outBallDimEvent(e){
             outBallDim.append(keepGoingbtn);
 
             inventoryCount++;//인벤토리 카운트 횟수 ++
+            payCoinCount -= priceCoin;//지불한 동전 가격만큼 마이너스
+
+            console.log(payCoinCount)
             console.log('인벤토리 아이템 ' + inventoryCount + '개 획득 !')
         })
     }, {once : true})//한 번만 실행
@@ -494,13 +491,6 @@ function keepGoingEvent(keepGoingbtn, item){
         outBallDim.classList.remove('on');//딤 제거
         keepGoingbtn.remove();//이어서 하기 버튼 제거
         item.remove();//뽑은 이미지 제거
-        //내가 가진 동전이 가격과 같거나, 클 때 계속 실행
-        // priceCount();
-        if(parseInt(coinCount) == parseInt(price) || parseInt(coinCount) > parseInt(price)){
-            capsuleOut();//캡슐 애니메이션 실행
-        }else{
-            return false;
-        }
     });
 }
 
@@ -543,120 +533,118 @@ function inventoryOpen(){
     });
 }
 
-//(13) 퀴즈 리스트 팝업
-let quizBtnClickChk = true;
-let quizListLiClickChk = true;
-let quizListLiCloseClickChk = true;
-let quizAnswerSelectClickchk = true;
-let quizPopLayerCloseClickChk = true;
+// (13) 퀴즈 팝업
 
-if(quizBtnClickChk){
-    quizBtn.addEventListener("click", quizListEvent);
-}
-function quizListEvent(){
+//리스트 팝업 오픈
+quizBtn.addEventListener("click", openQuizListEvent);
+function openQuizListEvent(){
     quizList.classList.add('on');//리스트 팝업 열기
-
-    quizBtnClickChk = false;//퀴즈 아이콘 클릭 XXXXXXXXX
-    quizListLiCloseClickChk = true;//리스트 팝업 닫기 클릭 OOOOOOO
-    quizListLi.forEach((el, idx) => {
-        if(quizListLiClickChk){
-            el.addEventListener("click", quizListClickEvent)//문제 선택
-        }
-        function quizListClickEvent(){
-            if(el.classList.contains('off') == false){//안 푼 문제일때만 실행
-                quizPopDim.classList.add('on');//선택한 문제 풀기 팝업 열기
-                
-                quizListLiClickChk = false;//문제 리스트 클릭 XXXXXXXXX
-                quizAnswerSelectClickchk = true//답안 리스트 클릭 OOOOOOOO
-                quizPopLayerCloseClickChk = true//답안 닫기 버튼 클릭 OOOOOOOOO
-
-                if(quizAnswerSelectClickchk){
-
-                //선택한 문제 풀기 팝업 start
-                let quizPopLayer = document.querySelector(".quiz_pop .quiz_" + (idx + 1) + ".layer");
-                let quizPopCheck = document.querySelectorAll(".quiz_pop .quiz_" + (idx + 1) + ".layer ul li label");
-                let quizPopLayerClose = document.querySelector(".quiz_pop .quiz_" + (idx + 1) + ".layer .close");
-                quizPopLayer.classList.add('on');//선택한 문제 idx에 따라서 매칭, 팝업 오픈
-
-                quizListLiCloseClickChk = false;//리스트 팝업 닫기 버튼 XXXXXXXXXXX
-
-                quizPopCheck.forEach((e)=>{//동전 지급 이벤트
-                    e.addEventListener("click", quizAnswerSelectEvent);
-                    function quizAnswerSelectEvent(){
-                        console.log(e)
-                        let quizSelect = e.getAttribute("for");//선택한 label의 for값 가져오기
-                        let quizId = document.getElementById(quizSelect);//for랑 일치하는 id가진 태그 찾기
-                        let quizPlusCoin = parseInt(quizId.value);
-                        coinCount += quizPlusCoin//value 만큼 동전 추가
-                        moneyCount.textContent = coinCount;//동전 카운트 텍스트 동기화
-                        console.log('coinCount += quizPlusCoin', coinCount)
-                        console.log(quizPlusCoin+'만큼 추가')
-                        // priceCount();
-                        if(parseInt(coinCount) == parseInt(price) || parseInt(coinCount) > parseInt(price) ){//동전이 가격과 같거나, 클 때
-                            capsuleOut();//캡슐 애니메이션 실행
-                        }
-                        // alert("정답 선택 완료");
-                        quizPopDim.classList.remove('on');//문제 풀기 딤처리 해제
-                        quizPopLayer.classList.remove('on');//문제 풀기 팝업 닫기
-                        el.classList.add('off')//리스트 팝업 푼 문제 체크
-
-                        quizAnswerSelectClickchk = false;//답안 선택 클릭 XXXXX
-                        quizPopLayerCloseClickChk = false;//문제 리스트 팝업 닫기 버튼 클릭 XXXXXXXXXXXXX
-                        quizListLiClickChk = true;//문제 리스트 클릭 OOOOOOOOO
-                        quizListLiCloseClickChk = true//문제 리스트 팝업 닫기 클릭 OOOOOOO
-                    }
-                })
-
-                //문제 팝업 닫기 버튼 클릭 액션
-                if(quizPopLayerCloseClickChk){
-                    quizPopLayerClose.addEventListener("click", quizPopCloseEvent);
-                    function quizPopCloseEvent(){
-                        if(confirm("지금 창을 닫으면 다시 이 문제를 풀 수 없습니다. 그래도 닫으시겠습니까 ?")){//"예" 선택
-                            quizPopLayer.classList.remove('on')//문제 풀기 팝업 닫기
-                            quizPopDim.classList.remove('on')//문제 풀기 딤처리 해제
-                            el.classList.add('off')//리스트 팝업 푼 문제 체크
-                            
-                            quizListLiClickChk = true;//문제 리스트 클릭 OOOOOOOOO
-                            quizAnswerSelectClickchk = false;
-                            quizPopLayerCloseClickChk = false;
-                        }else{//"아니오" 선택
-                            return false;
-                        }
-                    }
-                }
-            }
-            quizPopLayerCloseClickChk = true;//문제 팝업 닫기 버튼 클릭 OOOOOOOOOO
-            }
-        }
+    quizListLi.forEach((el, idx)=>{
+        el.addEventListener('click', () => openAnswerSelectEvent(el, idx))//리스트 선택시 문제 팝업 오픈
     })
-
-    //리스트 팝업 닫기 버튼
-    if(quizListLiCloseClickChk){
-        quizListClose.addEventListener("click", function(){//리스트 팝업 닫기
-            quizList.classList.remove('on');
-            quizListLiCloseClickChk = false;
-        })
-    }
-    //click 초기화
-    quizBtnClickChk = true;
-    quizListLiClickChk = true;
-    quizListLiCloseClickChk = true;
-    quizAnswerSelectClickchk = true;
-    quizPopLayerCloseClickChk = true;
 }
 
-console.log('quizBtnClickChk : ',quizBtnClickChk)
-console.log('quizListLiClickChk : ',quizListLiClickChk)
-console.log('quizListLiCloseClickChk : ',quizListLiCloseClickChk)
-console.log('quizAnswerSelectClickchk : ',quizAnswerSelectClickchk)
-console.log('quizPopLayerCloseClickChk : ',quizPopLayerCloseClickChk)
+//리스트 팝업 닫기
+quizListClose.addEventListener("click", quizQuizListClose)
+function quizQuizListClose(){
+    quizList.classList.remove('on')
+    
+    coinImgDisplay()//동전 위치 초기화
+}
+
+//문제 팝업 오픈
+function openAnswerSelectEvent(el, idx){
+    
+    if(el.classList.contains('off') == false){//안 푼 문제일때만 실행
+        console.log(idx)
+        quizPopDim.classList.add('on');// 문제 팝업 딤처리
+        let quizPopLayer = document.querySelector(".quiz_pop .quiz_" + (idx + 1) + ".layer");
+        let quizPopCheck = document.querySelectorAll(".quiz_pop .quiz_" + (idx + 1) + ".layer ul li label");
+        let quizPopLayerClose = document.querySelector(".quiz_pop .quiz_" + (idx + 1) + ".layer .close");
+        
+        quizPopLayer.classList.add('on');//선택한 문제 idx에 따라서 매칭, 팝업 오픈
+        
+        quizPopCheck.forEach((e)=>{//동전 지급 이벤트
+            e.addEventListener('click', () => coinPlusEvent(e))
+        })
+        el.classList.add('off')//리스트 팝업 푼 문제 체크
+
+        quizPopLayerClose.addEventListener('click', quizPopCloseEvent);//문제 팝업 닫기 버튼 클릭
+    }
+
+}
+
+//동전 지급 이벤트
+function coinPlusEvent(e){
+    let quizSelect = e.getAttribute("for");//선택한 label의 for값 가져오기
+    let quizId = document.getElementById(quizSelect);//for랑 일치하는 id가진 태그 찾기
+    let quizPlusCoin = parseInt(quizId.value);
+    console.log(quizPlusCoin)
+    
+    myCoinCount += (quizPlusCoin / 500)//value 만큼 동전 추가
+    myMoney.textContent = myCoinCount * 500;//내가 가진 동전 텍스트 업데이트
+    console.log('myMoney : ', myMoney)
+
+    e.closest('.layer').classList.remove('on');//문제 팝업 닫기
+    quizPopDim.classList.remove('on')
+    console.log(e)
+}
+
+//문제 팝업 닫기 버튼 클릭
+function quizPopCloseEvent() {
+    if(confirm("지금 창을 닫으면 다시 이 문제를 풀 수 없습니다. 그래도 닫으시겠습니까 ?")){//"예" 선택
+        console.log(this.parentNode)
+        this.closest('.layer').classList.remove('on');
+        quizPopDim.classList.remove('on')
+    }else{//"아니오" 선택
+        return false;
+    }
+}
+
+//test2 성공, Array.from(quizListLi).indexOf(li) 사용=========================
+/*
+    유사배열과 객체
+    https://mesonia.tistory.com/116
+    https://velog.io/@skh417/TIL-%EC%9C%A0%EC%82%AC%EB%B0%B0%EC%97%B4%EA%B3%BC-call-apply-from
+*/
+// function openQuizList() {
+//     quizList.classList.add('on'); // 리스트 팝업 열기
+
+//     if (!quizList.dataset.clickEventHandler) {
+//         quizList.addEventListener('click', handleQuizListClick);
+//         quizList.dataset.clickEventHandler = true;
+//     }
+// }
+
+// function handleQuizListClick(event) {
+//     let clickedElement = event.target;
+//     let li = findParentLI(clickedElement);
+
+//     if (li) {
+//         let selectedIndex = Array.from(quizListLi).indexOf(li);
+//         console.log(selectedIndex);
+//     }
+// }
+
+// //li 찾기
+// function findParentLI(element) {
+//     if (!element) {//li 영역 아닐 때 error 방지
+//         return null;
+//     }
+//     if (element.tagName === 'LI') {
+//         return element;
+//     }
+//     return findParentLI(element.parentNode);//자식요소 클릭시 li 찾기
+// }
 
 //(15) 리셋
 resetBtn.addEventListener("click", resetEvent);
 function resetEvent(){
     playCount = 0;//플레이 횟수 초기화
-    coinCount = 0;//동전 카운트 초기화
-    moneyCount.textContent = 0;//동전 카운트 텍스트 초기화
+    payCoinCount = 0;//지불한 동전 초기화
+    myCoinCount = 0;//내가 가진 동전 초기화
+    myMoney.textContent = 0;//내가 가진 동전 텍스트 초기화
+    useMoney.textContent = 0;//동전 카운트 텍스트 초기화
     coinImg.style.display = 'none';//동전 이미지 숨김
     startArea.style.display = "block";
     mainArea.style.display = "none";
