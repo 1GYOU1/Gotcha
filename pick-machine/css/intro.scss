@@ -1,4 +1,4 @@
-@import './reset.css';/*# sourceMappingURL=intro.css.map */
+@import './reset.css';
 
 .wrap{
   width:100%;
@@ -8,8 +8,9 @@
   align-items:center;
   position:relative;
   overflow:hidden;
-  background:pink;
+  background:#ffe2ea;
 }
+
 #gyou1_logo{
   z-index: 1;
   animation-name:ani_in,ani_out;
