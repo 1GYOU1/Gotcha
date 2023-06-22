@@ -464,7 +464,7 @@ function outBallDimEvent(e){
             e.setAttribute("alt", "뽑은 캡슐 오픈");
             //이어서 하기 버튼 생성
             keepGoingbtn.setAttribute("class", "keep_going_btn");
-            keepGoingbtn.setAttribute("src", "./img/open_img_v2_7.png");//버튼 이미지
+            keepGoingbtn.setAttribute("src", "./img/return.png");//버튼 이미지
             keepGoingbtn.setAttribute("alt", "계속");
             outBallDim.append(keepGoingbtn);
 
@@ -597,19 +597,23 @@ function quizPopCloseEvent() {
 //(14) 리셋
 resetBtn.addEventListener("click", resetEvent);
 function resetEvent(){
-    playCount = 0;//플레이 횟수 초기화
-    myMoney.textContent = 2000;//내가 가진 동전 텍스트 초기화
-    myCoinCount = parseInt(myMoney.textContent)/500;//내가 가진 동전 카운트 초기화
-    payCoinCount = 0;//지불한 동전 카운트 초기화
-    payCoin.textContent = 0;//지불한 동전 갯수 텍스트 초기화
-
-    coinImg.style.display = 'none';//동전 이미지 숨김
-    startArea.style.display = "block";
-    mainArea.style.display = "none";
-
-    //뽑은 캡슐 이미지 초기화
-    let ballsImg = document.querySelector(".balls img");
-    ballsImg.remove();
+    if(confirm("다시 되돌릴 수 없습니다. 처음부터 다시 시작하겠습니까 ?")){//"예" 선택
+        playCount = 0;//플레이 횟수 초기화
+        myMoney.textContent = 2000;//내가 가진 동전 텍스트 초기화
+        myCoinCount = parseInt(myMoney.textContent)/500;//내가 가진 동전 카운트 초기화
+        payCoinCount = 0;//지불한 동전 카운트 초기화
+        payCoin.textContent = 0;//지불한 동전 갯수 텍스트 초기화
+    
+        coinImg.style.display = 'none';//동전 이미지 숨김
+        startArea.style.display = "block";
+        mainArea.style.display = "none";
+    
+        //뽑은 캡슐 이미지 초기화
+        let ballsImg = document.querySelector(".balls img");
+        ballsImg.remove();   
+    }else{//"아니오" 선택
+        return false;
+    }
 }
 
 /*

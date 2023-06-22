@@ -10,6 +10,7 @@ header {
   background-color: #ffe2ea;
   opacity: 0.8;
   z-index: 99;
+  animation: fade-in 0.3s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 }
 header h1 {
   font-size: 28px;
@@ -41,6 +42,14 @@ header a img {
   }
   100% {
     opacity: 0;
+  }
+}
+@keyframes rotate-center {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(-360deg);
   }
 }
 @keyframes rotate-vert-center {
