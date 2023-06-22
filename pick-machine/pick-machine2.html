@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>pick machine</title>
+     <link rel="stylesheet" href="./css/common.min.css">
+     <link rel="stylesheet" href="./css/pick-machine.css">
+</head>
+<body>
+    
+    <div class="wrap p_r">
+        
+        <div data-include-path="header.html"></div>
+
+        <div class="start_area">
+            <div class="inner p_r">
+                <a class="start_btn p_r">
+                    <span>START</span>
+                    <span></span>
+                </a>
+            </div>
+        </div>
+
+        <div class="main_area">
+            <div class="inner p_r">
+                <div class="top_area">
+                    <a class="reset" href="#;">
+                        <img class="rs_txt" src="./img/reset_txt.png" alt="">
+                        <img class="rs_arr" src="./img/reset_arrow.png" alt="">
+                    </a>
+                    <p class="my_money">My money<br>
+                        <strong>￦ <span>2000</span></strong>
+                    </p> 
+                </div>
+                <div class="machine_area p_r">
+                    <img class="machine" src="./img/machine.png" alt="뽑기 머신 이미지">
+                    <div class="balls">
+                       <!-- 캡슐 Img -->
+                    </div>
+                    <img class="handle" src="./img/machine_handle.png" alt="핸들 이미지">
+                    <strong class="turn">Turn the handle!</strong>
+                    <strong class="price">￦ <span>2000</span></strong>
+                    <div class="capsule_exit">
+                        <!-- 내가 뽑은 캡슐 img -->
+                    </div>
+                    <div class="coin_drop_area"></div>
+                </div>
+                <div class="pay_coin">
+                    내가 넣은 동전 갯수 : <strong>0</strong>
+                </div>
+            </div>
+
+            <img class="coin" src="./img/coin.png" alt="동전 이미지">
+
+            <a class="my_bag" href="#;">
+                <img src="./img/my_bag.png" alt="인벤토리 아이콘">
+            </a>
+
+            <a class="quiz" href="#;">
+                <img src="./img/quiz_icon.png" alt="퀴즈 아이콘">
+            </a>
+            
+            <div class="capsule_open">
+                <!-- 방금 뽑은 캡슐 img -->
+            </div>
+
+            <div class="inventory_open">
+                <!-- 뽑았던 캡슐 img -->
+                <div class="layer p_r">
+                    <h2>my collection</h2>
+                    <a class="close" href="#;">
+                        <img src="./img/close_icon.png" alt="">
+                    </a>
+                    <ul>
+                        <!-- 내 아이템 img -->
+                    </ul>
+                    <div class="detail">
+                        <!-- 내 아이템 자세히 보기 img -->
+                    </div>   
+                </div>
+            </div>
+
+            <div class="quiz_list">
+                <div class="layer p_r">
+                    <h2>Quiz List</h2>
+                    <a class="close" href="#;">
+                        <img src="./img/close_icon.png" alt="">
+                    </a>
+                    <ul></ul>
+                </div>
+            </div>
+
+            <div class="quiz_pop">
+                <div class="layer p_r on">
+                    <h2></h2>
+                    <a class="close" href="#;">
+                        <img src="./img/close_icon.png" alt="">
+                    </a>
+                    <p></p>
+                    <ul>
+                        <li><label><span></span></label></li>
+                        <li><label><span></span></label></li>
+                        <li><label><span></span></label></li>
+                        <li><label><span></span></label></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- my script -->
+<script src="./js/js2.js"></script>
+</body>
+</html>
