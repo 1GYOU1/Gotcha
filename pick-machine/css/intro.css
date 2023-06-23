@@ -139,14 +139,14 @@
     height: 0vw;
   }
   100% {
-    width: 130vw;
-    height: 130vw;
+    width: 170vh;
+    height: 170vh;
   }
 }
 @keyframes circle_out {
   0% {
-    width: 130vw;
-    height: 130vw;
+    width: 170vh;
+    height: 170vh;
   }
   100% {
     width: 0vw;
