@@ -61,26 +61,6 @@ window.addEventListener('load', function() {
 
 14. 리셋
  
--------------------------------------------------------------------PLAN
-
-2023년 6월 2주차
-- 퀴즈 맞춰야 동전 지급 기능 (완료 ✔︎)
-- 캡슐 이미지 불러오는 방식 createBallImg() 수정 (완료 ✔︎)
-- 뽑기 열기 전에 인벤토리 창 열면 결과 이미지 보이는 오류 해결 (완료 ✔︎)
-- 문제 팝업 클릭 이벤트 중복 오류 해결 (완료 ✔︎)
-- 넣은 동전 갯수 카운트 html, js 추가하기 (완료 ✔︎)
-
-2023년 6월 3주차
-- 화살표, 이어서 계속하기, 리셋 버튼 이미지 변경
-- 퀴즈 문제 풀이 부분 object 형식으로 불러오도록 바꿔보기
-
-2023년 6월 4주차
-- 엔딩 ()
-- document.cookie 또는 localstorage 이용해서 플레이 기록 저장해보기 (뽑은 캡슐 갯수)
-
-2023년 6월 5주차 ~ 7월
-- react 세팅
-
 */
 
 //문제 리스트
@@ -119,7 +99,7 @@ let quizTypeA = [
         question : '마이멜로디의 보물은 ?',
         answer : ['리본','꽃','앞치마','두건'],
         getCoin : 1500,
-        correctAnswer : 2
+        correctAnswer : 3
     },
     {
         question : '헬로키티의 최애 음식은 ?',
@@ -465,7 +445,7 @@ function outBallDimEvent(e){
             e.setAttribute("alt", "뽑은 캡슐 오픈");
             //이어서 하기 버튼 생성
             keepGoingbtn.setAttribute("class", "keep_going_btn");
-            keepGoingbtn.setAttribute("src", "./img/open_img_v2_7.png");//버튼 이미지
+            keepGoingbtn.setAttribute("src", "./img/return.png");//버튼 이미지
             keepGoingbtn.setAttribute("alt", "계속");
             outBallDim.append(keepGoingbtn);
 
@@ -559,7 +539,7 @@ function openQuizListEvent(){
     let quizListLi = document.querySelectorAll(".quiz_list ul li");
 
     quizListLi.forEach((el, idx)=>{
-        el.addEventListener('click', () => openAnswerSelectEvent(el, idx))//리스트 선택시 문제 팝업 오픈
+        el.addEventListener('click', () => openAnswerOpenEvent(el, idx))//리스트 선택시 문제 팝업 오픈
     })
 }
 
@@ -573,26 +553,21 @@ function quizQuizListClose(){
 
 let quizPopNumTitle = document.querySelector('.quiz_pop h2')
 let quizPopQuestion = document.querySelector('.quiz_pop p')
-let quizPopInput = document.querySelectorAll('.quiz_pop li input')
-let quizPopLabel = document.querySelectorAll('.quiz_pop li label')
-let quizPopLabelSpan = document.querySelectorAll('.quiz_pop li label span')
+let quizPopLabelSpan = document.querySelectorAll('.quiz_pop li span')
 
-//문제 팝업 텍스트 변경
-function openAnswerSelectEvent(el, idx){
-    console.log(el)
+let quizLiNum = 0;//Quiz.넘버링 변수
+
+//문제 팝업 타이틀, 내용 불러오기
+function openAnswerOpenEvent(el, idx){
     if(el.classList.contains('off') == false){//안 푼 문제일때만 실행
         quizPopDim.classList.add('on');// 문제 팝업 딤처리
 
         quizPopNumTitle.textContent = 'Quiz.'+(idx+1);// 문제 타이틀
-        quizPopQuestion.textContent = quizTypeA[idx+1].question// 문제 내용
-        quizPopLabel.forEach((e, i) => {
-            // 동전 지급 이벤트
-            e.addEventListener('click', () => coinPlusEvent(e, i, idx), { once: true });
-            // once 옵션을 추가하여 이벤트가 한 번만 실행되도록 설정
-          });
-        quizPopLabelSpan.forEach((element,index)=>{
-            element.textContent = quizTypeA[idx+1].answer[index];
-        })
+        quizPopQuestion.textContent = quizTypeA[idx].question// 문제 내용
+
+        quizLiNum = idx;
+
+        openAnswerCallEvent();
 
         el.classList.add('off')//리스트 팝업 푼 문제 체크
 
@@ -600,23 +575,28 @@ function openAnswerSelectEvent(el, idx){
     }
 }
 
-//동전 지급 이벤트 수정 후
-function coinPlusEvent(e, i, idx){
-    if(quizTypeA[idx].correctAnswer == i){
-        myCoinCount += (quizTypeA[idx].getCoin / 500)//value 만큼 동전 추가
+//문제 팝업 객관식 정답 불러오기
+function openAnswerCallEvent(){
+    quizPopLabelSpan.forEach((e, i)=>{//동전 지급 이벤트
+        e.textContent = quizTypeA[quizLiNum].answer[i]
+    })
+}
+
+//문제 정답 클릭
+quizPopLabelSpan.forEach((e, i)=>{
+    e.addEventListener('click', () => answerSelectClickEvent(e, i))
+})
+
+//정답인지 체크
+function answerSelectClickEvent(e, i){
+    if(quizTypeA[quizLiNum].correctAnswer == i){
+        alert('정답 ! + ' + quizTypeA[quizLiNum].getCoin)
+        myCoinCount += (quizTypeA[quizLiNum].getCoin / 500)//value 만큼 동전 추가
         myMoney.textContent = myCoinCount * 500;//내가 가진 동전 텍스트 업데이트
         console.log('myMoney : ', myMoney)
-
         quizPopDim.classList.remove('on');
-        alert('딩 동 댕 동 ! ^0^'+quizTypeA[idx].getCoin);
-
-        // 이벤트 리스너 제거
-    quizPopLabel.forEach((label, index) => {
-        label.removeEventListener('click', coinPlusEvent);
-      });
-    
     }else{
-        alert('땡 ! ㅠ.ㅜ');
+        alert('땡 !')
         quizPopDim.classList.remove('on');
     }
 }
@@ -624,8 +604,6 @@ function coinPlusEvent(e, i, idx){
 //문제 팝업 닫기 버튼 클릭
 function quizPopCloseEvent() {
     if(confirm("지금 창을 닫으면 다시 이 문제를 풀 수 없습니다. 그래도 닫으시겠습니까 ?")){//"예" 선택
-        console.log(this.parentNode)
-        // this.closest('.layer').classList.remove('on');
         quizPopDim.classList.remove('on')
     }else{//"아니오" 선택
         return false;
@@ -649,98 +627,3 @@ function resetEvent(){
     let ballsImg = document.querySelector(".balls img");
     ballsImg.remove();
 }
-
-/*
-문제 정답 리스트
-
-1. 쿠로미가 속한 애니메이션 제목은? ->500
-- 마이멜로디 ㅇㅇ
-- 쿠로미
-- 시나모롤
-- 헬로키티
-
-2. 산리오 캐릭터가 아닌 것은 ? ->500
-- 헬로키티
-- 마이멜로디
-- 시나모롤
-- 흰둥이 ㅇㅇㅇ
-
-3. 마이멜로디의 리본 컬러는 ? ->1000
-- 핑크 ㅇㅇㅇ
-- 하늘색
-- 하얀색
-- 노란색
-
-4. 쿠로미의 꼬리 색은 ? ->1000
-- 핑크
-- 블랙 ㅇㅇㅇ
-- 회색
-- 보라색
-
-5. 마이멜로디가 운동하는 방법 ->1000
-- 귀 굽혀펴기ㅇㅇㅇ
-- 귀 철봉
-- 귀 아령
-- 귀 물구나무서기
-
-6. 마이멜로디의 보물은 ? ->1500
-- 두건ㅇㅇㅇㅇ
-- 리본
-- 앞치마
-- 꽃
-
-7. 헬로키티의 최애 음식은 ? ->1500
-- 애플 파이 ㅇㅇㅇㅇㅇ
-- 푸딩
-- 아몬드파운드 케이크
-- 시나몬 컵케익
-
-8. 쿠로미가 흑화한 이유는 ? ->2000
-- 마이멜로디랑 비교를 당해서ㅇㅇ
-- 쿠로미가 사춘기라서
-- 검은색이 최애라서
-- 마이멜로디가 생일을 까먹어서
-
-9. 쿠로미가 최근에 빠진 소설 종류는 ? ->2000
-- 추리소설
-- 판타지소설
-- 연애소설 ㅇㅇㅇㅇㅇㅇㅇ
-- 스릴러 소설
-
-10. 헬로키티 친구인 로티의 성격은 ? ->2000
-- 다혈질
-- 건방짐
-- 느긋함ㅇㅇㅇㅇㅇ
-- 온화함
- 
-11. 마이멜로디의 친구가 아닌 캐릭터는 ? ->2500
-- 캥거루
-- 마이스윗피아노
-- 나비
-- 기린ㅇㅇㅇㅇ
-
-12. 마이멜로디의 남동생 이름은? ->2500
-- 플랫
-- 음표
-- 크레센도
-- 리듬ㅇㅇㅇ
-
-13. 시나모롤의 친구가 아닌 캐릭터는 ? ->3500 
-- 카푸치노
-- 모카
-- 에스프레소
-- 라떼ㅇㅇㅇㅇㅇ
-
-14. 헬로키티의 형제 이름은 ? ->3500
-- 피피
-- 미미ㅇㅇㅇㅇ
-- 나나
-- 키키
-
-15. 쿠로미즈 파이브가 아닌 캐릭터는 ? ->3000
-- 팡미ㅇㅇㅇㅇ
-- 왕미
-- 콘미
-- 츄미
-
-*/
