@@ -14,7 +14,6 @@ Gotcha
 
 2023년 6월 4주차
 - 인트로(완료 ✔︎)
-- document.cookie 또는 localstorage 이용해서 플레이 기록 저장해보기 (뽑은 캡슐 갯수)
 
 2023년 6월 5주차 ~ 7월
-- react 세팅
+- [react 세팅](https://github.com/1GYOU1/Gotcha-react)
