@@ -17,16 +17,10 @@ header h1 {
   margin-left: 10px;
   padding: 5px 0;
 }
-header a {
-  width: 50px;
-  padding: 5px;
+header img {
+  width: 40px;
   margin-right: 10px;
-  display: inline-block;
   animation: rotate-vert-center 3s cubic-bezier(0.645, 0.045, 0.355, 1) 0.5s infinite both;
-  cursor: unset;
-}
-header a img {
-  width: 100%;
 }
 @keyframes fade-in {
   0% {
