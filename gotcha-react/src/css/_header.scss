@@ -1,0 +1,30 @@
+// header
+header{
+    position:fixed;
+    top:0;
+    left:0;
+    // &.fixed{
+    //     position:fixed;
+    //     top:0;
+    //     left:0;
+    // }
+    width:100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color:#ffe2ea;
+    opacity: 0.8;
+    z-index: 99;
+    animation:fade-in 0.3s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+    h1{
+        font-size: 28px;
+        margin-left:10px;
+        padding:5px 0;
+    }
+    img{
+        margin-right:10px;
+        -webkit-animation: rotate-vert-center 3s cubic-bezier(0.645, 0.045, 0.355, 1.000) 0.5s infinite both;
+        animation: rotate-vert-center 3s cubic-bezier(0.645, 0.045, 0.355, 1.000) 0.5s infinite both;
+        width:40px
+    }
+}

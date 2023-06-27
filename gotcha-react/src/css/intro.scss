@@ -1,0 +1,189 @@
+@import './reset.css';
+
+.wrap{
+  width:100%;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  position:relative;
+  overflow:hidden;
+  background:#ffe2ea;
+}
+
+#gyou1_logo{
+  z-index: 1;
+  animation-name:ani_in,ani_out;
+  animation-delay: 0s, 5s;
+  animation-duration:1s,1s;
+  animation-fill-mode:forwards;
+}
+#gyou1_logo #gyou1_1_1 {
+    fill: none;
+    stroke-width: 3px;
+    stroke: #E6579F;
+    stroke-dasharray: 10;
+    stroke-dashoffset: 10;
+    animation: intro_fill_1 0.2s 1s ease-in forwards;
+  }
+  
+  #gyou1_logo #gyou1_1_2 {
+    fill: none;
+    stroke-width: 3px;
+    stroke: #E6579F;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: intro_fill_2 1s 1.2s linear forwards;
+  }
+  
+  #gyou1_logo #gyou1_1_3 {
+    fill: none;
+    stroke-width: 3px;
+    stroke: #E6579F;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: intro_fill_2 1s 1.6s linear forwards;
+  }
+  
+  #gyou1_logo #gyou1_G {
+    fill: none;
+    stroke-width: 3px;
+    stroke: #E6579F;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: intro_fill_2 0.7s 1.8s linear forwards;
+  }
+  
+  #gyou1_logo #gyou1_Y_1 {
+    fill: none;
+    stroke-width: 3px;
+    stroke: #E6579F;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: intro_fill_2 0.8s 2.2s linear forwards;
+  }
+  
+  #gyou1_logo #gyou1_Y_2 {
+    fill: none;
+    stroke-width: 3px;
+    stroke: #E6579F;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: intro_fill_2 1s 2.5s linear forwards;
+  }
+  
+  #gyou1_logo #gyou1_O {
+    fill: none;
+    stroke-width: 3px;
+    stroke: #E6579F;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: intro_fill_2 0.5s 2.9s linear forwards;
+  }
+  
+  #gyou1_logo #gyou1_U {
+    fill: none;
+    stroke-width: 3px;
+    stroke: #E6579F;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: intro_fill_2 0.5s 3.3s linear forwards;
+  }
+  
+  #gyou1_logo #gyou1_1_4 {
+    fill: none;
+    stroke-width: 3px;
+    stroke: #E6579F;
+    stroke-dasharray: 10;
+    stroke-dashoffset: 10;
+    animation: intro_fill_1 0.2s 3.8s linear forwards;
+  }
+  
+  #gyou1_logo #gyou1_1_5 {
+    fill: none;
+    stroke-width: 3px;
+    stroke: #E6579F;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: intro_fill_2 1s 3.9s linear forwards;
+  }
+   
+  #gyou1_logo #gyou1_1_6 {
+    fill: none;
+    stroke-width: 3px;
+    stroke: #E6579F;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: intro_fill_2 1s 4.2s linear forwards;
+  }
+  
+  @keyframes intro_fill_1 {
+    from {
+      stroke-dashoffset: 10;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  
+  @keyframes intro_fill_2 {
+    from {
+      stroke-dashoffset: 100;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+@keyframes circle_in {
+    0% {
+        width:0vw;
+        height:0vw;
+    }
+    100% {
+        width:180vh;
+        height:180vh;
+    }
+}
+
+@keyframes circle_out {
+    0% {
+        width:180vh;
+        height:180vh;
+    }
+    100% {
+        width:0vw;
+        height:0vw;
+    }
+}
+
+@keyframes ani_in {
+    0% {
+        width:0;
+    }
+    100% {
+        width:300px;
+    }
+}
+
+@keyframes ani_out {
+    0% {
+        width:300px;
+    }
+    100% {
+        width:0px;
+    }
+}
+
+.circle{
+    border-radius:50%;
+    background:#fff;
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    animation-name:circle_in,circle_out, circle_in;
+    animation-delay: 0s, 5s, 7s;
+    animation-duration:1s,1s,2s;
+    animation-fill-mode:forwards;
+}

@@ -1,0 +1,155 @@
+/* layout */
+.inner{max-width:1050px;margin:0 auto;}
+/* start area */
+.start_area{animation:fade-in 0.3s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;}
+.start_area.out{animation:fade-out 0.3s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;}
+.start_area .inner{display:flex;align-items:center;justify-content:center;min-height:100vh;}
+.start_area .start_btn{position:relative;width:110px;height:70px;border:2px solid #b18597;border-radius:0.75em;background:#f9c4d2;}
+.start_area .start_btn span:nth-of-type(1){position:absolute;top:-12px;left:-2px;width:110px;height:70px;display:flex;align-items:center;justify-content:center;border-radius:0.75em;border:2px solid #b18597;background:#fff0f0;color:#382b22;font-weight:600;z-index:2;}
+.start_area .start_btn span:nth-of-type(2){position:absolute;top:10px;left:0;width:100%;height:100%;background:#fde3e2;border-radius:0.75em;z-index:-1;}
+.start_area .start_btn.on span:nth-of-type(1){animation:button-click-top 0.5s linear both;}
+.start_area .start_btn.on span:nth-of-type(2){animation:button-click-btm 0.5s linear both;}
+/* machine area */
+.main_area{display:none;width:100%;height:100vh;}
+.main_area.on{animation:fade-in 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;}
+.main_area .inner{display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%}
+.main_area .top_area{display:flex;justify-content:space-between;align-items:center;position:absolute;top:10vw;left:5%;width:90%;}
+.main_area .top_area .reset img{position:absolute;top:0;left:0;width:70px;}
+.main_area .top_area .reset img.rs_txt{transform:scale(0.8);}
+.main_area .top_area .reset:hover img.rs_txt{transform:scale(0.9);transition:all ease 0.5s;}
+.main_area .top_area .reset:hover img.rs_arr{-webkit-animation: rotate-center 8s linear infinite both;animation: rotate-center 8s linear infinite both;}
+.main_area .top_area .my_money{font-size:24px;text-align:right;}
+.main_area .top_area .my_money strong{font-size:30px;}
+.main_area .machine_area{width:350px;}
+.main_area .machine_area .machine{width:100%;}
+.main_area .machine_area .balls{position:absolute;top:95px;left:50%;margin-left:-151px;width:300px;}
+.main_area .machine_area .balls.on{animation:vibrate-1 0.3s linear 3 both;}
+.main_area .machine_area .balls img{width:100%;}
+.main_area .machine_area .handle{position:absolute;top:407px;left:50%;margin-left:-35px;width:70px;cursor:pointer;}
+.main_area .machine_area .handle:hover{transform:rotate(30deg) scale(1.2);transition:all ease 0.5s;}
+.main_area .machine_area .handle.on{animation:rotate-scale-up 0.8s linear both 2;}
+.main_area .machine_area .turn{position:absolute;top:423px;right:-50px;background:hotpink;padding:10px;display:none;}
+.main_area .machine_area .turn.on{animation:jello-horizontal 1.2s infinite;display:block;}
+.main_area .machine_area .price{position:absolute;top:511px;right:249px;width:74px;text-align:center;font-size:18px;}
+.main_area .machine_area .coin_drop_area{position:absolute;top:467px;left:231px;width:120px;height:120px;}
+.main_area .machine_area .capsule_exit{position:absolute;top:512px;left:50%;transform:translateX(-50%);width:90px;height:92px;overflow:hidden;cursor:pointer;transition:all ease 0.5s;}
+.main_area .machine_area .capsule_exit:hover{width:100px;overflow:visible;}
+.main_area .machine_area .capsule_exit img{width:100%;display:none;}
+.main_area .machine_area .capsule_exit.on img{-webkit-animation:bounce-in-top 1.1s both;animation:bounce-in-top 1.1s both;display:block;}
+.main_area .pay_coin{font-size:16px;margin-top:16px;font-family:'Noto Sans KR';}
+.main_area .coin{position:absolute;top:480px;left:50px;display:block;width:70px;cursor:pointer;z-index:2;}
+.main_area .coin.on{width:60px;transition:all ease 0.5s;}
+.main_area .my_bag{position:absolute;bottom:50px;right:50px;width:100px;display:block;}
+.main_area .my_bag:hover{width:105px;bottom:48px;right:48px;transition:all ease 0.5s;}
+.main_area .my_bag img{width:100%;}
+.main_area .quiz{position:absolute;bottom:160px;right:50px;width:100px;display:block;}
+.main_area .quiz:hover{width:105px;bottom:158px;right:48px;transition:all ease 0.5s;}
+.main_area .quiz img{width:100%;}
+/* 뽑은 캡슐 오픈 딤처리 */
+.main_area .capsule_open{display:none;}
+.main_area .capsule_open.on{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;background:rgba(0,0,0,0.8);z-index:99;-webkit-animation:fade-in 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;animation:fade-in 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;}
+.main_area .capsule_open img.my_ball{width:10%;cursor:pointer;}
+.main_area .capsule_open img.my_ball:hover{-webkit-animation:heartbeat 1.5s ease-in-out infinite both;animation:heartbeat 1.5s ease-in-out infinite both}
+.main_area .capsule_open img.open_ball{width:25%;cursor:pointer;-webkit-animation:scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;animation:scale-up-center 0.4s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;}
+.main_area .capsule_open img.open_ball:hover{cursor:unset;}
+.main_area .capsule_open img.keep_going_btn{position:absolute;top:100px;right:100px;opacity:0.8;width:100px;cursor:pointer;}
+.main_area .capsule_open img.keep_going_btn:hover{top:95px;right:95px;width:110px;opacity:1;transition:all ease 0.5s;}
+/* 인벤토리 오픈 딤처리 */
+.main_area .inventory_open{display:none;}
+.main_area .inventory_open.on{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;background:rgba(0,0,0,0.8);z-index:99;-webkit-animation:fade-in 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;animation:fade-in 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;}
+.main_area .inventory_open .layer{width:700px;background:#fff;padding-bottom:40px;border-radius:20px;border:4px solid #382b22;overflow:hidden;}
+.main_area .inventory_open .layer h2{text-align:center;padding:25px 0 30px 0;color:#382b22;}
+.main_area .inventory_open .layer .close{position:absolute;top:20px;right:20px;width:40px;height:40px;}
+.main_area .inventory_open .layer .close img{width:100%;}
+.main_area .inventory_open .layer ul{display:flex;flex-wrap:wrap;justify-content:center;width:90%;margin:0 auto;}
+.main_area .inventory_open .layer ul li{width:18%;height:113px;padding:15px;display:flex;justify-content:center;align-items:center;border:2px solid #382b22;border-radius:20px;margin-right:10px;margin-bottom:10px;overflow:hidden;}
+.main_area .inventory_open .layer ul li:nth-of-type(5n){margin-right:0;}
+.main_area .inventory_open .layer ul li img{width:100%;}
+.main_area .inventory_open .detail{display:none;}
+.main_area .inventory_open .detail.on{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;background:rgba(0,0,0,0.8);z-index:99;-webkit-animation:fade-in 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;animation:fade-in 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;}
+.main_area .inventory_open .detail img{width:25%;}
+/* 퀴즈 리스트 딤처리 */
+.main_area .quiz_list{display:none;}
+.main_area .quiz_list.on{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;background:rgba(0,0,0,0.8);z-index:99;-webkit-animation:fade-in 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;animation:fade-in 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;}
+.main_area .quiz_list .layer{width:700px;background:#fff;padding-bottom:40px;border-radius:20px;border:4px solid #382b22;overflow:hidden;}
+.main_area .quiz_list .layer h2{text-align:center;padding:25px 0 30px 0;color:#382b22;}
+.main_area .quiz_list .layer .close{position:absolute;top:20px;right:25px;width:40px;height:40px;}
+.main_area .quiz_list .layer .close img{width:100%;}
+.main_area .quiz_list .layer ul{display:flex;flex-wrap:wrap;justify-content:center;width:95%;margin:0 auto;}
+.main_area .quiz_list .layer ul li{position:relative;width:18%;padding:20px 0;border:2px solid #f9c4d2;border-radius:10px;margin-right:10px;margin-bottom:10px;overflow:hidden;text-align:center;}
+.main_area .quiz_list .layer ul li:hover{background:#fef388a1;font-weight:bold;cursor:pointer;border-color:#b18597;}
+.main_area .quiz_list .layer ul li:nth-of-type(5n){margin-right:0;}
+.main_area .quiz_list .layer ul li.off:after{position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.75);cursor:auto;content:'Clear!';display:inline-flex;align-items:center;justify-content:center;font-size:30px;color:#f0ddea;}
+.main_area .quiz_list .layer ul li.off:hover{background:transparent;font-weight:500;}
+.main_area .quiz_list .layer ul li strong{font-size:18px;}
+.main_area .quiz_list .layer ul li span{display:flex;justify-content:center;align-items:center;margin-top:10px;}
+.main_area .quiz_list .layer ul li span i{background:url('../img/coin.png')0 0/100% no-repeat;width:30px;height:30px;display:inline-block;margin-right:3px;}
+/* 퀴즈 팝업 */
+.main_area .quiz_pop{display:none;}
+.main_area .quiz_pop.on{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;background:rgba(0,0,0,0.7);z-index:99;-webkit-animation:fade-in 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;animation:fade-in 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;}
+.main_area .quiz_pop .layer{display:block;width:500px;background:#fff;padding-bottom:40px;border-radius:20px;border:4px solid #382b22;overflow:hidden;}
+.main_area .quiz_pop .layer h2{text-align:center;padding:25px 0;color:#382b22;}
+.main_area .quiz_pop .layer .close{position:absolute;top:20px;right:20px;width:40px;height:40px;}
+.main_area .quiz_pop .layer .close img{width:100%;}
+.main_area .quiz_pop .layer p{text-align:center;width:85%;margin:0 auto 30px auto;font-size:18px;}
+.main_area .quiz_pop .layer ul{display:flex;flex-wrap:wrap;width:80%;margin:0 auto;}
+.main_area .quiz_pop .layer ul li{width:50%;padding:5px 10px;cursor:pointer;overflow:hidden;}
+.main_area .quiz_pop .layer ul li span{padding-left:30px;background:url('../img/chk_bg.png')0 0/24px no-repeat;display:inline-flex;}
+.main_area .quiz_pop .layer ul li span:hover{background-position-y:100%;font-weight:bold;}
+/* .main_area .quiz_pop .layer ul li span.on{background-position-y:100%;font-weight:bold;} */
+/* responsive start ************************************************/
+@media screen and (max-width:768px){
+	.inner{width:100vw;}
+	.main_area .top_area .my_money{font-size:20px;}
+	.main_area .top_area .my_money strong{font-size:24px;}
+	.main_area .my_bag{width:70px;bottom:15px;right:15px;}
+	.main_area .my_bag:hover{width:70px;bottom:15px;right:15px;}
+	.main_area .quiz{width:70px;bottom:15px;right:90px;}
+	.main_area .quiz:hover{width:70px;bottom:15px;right:90px;}
+}
+@media screen and (max-width:600px){
+	.main_area .top_area{top:15vw;}
+	.main_area .pay_coin{margin-top:0;}
+	.main_area .machine_area{width:300px;margin-top:0;}
+	.main_area .machine_area .balls{top:84px;margin-left:-128px;width:255px;}
+	.main_area .machine_area .handle{margin-left:-31px;top:347px;width:65px;}
+	.main_area .machine_area .handle:hover{transform:none;}
+	.main_area .machine_area .turn{top:360px;padding:5px;}
+	.main_area .machine_area .price{top:436px;right:210px;font-size:16px;}
+	.main_area .machine_area .capsule_exit{top:440px;width:75px;height:75px;}
+	.main_area .machine_area .coin_drop_area{top:404px;left:203px;width:95px;height:95px;}
+	.main_area .coin{top:750px;left:30px;width:65px;}
+	.main_area .capsule_open.on{background:rgba(0,0,0,0.75);}
+	.main_area .capsule_open img.my_ball{width:25%;}
+	.main_area .capsule_open img.open_ball{width:50%;}
+	.main_area .capsule_open img.keep_going_btn{top:25px;right:25px;width:72px;}
+	.main_area .inventory_open .layer{width:90%;padding-bottom:20px;}
+	.main_area .inventory_open .layer .close{right:20px;}
+	.main_area .inventory_open .layer ul{width:90%;}
+	.main_area .inventory_open .layer ul li{width:30%;height:auto;}
+	.main_area .inventory_open .layer ul li:nth-of-type(5n){margin-right:10px;}
+	.main_area .inventory_open .layer ul li:nth-of-type(3n){margin-right:0;}
+	.main_area .inventory_open .detail img{width:40%;}
+	.main_area .quiz_list .layer{width:90%;padding-bottom:30px;}
+	.main_area .quiz_list .layer .close{right:15px;}
+	.main_area .quiz_list .layer ul li{width:29.5%;padding:15px 0;}
+	.main_area .quiz_list .layer ul li:nth-of-type(5n){margin-right:10px;}
+	.main_area .quiz_list .layer ul li:nth-of-type(3n){margin-right:0;}
+	.main_area .quiz_list .layer ul li:nth-of-type(n+13){margin-bottom:0;}
+}
+@media screen and (max-width:385px){
+	.main_area .machine_area{width:230px;margin-top:20px;}
+	.main_area .machine_area .balls{top:62px;margin-left:-98px;width:196px;}
+	.main_area .machine_area .price{top:334px;right:152px;font-size:12px;}
+	.main_area .machine_area .handle{margin-left:-22px;width:50px;margin-left:-23px;top:267px;}
+	.main_area .machine_area .turn{top:277px;padding:3px;right:-65px;}
+	.main_area .machine_area .coin_drop_area{top:306px;left:156px;width:73px;height:78px;}
+	.main_area .coin{top:585px;width:55px;}
+	.main_area .my_bag{width:60px;}
+	.main_area .my_bag:hover{width:60px;}
+	.main_area .quiz{width:60px;right:80px;}
+	.main_area .quiz:hover{width:60px;right:80px;}
+	.main_area .machine_area .capsule_exit{top:338px;width:59px;height:58px;}
+	.main_area .inventory_open .layer{width:85%;}
+	.main_area .quiz_list .layer{width:85%;}
+}
