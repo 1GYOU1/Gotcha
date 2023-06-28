@@ -15,5 +15,11 @@ Gotcha
 2023년 6월 4주차
 - 인트로(완료 ✔︎)
 
-2023년 6월 5주차 ~ 7월
-- [react 세팅](https://github.com/1GYOU1/Gotcha-react)
+2023년 6월 5주차
+- React 세팅(완료 ✔︎)
+- Intro.js(완료 ✔︎)
+- Header.js(완료 ✔︎)
+- Start.js
+
+2023년 7월 1주차
+- Main.js
