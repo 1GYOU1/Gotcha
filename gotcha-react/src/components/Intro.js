@@ -1,14 +1,6 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 
 const Intro = () => {
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        setTimeout(() => {
-            navigate('/Start');
-        }, 8800);
-    }, []);
 
     return (
         <div>

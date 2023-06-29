@@ -1,27 +1,38 @@
-import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
 
 const Start = () => {
-    const [startBtnClick, setStartBtnClick] = useState(false);
-    
-    const handleClick = () => {
-        setStartBtnClick(true);
-    };
+  const [startBtnClick, setStartBtnClick] = useState(false);
 
-    return (
-        <div>
-            {startBtnClick ? null : (
+  useEffect(() => {
+    if (startBtnClick) {
+      const timeout = setTimeout(() => {
+        window.location.href = '/main';
+      }, 5000);
+
+      return () => {
+        clearTimeout(timeout);
+      };
+    }
+  }, [startBtnClick]);
+
+  const handleClick = () => {
+    setStartBtnClick(true);
+  };
+
+  return (
+    <div>
+        {startBtnClick ? null : (
             <div className="start_area">
                 <div className="inner p_r">
-                    <Link to="/main" className="start_btn p_r" onClick={handleClick}>
-                        <span>START</span>
-                        <span></span>
-                    </Link>
+                <button className="start_btn p_r" onClick={handleClick}>
+                    <span>START</span>
+                    <span></span>
+                </button>
                 </div>
             </div>
-         )}
-        </div>
-    );
+        )}
+    </div>
+  );
 };
 
 export default Start;

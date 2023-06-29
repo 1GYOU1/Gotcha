@@ -1,23 +1,52 @@
-import React, { useState } from 'react';
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Link, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
 import './css/common.min.css';
 import './css/intro.min.css';
 import './css/pick-machine2.css';
 import Header from "./components/Header";
 import Main from "./components/Main";
 import Start from "./components/Start";
+import Intro from "./components/Intro";
 
 function App() {
+	const [showIntro, setShowIntro] = useState(true);
+	const location = useLocation();
+  
+	//intro
+	useEffect(() => {
+		const showTime = setTimeout(() => {
+			setShowIntro(false);
+		}, 8900);
+	
+		return () => {
+			clearTimeout(showTime);
+		};
+	}, []);
+	
+	//main에서 intro 재실행되는 오류 때문에 추가
+	useEffect(() => {
+		if (location.pathname === "/main") {
+			setShowIntro(false);
+		}
+	}, [location]);
+
 	return (
 		<div>
-			<Header/>{/*top 고정 노출*/}
+			{showIntro ? (
+				<Intro />
+			) : (
+				<div>
+					<Header />
+					<Link to="/" />
+				</div>
+			)}
 
-			<Start />
-
-			<Routes>
-				<Route path="/" element={<Start />} />
-				<Route path="/Start" element={<Main />} />
-			</Routes>
+			{!showIntro && (
+				<Routes>
+					<Route path="/" element={<Start />} />
+					<Route path="/main" element={<Main />} />
+				</Routes>
+			)}
 		</div>
 	);
 }
