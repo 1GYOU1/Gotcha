@@ -270,12 +270,12 @@ function startBtnEvent(){
         startArea.classList.remove('out');
         startArea.style.display = 'none';
         mainArea.classList.add('on');
-        mainArea.style.display = 'block';
+        // mainArea.style.display = 'block';
         randomResult();//랜덤 결과 생성
         createBallImg();//캡슐 이미지 생성
     }, 1000);
     setTimeout(function(){
-        mainArea.classList.remove('on');
+        // mainArea.classList.remove('on');
     }, 1500)
     coinImgDisplay();//동전 위치 초기화
     creatQuizList();//팝업 리스트 생성

@@ -5,7 +5,7 @@
 
 * {margin:0; padding:0; box-sizing: border-box;}
 
-html, body{color: #3d3d3d; font-family: 'Noto Sans KR', sans-serif; font-weight: normal; overflow-x: hidden; /* cursor: url(../img/mouse7.png), auto; */}
+html, body{color: #3d3d3d; font-family: 'Noto Sans KR', sans-serif; font-weight: normal; overflow-x: hidden; cursor: url(../img/mouse_cursor.png), auto;}
 
 /* a링크 초기화 */
 

@@ -23,10 +23,17 @@ Gotcha
 - Header.js
     - Start.js에서 부터 고정 노출 (완료 ✔︎)
 - Start.js
-    - 버튼 클릭 시 className="on" 애니메이션 추가, 일정 시간 지난 후 삭제
+    - 버튼 클릭 시 className="on" 애니메이션 추가 (완료 ✔︎)
     - 버튼 클릭 시 일정 시간 후 Main.js 컴포넌트로 랜딩 (완료 ✔︎)
 - Main.js
-    - 컴포넌트 세팅
+    - 컴포넌트 세팅 (진행중...)
 
 2023년 7월 1주차
-- Main.js 함수 세분화
+- Main.js 컴포넌트 세분화
+    - Coin.js 생성 (완료 ✔︎)
+    - Quiz.js 생성 (완료 ✔︎)
+    - Inventory.js 생성 (완료 ✔︎)
+
+2023년 7월 2주차
+- Coin.js 
+    - Drag & Drop
