@@ -1,4 +1,4 @@
-import { Routes, Route, Link, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import './css/common.min.css';
 import './css/intro.min.css';
