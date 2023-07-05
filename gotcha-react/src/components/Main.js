@@ -40,6 +40,16 @@ const Main = () => {
     // 현재 내가 가진 동전 갯수
     const [myCoinCount, setMyCoinCount] = useState(0);
 
+    // 동전 갯수 카운트
+    const [payCoinCount, setPayCoinCount] = useState(1);
+
+    // 현재 내가 넣은 동전 갯수(플레이 전)
+    const payCoinRef = useRef();
+    // let payCoin = document.querySelector(".pay_coin strong");
+
+    // 가격에 맞는 동전 갯수
+    // let priceCoin = parseInt(document.querySelector(".machine_area .price span").textContent) / 500;
+
 //------------------------------------
 
     //초반 페이지 진입 시 업데이트
@@ -58,8 +68,7 @@ const Main = () => {
 
     }, []);
 
-    console.log(myMoney)
-    console.log(myCoinCount)
+    // console.log(myCoinCount)
 
     //값 업데이트
     useEffect(() => {
@@ -124,7 +133,6 @@ const Main = () => {
             }
                 coinRef.current.style.left = currentX + "px";
                 coinRef.current.style.top = currentY + "px";
-        console.log('drag')
         }
     };
 
@@ -154,19 +162,20 @@ const Main = () => {
 
     //(6) 넣은 동전 카운트
     function priceCount(){
-        // if(setMyCoinCount > 0){
-            // payCoinCount++;//지불한 동전 카운트 ++
-            // payCoin.textContent = payCoinCount;//지불한 동전 갯수 텍스트 업데이트
-            // myCoinCount--;//내가 가진 동전 카운트 --
-            // myMoney.textContent = myCoinCount * 500;//내가 가진 동전 텍스트 업데이트
+        // console.log('priceCount 함수실행')
+        if(myCoinCount > 0){
+            setPayCoinCount((setPayCoinCount) => setPayCoinCount + 1)//지불한 동전 카운트 ++
+            payCoinRef.current.textContent = payCoinCount;//지불한 동전 갯수 텍스트 업데이트
+            setMyCoinCount((setMyCoinCount) => setMyCoinCount - 1);//내가 가진 동전 카운트 --
+            myMoneyRef.current.textContent = (myCoinCount-1) * 500;//내가 가진 동전 텍스트 업데이트
 
-            // console.log(setMyCoinCount)
-            // console.log(setMyMoney)
+            console.log('동전 위치 초기화 할 타이밍 ~')
             // coinImgDisplay();//동전 위치 초기화
-        // }
-        // if(priceCoin <= payCoinCount){
+        }
+        if(myCoinCount <= payCoinCount){
         //     capsuleOut();//캡슐 애니메이션 실행
-        // }
+            console.log('애니메이션 실행할 타이밍 ~')
+        }
     }
 
     return (
@@ -189,7 +198,7 @@ const Main = () => {
                             <img className="rs_arr" src={resetArrow} alt=""/>
                         </a>
                         <p className="my_money">My money<br/>
-                            <strong>￦ <span>2000</span></strong>
+                            <strong>￦ <span ref={myMoneyRef}>2000</span></strong>
                         </p> 
                     </div>
 
@@ -201,14 +210,14 @@ const Main = () => {
                         </div>
                         <img className="handle" src={machineHandle} alt="핸들 이미지"/>
                         <strong className="turn">Turn the handle!</strong>
-                        <strong className="price">￦ <span ref={myMoneyRef} >2000</span></strong>
+                        <strong className="price">￦ <span>2000</span></strong>
                         <div className="capsule_exit">
                             {/*<!-- 내가 뽑은 캡슐 img -->*/}
                         </div>
                         <div ref={coinDropAreaRef} className="coin_drop_area"></div>
                     </div>
                     <div className="pay_coin">
-                        내가 넣은 동전 갯수 : <strong>0</strong>
+                        내가 넣은 동전 갯수 : <strong ref={payCoinRef}>0</strong>
                     </div>
 
                 </div>
