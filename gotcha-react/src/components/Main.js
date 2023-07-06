@@ -23,6 +23,10 @@ const Main = () => {
     //coin_drop_area
     const coinDropAreaRef = useRef();
 
+    //price
+    // 가격에 맞는 동전 갯수
+    const priceRef = useRef();
+
     // 랜덤 배열
     let arr = [];
     const [newRandomArr, setNewRandomArr] = useState([]);
@@ -31,6 +35,9 @@ const Main = () => {
     const [playCount, setPlayCount] = useState(0);
 
     // 드래그 이벤트 처리를 위한 변수
+    // 드래그 이벤트 처리를 위한 변수
+    const [initialX, setInitialX] = useState(0);//동전 이미지의 left 초기값
+    const [initialY, setInitialY] = useState(0);//동전 이미지의 top 초기값
     const [currentX, setCurrentX] = useState(0);//현재 동전 이미지의 left 값
     const [currentY, setCurrentY] = useState(0);//현재 동전 이미지의 top 값
 
@@ -40,15 +47,11 @@ const Main = () => {
     // 현재 내가 가진 동전 갯수
     const [myCoinCount, setMyCoinCount] = useState(0);
 
-    // 동전 갯수 카운트
+    // 내가 넣은 동전 갯수 카운트
     const [payCoinCount, setPayCoinCount] = useState(1);
 
     // 현재 내가 넣은 동전 갯수(플레이 전)
     const payCoinRef = useRef();
-    // let payCoin = document.querySelector(".pay_coin strong");
-
-    // 가격에 맞는 동전 갯수
-    // let priceCoin = parseInt(document.querySelector(".machine_area .price span").textContent) / 500;
 
 //------------------------------------
 
@@ -63,12 +66,13 @@ const Main = () => {
         setMyMoney(parseInt(myMoneyRef.current.textContent));//myMoney 값 업데이트
         setMyCoinCount(parseInt(myMoneyRef.current.textContent / 500));
 
-        setCurrentX(parseInt(getComputedStyle(coinRef.current).top))//현재 동전 이미지의 left 값 업데이트
-        setCurrentY(parseInt(getComputedStyle(coinRef.current).left))//현재 동전 이미지의 top 값 업데이트
+        setInitialX(getComputedStyle(coinRef.current).getPropertyValue('left'))
+        setInitialY(getComputedStyle(coinRef.current).getPropertyValue('top'))
+
+        setCurrentX(parseInt(getComputedStyle(coinRef.current).left))//현재 동전 이미지의 left 값 업데이트
+        setCurrentY(parseInt(getComputedStyle(coinRef.current).top))//현재 동전 이미지의 top 값 업데이트
 
     }, []);
-
-    // console.log(myCoinCount)
 
     //값 업데이트
     useEffect(() => {
@@ -163,18 +167,30 @@ const Main = () => {
     //(6) 넣은 동전 카운트
     function priceCount(){
         // console.log('priceCount 함수실행')
-        if(myCoinCount > 0){
+        if(myCoinCount > 0){//내가 가진 동전 카운트 > 0
             setPayCoinCount((setPayCoinCount) => setPayCoinCount + 1)//지불한 동전 카운트 ++
-            payCoinRef.current.textContent = payCoinCount;//지불한 동전 갯수 텍스트 업데이트
+            payCoinRef.current.textContent = payCoinCount;//내가 넣은 동전 갯수 텍스트 업데이트
             setMyCoinCount((setMyCoinCount) => setMyCoinCount - 1);//내가 가진 동전 카운트 --
             myMoneyRef.current.textContent = (myCoinCount-1) * 500;//내가 가진 동전 텍스트 업데이트
 
             console.log('동전 위치 초기화 할 타이밍 ~')
-            // coinImgDisplay();//동전 위치 초기화
+            coinImgDisplay();//동전 위치 초기화
         }
-        if(myCoinCount <= payCoinCount){
-        //     capsuleOut();//캡슐 애니메이션 실행
+        if(priceRef.current.textContent/500 <= payCoinCount){//가격에 맞는 동전 갯수 <= 내가 넣은 동전 갯수 카운트
+            // capsuleOut();//캡슐 애니메이션 실행
             console.log('애니메이션 실행할 타이밍 ~')
+        }
+    }
+
+    //(7) 동전 위치 초기화
+    function coinImgDisplay(){
+        coinRef.current.style.display = 'none';
+        if(myCoinCount > 0){//동전 이미지 생성
+            setTimeout(function(){
+                coinRef.current.style.display = 'block';
+                coinRef.current.style.left = initialX;
+                coinRef.current.style.top = initialY;
+            }, 500)
         }
     }
 
@@ -210,7 +226,7 @@ const Main = () => {
                         </div>
                         <img className="handle" src={machineHandle} alt="핸들 이미지"/>
                         <strong className="turn">Turn the handle!</strong>
-                        <strong className="price">￦ <span>2000</span></strong>
+                        <strong className="price">￦ <span ref={priceRef}>2000</span></strong>
                         <div className="capsule_exit">
                             {/*<!-- 내가 뽑은 캡슐 img -->*/}
                         </div>
