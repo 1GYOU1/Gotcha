@@ -10,48 +10,60 @@ import quizIcon from '../img/quiz_icon.png';//퀴즈 아이콘
 
 const Main = () => {
 
-    //main_area
+    // main_area
     const mainAreaRef = useRef();
 
-    //myMoney
+    // myMoney
     const myMoneyRef = useRef();
-    const [myMoney, setMyMoney] = useState(0);
 
-    //coin
+    // coin
     const coinRef = useRef();
 
-    //coin_drop_area
+    // coin_drop_area
     const coinDropAreaRef = useRef();
 
-    //price
-    // 가격에 맞는 동전 갯수
+    // price
     const priceRef = useRef();
-
-    // 랜덤 배열
-    let arr = [];
-    const [newRandomArr, setNewRandomArr] = useState([]);
-
-    //플레이 카운트
-    const [playCount, setPlayCount] = useState(0);
-
-    // 드래그 이벤트 처리를 위한 변수
-    // 드래그 이벤트 처리를 위한 변수
-    const [initialX, setInitialX] = useState(0);//동전 이미지의 left 초기값
-    const [initialY, setInitialY] = useState(0);//동전 이미지의 top 초기값
-    const [currentX, setCurrentX] = useState(0);//현재 동전 이미지의 left 값
-    const [currentY, setCurrentY] = useState(0);//현재 동전 이미지의 top 값
-
-    //동전 드래그
-    const [dragActive, setDragActive] = useState(false);
-
-    // 현재 내가 가진 동전 갯수
-    const [myCoinCount, setMyCoinCount] = useState(0);
-
-    // 내가 넣은 동전 갯수 카운트
-    const [payCoinCount, setPayCoinCount] = useState(1);
 
     // 현재 내가 넣은 동전 갯수(플레이 전)
     const payCoinRef = useRef();
+
+    // turn
+    const turnRef = useRef();
+    
+    // handle
+    const handleRef = useRef();
+
+    // balls
+    const ballsRef = useRef();
+
+    // ballsExit
+    const ballExitRef = useRef();
+
+    // 소지한 돈
+    let [myMoney, setMyMoney] = useState(0);
+
+    // 랜덤 배열
+    let arr = [];
+    let [newRandomArr, setNewRandomArr] = useState([]);
+
+    // 플레이 카운트
+    let [playCount, setPlayCount] = useState(0);
+
+    // 드래그 이벤트 처리를 위한 변수
+    let [initialX, setInitialX] = useState(0);//동전 이미지의 left 초기값
+    let [initialY, setInitialY] = useState(0);//동전 이미지의 top 초기값
+    let [currentX, setCurrentX] = useState(0);//현재 동전 이미지의 left 값
+    let [currentY, setCurrentY] = useState(0);//현재 동전 이미지의 top 값
+
+    // 동전 드래그
+    let [dragActive, setDragActive] = useState(false);
+
+    // 현재 내가 가진 동전 갯수
+    let [myCoinCount, setMyCoinCount] = useState(0);
+
+    // 내가 넣은 동전 갯수 카운트
+    let [payCoinCount, setPayCoinCount] = useState(1);
 
 //------------------------------------
 
@@ -100,7 +112,8 @@ const Main = () => {
     }
 
     //(3) 캡슐 통 이미지 생성, 변경
-    const createBallImg = () => {
+    function createBallImg (){
+        console.log(playCount)
         // 처음 시작 모든 갯수 이미지 캡슐 노출
         if (playCount === 0) {
             return <img src={process.env.PUBLIC_URL + '/img/ball_box_1.png'} alt="캡슐 1" />;
@@ -109,8 +122,8 @@ const Main = () => {
             return null;
         //여러번 실행했을 경우, 이미지 업데이트
         } else {
-            const imageNumber = playCount + 1;
-            const imagePath = process.env.PUBLIC_URL + `/img/ball_box_${imageNumber}.png`;//상대경로
+            let imageNumber = playCount + 1;
+            let imagePath = process.env.PUBLIC_URL + `/img/ball_box_${imageNumber}.png`;//상대경로
             return <img src={imagePath} alt={`캡슐 ${imageNumber}`} />;
         }
     }; 
@@ -177,7 +190,7 @@ const Main = () => {
             coinImgDisplay();//동전 위치 초기화
         }
         if(priceRef.current.textContent/500 <= payCoinCount){//가격에 맞는 동전 갯수 <= 내가 넣은 동전 갯수 카운트
-            // capsuleOut();//캡슐 애니메이션 실행
+            capsuleOut();//캡슐 애니메이션 실행
             console.log('애니메이션 실행할 타이밍 ~')
         }
     }
@@ -193,6 +206,29 @@ const Main = () => {
             }, 500)
         }
     }
+
+    //(8) 캡슐 뽑기 애니메이션 실행
+    function capsuleOut(){
+        turnRef.current.classList.add('on');
+        console.log('돌려 !')
+        handleRef.current.addEventListener("click", handleAni);//애니메이션 실행
+    }
+    function handleAni(){
+        turnRef.current.classList.remove('on');
+        handleRef.current.classList.add('on');//핸들 애니메이션
+        setTimeout(function(){
+            handleRef.current.classList.remove('on');
+            ballsRef.current.classList.add('on');//캡슐통 애니메이션
+        }, 1700);
+        setTimeout(function(){
+            ballsRef.current.classList.remove('on');
+            playCount++;//플레이 카운트 횟수 ++
+            createBallImg();//캡슐 통 이미지 업데이트
+            // myCapsule();//뽑은 캡슐 이미지 노출
+            ballExitRef.current.classList.add('on');//캡슐 떨어지는 애니메이션
+        }, 2800);
+        handleRef.current.removeEventListener("click", handleAni);//핸들 클릭 이벤트 제거
+    };
 
     return (
         <div>
@@ -220,14 +256,14 @@ const Main = () => {
 
                     <div className="machine_area p_r">
                         <img className="machine" src={machine} alt="뽑기 머신 이미지"/>
-                        <div className="balls">
+                        <div ref={ballsRef} className="balls">
                         {/*<!-- 캡슐 Img -->*/}
                         {createBallImg()}
                         </div>
-                        <img className="handle" src={machineHandle} alt="핸들 이미지"/>
-                        <strong className="turn">Turn the handle!</strong>
+                        <img ref={handleRef} className="handle" src={machineHandle} alt="핸들 이미지"/>
+                        <strong ref={turnRef} className="turn">Turn the handle!</strong>
                         <strong className="price">￦ <span ref={priceRef}>2000</span></strong>
-                        <div className="capsule_exit">
+                        <div ref={ballExitRef} className="capsule_exit">
                             {/*<!-- 내가 뽑은 캡슐 img -->*/}
                         </div>
                         <div ref={coinDropAreaRef} className="coin_drop_area"></div>
