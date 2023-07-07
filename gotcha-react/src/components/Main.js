@@ -40,6 +40,9 @@ const Main = () => {
     // ballsExit
     const ballExitRef = useRef();
 
+    //outBallDim
+    const outBallDimRef = useRef();
+
     // 소지한 돈
     let [myMoney, setMyMoney] = useState(0);
 
@@ -90,6 +93,7 @@ const Main = () => {
     useEffect(() => {
 
         createBallImg();//캡슐 이미지 생성
+        console.log('이미지 업데이트 중?')
         
     }, [playCount]);
 
@@ -222,13 +226,30 @@ const Main = () => {
         }, 1700);
         setTimeout(function(){
             ballsRef.current.classList.remove('on');
-            playCount++;//플레이 카운트 횟수 ++
+            setPlayCount(playCount + 1)//플레이 카운트 횟수 ++
             createBallImg();//캡슐 통 이미지 업데이트
-            // myCapsule();//뽑은 캡슐 이미지 노출
+            myCapsule();//뽑은 캡슐 이미지 노출
             ballExitRef.current.classList.add('on');//캡슐 떨어지는 애니메이션
         }, 2800);
         handleRef.current.removeEventListener("click", handleAni);//핸들 클릭 이벤트 제거
     };
+
+    //(9) 뽑은 캡슐 이미지 노출
+    function myCapsule() {
+        return (
+          <img
+            className="my_ball"
+            src={`./img/ball_${playCount}.png`}
+            alt="뽑은 캡슐"
+            onClick={() => outBallDimEvent()}
+          />
+        );
+      }
+
+    //(10) 뽑은 캡슐 딤처리, 오픈, 이어서 하기 버튼
+    function outBallDimEvent(){
+        //ing ~~
+    }
 
     return (
         <div>
@@ -265,6 +286,7 @@ const Main = () => {
                         <strong className="price">￦ <span ref={priceRef}>2000</span></strong>
                         <div ref={ballExitRef} className="capsule_exit">
                             {/*<!-- 내가 뽑은 캡슐 img -->*/}
+                            {myCapsule()}
                         </div>
                         <div ref={coinDropAreaRef} className="coin_drop_area"></div>
                     </div>
@@ -276,7 +298,7 @@ const Main = () => {
 
                 <img ref={coinRef} className="coin" src={coinImg} alt="동전 이미지"/>
                 
-                <div className="capsule_open">
+                <div ref={outBallDimRef} className="capsule_open">
                     {/*<!-- 방금 뽑은 캡슐 img -->*/}
                 </div>
                 
