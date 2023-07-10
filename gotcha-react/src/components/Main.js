@@ -66,7 +66,13 @@ const Main = () => {
     let [myCoinCount, setMyCoinCount] = useState(0);
 
     // 내가 넣은 동전 갯수 카운트
-    let [payCoinCount, setPayCoinCount] = useState(1);
+    let [payCoinCount, setPayCoinCount] = useState(0);
+
+    // 인벤토리 아이템 카운트
+    let [inventoryCount, setInventoryCount] = useState(0);
+
+    // 출구 캡슐 이미지
+    let [exitCapsuleImg, setExitCapsuleImg] = useState(false);
 
 //------------------------------------
 
@@ -89,13 +95,17 @@ const Main = () => {
 
     }, []);
 
-    //값 업데이트
+    //캡슐 이미지 업데이트
     useEffect(() => {
-
         createBallImg();//캡슐 이미지 생성
-        console.log('이미지 업데이트 중?')
-        
+        console.log('뽑기 플레이 횟수 = ', playCount)
     }, [playCount]);
+
+    // 동전 이미지 업데이트
+    useEffect(() => {
+        coinImgDisplay();
+        console.log('내가 가진 동전 개수 = ', myCoinCount)
+    }, [myCoinCount]);
 
 //------------------------------------
 
@@ -117,7 +127,7 @@ const Main = () => {
 
     //(3) 캡슐 통 이미지 생성, 변경
     function createBallImg (){
-        console.log(playCount)
+        // console.log(playCount)
         // 처음 시작 모든 갯수 이미지 캡슐 노출
         if (playCount === 0) {
             return <img src={process.env.PUBLIC_URL + '/img/ball_box_1.png'} alt="캡슐 1" />;
@@ -137,7 +147,7 @@ const Main = () => {
         // 드래그 시작 처리
         if (e.target === coinRef.current) {
             setDragActive(true);
-            console.log('Drag Start !')
+            // console.log('Drag Start !')
         }
     };
 
@@ -161,7 +171,7 @@ const Main = () => {
         // 드래그 종료 처리
         setDragActive(false);
         checkElementEnter();
-        console.log('drag end')
+        // console.log('drag end')
     };
 
 
@@ -176,24 +186,29 @@ const Main = () => {
             coinRect.bottom <= targetRect.bottom
         ) {
             // 진입했을 때 처리할 함수 호출
-            console.log('동전 넣는 영역 진입 !')
+            // console.log('동전 넣는 영역 진입 !')
             priceCount();
         }
     }
 
     //(6) 넣은 동전 카운트
     function priceCount(){
-        // console.log('priceCount 함수실행')
         if(myCoinCount > 0){//내가 가진 동전 카운트 > 0
-            setPayCoinCount((setPayCoinCount) => setPayCoinCount + 1)//지불한 동전 카운트 ++
-            payCoinRef.current.textContent = payCoinCount;//내가 넣은 동전 갯수 텍스트 업데이트
-            setMyCoinCount((setMyCoinCount) => setMyCoinCount - 1);//내가 가진 동전 카운트 --
-            myMoneyRef.current.textContent = (myCoinCount-1) * 500;//내가 가진 동전 텍스트 업데이트
+            setPayCoinCount((e) => {//지불한 동전 카운트 ++
+                payCoinRef.current.textContent = e + 1;//내가 넣은 동전 갯수 텍스트 업데이트
+                // console.log(payCoinCount)
+                return e + 1
+            })
 
-            console.log('동전 위치 초기화 할 타이밍 ~')
-            coinImgDisplay();//동전 위치 초기화
+            setMyCoinCount((e) => {//내가 가진 동전 카운트 --
+                myMoneyRef.current.textContent = (e - 1) * 500;//내가 가진 동전 텍스트 업데이트
+                return e - 1
+            });
+
+            // console.log('동전 위치 초기화 할 타이밍 ~')
+            // coinImgDisplay();//동전 위치 초기화
         }
-        if(priceRef.current.textContent/500 <= payCoinCount){//가격에 맞는 동전 갯수 <= 내가 넣은 동전 갯수 카운트
+        if(priceRef.current.textContent/500 <= payCoinCount + 1){//가격에 맞는 동전 갯수 <= 내가 넣은 동전 갯수 카운트
             capsuleOut();//캡슐 애니메이션 실행
             console.log('애니메이션 실행할 타이밍 ~')
         }
@@ -209,6 +224,7 @@ const Main = () => {
                 coinRef.current.style.top = initialY;
             }, 500)
         }
+        // console.log('동전 개수 =', myCoinCount)
     }
 
     //(8) 캡슐 뽑기 애니메이션 실행
@@ -228,27 +244,92 @@ const Main = () => {
             ballsRef.current.classList.remove('on');
             setPlayCount(playCount + 1)//플레이 카운트 횟수 ++
             createBallImg();//캡슐 통 이미지 업데이트
-            myCapsule();//뽑은 캡슐 이미지 노출
+
+            setExitCapsuleImg(true);
+            myCapsuleImgOpen();//exit 캡슐 이미지 노출
+
             ballExitRef.current.classList.add('on');//캡슐 떨어지는 애니메이션
         }, 2800);
         handleRef.current.removeEventListener("click", handleAni);//핸들 클릭 이벤트 제거
     };
 
-    //(9) 뽑은 캡슐 이미지 노출
-    function myCapsule() {
-        return (
-          <img
-            className="my_ball"
-            src={`./img/ball_${playCount}.png`}
-            alt="뽑은 캡슐"
-            onClick={() => outBallDimEvent()}
-          />
-        );
-      }
+    //(9) 출구에 뽑은 캡슐 이미지 노출
+    function myCapsuleImgOpen() {
+        if(exitCapsuleImg){
+            return (
+                <img
+                className="my_ball"
+                src={`./img/ball_${playCount}.png`}
+                alt="뽑은 캡슐"
+                onClick={() => outBallDimEvent()}
+                />
+            );
+        }else{
+            return null;
+        }
+    }
 
-    //(10) 뽑은 캡슐 딤처리, 오픈, 이어서 하기 버튼
+    //(10) 뽑은 캡슐 딤처리
     function outBallDimEvent(){
+        outBallDimRef.current.classList.add('on');
+
         //ing ~~
+    }
+
+    //(11) 딤처리에 뽑은 캡슐 이미지 노출
+    function outBallDimCapsuleImg() {
+        if(exitCapsuleImg){
+            return (
+                <img
+                className="my_ball"
+                src={`./img/ball_${playCount}.png`}
+                alt="뽑은 캡슐"
+                onClick={() => outBallDimOpenImg()}
+                />
+            );
+        }else{
+            return null;
+        }
+    }
+
+    //(12) 뽑은 캡슐 오픈 이미지
+    function outBallDimOpenImg() {
+        return (
+            <img
+            className="open_ball"
+            src={`./img/open_img_${newRandomArr[playCount - 1]}.png`}
+            alt="뽑은 캡슐 오픈"
+            />
+        );
+    }
+
+    // 캡슐 오픈 후 값 업데이트, 딤처리 해제, 뽑기 캡슐 이미지 제거
+    function outBallUpdate(){
+        setInventoryCount((e) => {//인벤토리 카운트 횟수 ++
+            return e + 1;
+        });
+        setPayCoinCount((e) => {//지불한 동전만큼 카운트 마이너스
+            return e -= (priceRef.current.textContent / 500);
+        })
+
+        payCoinRef.current.textContent = (payCoinRef.current.textContent - (priceRef.current.textContent / 500))//지불한 동전만큼 카운트 마이너스 텍스트 업데이트
+
+        outBallDimRef.current.classList.remove('on');//딤처리 해제
+
+        setExitCapsuleImg(false);
+        myCapsuleImgOpen();//exit 캡슐 이미지 제거
+    }
+
+    //(13) 오픈 후 이어서하기 버튼 생성
+    function keepGoingbtn() {
+        return (
+            <img
+            className="keep_going_btn"
+            src={`./img/return.png`}
+            alt="이어서 계속 버튼"
+            onClick={() => outBallUpdate()}
+            />
+        );
     }
 
     return (
@@ -286,7 +367,7 @@ const Main = () => {
                         <strong className="price">￦ <span ref={priceRef}>2000</span></strong>
                         <div ref={ballExitRef} className="capsule_exit">
                             {/*<!-- 내가 뽑은 캡슐 img -->*/}
-                            {myCapsule()}
+                            {myCapsuleImgOpen()}
                         </div>
                         <div ref={coinDropAreaRef} className="coin_drop_area"></div>
                     </div>
@@ -300,6 +381,8 @@ const Main = () => {
                 
                 <div ref={outBallDimRef} className="capsule_open">
                     {/*<!-- 방금 뽑은 캡슐 img -->*/}
+                    {outBallDimCapsuleImg()}
+                    {keepGoingbtn()}
                 </div>
                 
                 <a className="my_bag" href="#;">
