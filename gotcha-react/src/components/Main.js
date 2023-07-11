@@ -303,7 +303,19 @@ const Main = () => {
         );
     }
 
-    // 캡슐 오픈 후 값 업데이트, 딤처리 해제, 뽑기 캡슐 이미지 제거
+    //(13) 오픈 후 이어서하기 버튼 생성
+    function keepGoingbtn() {
+        return (
+            <img
+            className="keep_going_btn"
+            src={`./img/return.png`}
+            alt="이어서 계속 버튼"
+            onClick={() => outBallUpdate()}
+            />
+        );
+    }
+
+    // (14) 캡슐 오픈 후 값 업데이트, 딤처리 해제, 뽑기 캡슐 이미지 제거
     function outBallUpdate(){
         setInventoryCount((e) => {//인벤토리 카운트 횟수 ++
             return e + 1;
@@ -318,18 +330,6 @@ const Main = () => {
 
         setExitCapsuleImg(false);
         myCapsuleImgOpen();//exit 캡슐 이미지 제거
-    }
-
-    //(13) 오픈 후 이어서하기 버튼 생성
-    function keepGoingbtn() {
-        return (
-            <img
-            className="keep_going_btn"
-            src={`./img/return.png`}
-            alt="이어서 계속 버튼"
-            onClick={() => outBallUpdate()}
-            />
-        );
     }
 
     return (
