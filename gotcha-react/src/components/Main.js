@@ -43,6 +43,9 @@ const Main = () => {
     //outBallDim
     const outBallDimRef = useRef();
 
+    //inventory_open
+    const inventoryOpenRef = useRef();
+
     // 소지한 돈
     let [myMoney, setMyMoney] = useState(0);
 
@@ -74,6 +77,9 @@ const Main = () => {
     // 출구 캡슐 이미지
     let [exitCapsuleImg, setExitCapsuleImg] = useState(false);
 
+    // 캡슐 오픈 결과 이미지
+    let [capsuleOpenImg, setCapsuleOpenImg] = useState(false);
+
 //------------------------------------
 
     //초반 페이지 진입 시 업데이트
@@ -89,9 +95,11 @@ const Main = () => {
 
         setInitialX(getComputedStyle(coinRef.current).getPropertyValue('left'))
         setInitialY(getComputedStyle(coinRef.current).getPropertyValue('top'))
+        
+        // console.log('currentX = ',currentX)
 
-        setCurrentX(parseInt(getComputedStyle(coinRef.current).left))//현재 동전 이미지의 left 값 업데이트
-        setCurrentY(parseInt(getComputedStyle(coinRef.current).top))//현재 동전 이미지의 top 값 업데이트
+        // setCurrentX(parseInt(getComputedStyle(coinRef.current).left))//현재 동전 이미지의 left 값 업데이트
+        // setCurrentY(parseInt(getComputedStyle(coinRef.current).top))//현재 동전 이미지의 top 값 업데이트
 
     }, []);
 
@@ -204,9 +212,6 @@ const Main = () => {
                 myMoneyRef.current.textContent = (e - 1) * 500;//내가 가진 동전 텍스트 업데이트
                 return e - 1
             });
-
-            // console.log('동전 위치 초기화 할 타이밍 ~')
-            // coinImgDisplay();//동전 위치 초기화
         }
         if(priceRef.current.textContent/500 <= payCoinCount + 1){//가격에 맞는 동전 갯수 <= 내가 넣은 동전 갯수 카운트
             capsuleOut();//캡슐 애니메이션 실행
@@ -219,9 +224,9 @@ const Main = () => {
         coinRef.current.style.display = 'none';
         if(myCoinCount > 0){//동전 이미지 생성
             setTimeout(function(){
-                coinRef.current.style.display = 'block';
                 coinRef.current.style.left = initialX;
                 coinRef.current.style.top = initialY;
+                coinRef.current.style.display = 'block';
             }, 500)
         }
         // console.log('동전 개수 =', myCoinCount)
@@ -272,38 +277,31 @@ const Main = () => {
     //(10) 뽑은 캡슐 딤처리
     function outBallDimEvent(){
         outBallDimRef.current.classList.add('on');
-
-        //ing ~~
     }
 
-    //(11) 딤처리에 뽑은 캡슐 이미지 노출
+    //(11) 딤처리에 뽑은 캡슐 이미지 노출, 캡슐 오픈 결과 이미지로 변경
     function outBallDimCapsuleImg() {
-        if(exitCapsuleImg){
-            return (
+        if(capsuleOpenImg){
+            return (//결과 이미지
+                <img
+                className="open_ball"
+                src={`./img/open_img_${newRandomArr[playCount - 1]}.png`}
+                alt="뽑은 캡슐 오픈"
+                />
+            );
+        }else{
+            return (//캡슐 이미지
                 <img
                 className="my_ball"
                 src={`./img/ball_${playCount}.png`}
                 alt="뽑은 캡슐"
-                onClick={() => outBallDimOpenImg()}
+                onClick={() => setCapsuleOpenImg(true)}
                 />
             );
-        }else{
-            return null;
         }
     }
 
-    //(12) 뽑은 캡슐 오픈 이미지
-    function outBallDimOpenImg() {
-        return (
-            <img
-            className="open_ball"
-            src={`./img/open_img_${newRandomArr[playCount - 1]}.png`}
-            alt="뽑은 캡슐 오픈"
-            />
-        );
-    }
-
-    //(13) 오픈 후 이어서하기 버튼 생성
+    //(12) 오픈 후 이어서하기 버튼 생성
     function keepGoingbtn() {
         return (
             <img
@@ -315,7 +313,7 @@ const Main = () => {
         );
     }
 
-    // (14) 캡슐 오픈 후 값 업데이트, 딤처리 해제, 뽑기 캡슐 이미지 제거
+    //(13) 캡슐 오픈 후 값 업데이트, 딤처리 해제, 뽑기 캡슐 이미지 제거
     function outBallUpdate(){
         setInventoryCount((e) => {//인벤토리 카운트 횟수 ++
             return e + 1;
@@ -330,8 +328,27 @@ const Main = () => {
 
         setExitCapsuleImg(false);
         myCapsuleImgOpen();//exit 캡슐 이미지 제거
+
+        setCapsuleOpenImg(false);//뽑은 캡슐 오픈 이미지 false로 변경
+    }
+    
+    //(14) 인벤토리 팝업 오픈, 딤처리
+    function inventoryOpen(){
+        inventoryOpenRef.current.classList.add('on');
     }
 
+    //(15) 인벤토리 팝업 리스트 생성
+    function inventoryList(){
+        const inventoryListMakeLi = newRandomArr.map((e, idx) => {
+            <li key={idx}>dd</li>
+        })
+        return (
+            <ul>{inventoryListMakeLi}</ul>
+        );
+    }
+
+    
+    
     return (
         <div>
              <div 
@@ -385,20 +402,19 @@ const Main = () => {
                     {keepGoingbtn()}
                 </div>
                 
-                <a className="my_bag" href="#;">
+                <a className="my_bag" href="#;" onClick={inventoryOpen}>
                     <img src="./img/my_bag.png" alt="인벤토리 아이콘"/>
                 </a>
                 
-                <div className="inventory_open">
+                <div ref={inventoryOpenRef} className="inventory_open">
                     {/*<!-- 뽑았던 캡슐 img -->*/}
                     <div className="layer p_r">
                         <h2>my collection</h2>
                         <a className="close" href="#;">
                             <img src={closeIcon} alt=""/>
                         </a>
-                        <ul>
-                            {/*<!-- 내 아이템 img -->*/}
-                        </ul>
+                        {/*<!-- 내 아이템 img -->*/}
+                        {inventoryList()}
                         <div className="detail">
                             {/*<!-- 내 아이템 자세히 보기 img -->*/}
                         </div>   
