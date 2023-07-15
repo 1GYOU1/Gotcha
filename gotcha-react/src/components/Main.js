@@ -48,6 +48,9 @@ const Main = () => {
     //inventory_open
     const inventoryOpenRef = useRef();
 
+    //quizListRef
+    const quizListRef = useRef();
+
     // 소지한 돈
     let [myMoney, setMyMoney] = useState(0);
 
@@ -81,6 +84,100 @@ const Main = () => {
 
     // 캡슐 오픈 결과 이미지
     let [capsuleOpenImg, setCapsuleOpenImg] = useState(false);
+
+    //퀴즈 리스트
+    let quizTypeA = [
+    {
+        question : '쿠로미가 속한 애니메이션 제목은?',
+        answer : ['쿠로미','시나모롤','마이멜로디','헬로키티'],
+        getCoin : 500,
+        correctAnswer : 2
+    },
+    {
+        question : '산리오 캐릭터가 아닌 것은 ?',
+        answer : ['흰둥이','헬로키티','시나모롤','마이멜로디'],
+        getCoin : 500,
+        correctAnswer : 0
+    },
+    {
+        question : '마이멜로디의 리본 컬러는 ?',
+        answer : ['핑크','하늘색','하얀색','노란색'],
+        getCoin : 1000,
+        correctAnswer : 0
+    },
+    {
+        question : '쿠로미의 꼬리 색은 ?',
+        answer : ['블랙','핑크','회색','보라색'],
+        getCoin : 1000,
+        correctAnswer : 0
+    },
+    {
+        question : '마이멜로디가 운동하는 방법은 ?',
+        answer : ['귀 굽혀펴기','귀 철봉','귀 아령','귀 물구나무서기'],
+        getCoin : 1000,
+        correctAnswer : 0
+    },
+    {
+        question : '마이멜로디의 보물은 ?',
+        answer : ['리본','꽃','앞치마','두건'],
+        getCoin : 1500,
+        correctAnswer : 3
+    },
+    {
+        question : '헬로키티의 최애 음식은 ?',
+        answer : ['푸딩','애플 파이','시나몬 컵케익','아몬드파운드 케이크'],
+        getCoin : 1500,
+        correctAnswer : 1
+    },
+    {
+        question : '쿠로미가 흑화한 이유는 ?',
+        answer : ['사춘기라서','검은색이 최애라서','마이멜로디랑 비교를 당해서','마이멜로디가 생일을 까먹어서'],
+        getCoin : 2000,
+        correctAnswer : 2
+    },
+    {
+        question : '쿠로미가 최근에 빠진 소설 종류는 ?',
+        answer : ['추리','연애','판타지','스릴러'],
+        getCoin : 2000,
+        correctAnswer : 1
+    },
+    {
+        question : '헬로키티 친구인 로티의 성격은 ?',
+        answer : ['다혈질','건방짐','느긋함','온화함'],
+        getCoin : 2000,
+        correctAnswer : 2
+    },
+    {
+        question : '마이멜로디의 친구가 아닌 캐릭터는 ?',
+        answer : ['캥거루','기린','나비','마이스윗피아노'],
+        getCoin : 2500,
+        correctAnswer : 1
+    },
+    {
+        question : '마이멜로디의 남동생 이름은?',
+        answer : ['플랫','음표','크레센도','리듬'],
+        getCoin : 2500,
+        correctAnswer : 3
+    },
+    {
+        question : '시나모롤의 친구가 아닌 캐릭터는 ?',
+        answer : ['카푸치노','모카','에스프레소','라떼'],
+        getCoin : 3000,
+        correctAnswer : 3
+    },
+    {
+        question : '헬로키티의 형제 이름은 ?',
+        answer : ['나나','미미','키키','피피'],
+        getCoin : 3500,
+        correctAnswer : 1
+    },
+    {
+        question : '쿠로미즈 파이브가 아닌 캐릭터는 ?',
+        answer : ['팡미','왕미','콘미','츄미'],
+        getCoin : 3500,
+        correctAnswer : 0
+    }
+]
 
 //------------------------------------
 
@@ -360,6 +457,26 @@ const Main = () => {
         inventoryOpenRef.current.classList.remove('on');
     }
 
+    //(17) 퀴즈 리스트 팝업 오픈, 딤처리
+    function quizListPopOpen(){
+        quizListRef.current.classList.add('on');
+    }
+
+    //(18) 퀴즈 리스트 생성
+    function quizList(){
+        const quizListMakeLi = quizTypeA.map((e, idx) => {
+            return (
+                <li key={idx}>
+                    <strong></strong>
+                    <span><i></i></span>
+                </li>
+                )
+            })
+            return (
+                <ul>{quizListMakeLi}</ul>
+            );
+    }
+
     
     
     return (
@@ -389,14 +506,14 @@ const Main = () => {
                     <div className="machine_area p_r">
                         <img className="machine" src={machine} alt="뽑기 머신 이미지"/>
                         <div ref={ballsRef} className="balls">
-                        {/*<!-- 캡슐 Img -->*/}
+                        {/* 캡슐 Img */}
                         {createBallImg()}
                         </div>
                         <img ref={handleRef} className="handle" src={machineHandle} alt="핸들 이미지"/>
                         <strong ref={turnRef} className="turn">Turn the handle!</strong>
                         <strong className="price">￦ <span ref={priceRef}>2000</span></strong>
                         <div ref={ballExitRef} className="capsule_exit">
-                            {/*<!-- 내가 뽑은 캡슐 img -->*/}
+                            {/* 내가 뽑은 캡슐 img */}
                             {myCapsuleImgOpen()}
                         </div>
                         <div ref={coinDropAreaRef} className="coin_drop_area"></div>
@@ -410,7 +527,7 @@ const Main = () => {
                 <img ref={coinRef} className="coin" src={coinImg} alt="동전 이미지"/>
                 
                 <div ref={outBallDimRef} className="capsule_open">
-                    {/*<!-- 방금 뽑은 캡슐 img -->*/}
+                    {/* 방금 뽑은 캡슐 img */}
                     {outBallDimCapsuleImg()}
                     {keepGoingbtn()}
                 </div>
@@ -420,31 +537,32 @@ const Main = () => {
                 </a>
                 
                 <div ref={inventoryOpenRef} className="inventory_open">
-                    {/*<!-- 뽑았던 캡슐 img -->*/}
+                    {/* 뽑았던 캡슐 img */}
                     <div className="layer p_r">
                         <h2>my collection</h2>
                         <a className="close" href="#;" onClick={inventoryClose}>
                             <img src={closeIcon} alt=""/>
                         </a>
-                        {/*<!-- 내 아이템 img -->*/}
+                        {/* 내 아이템 img */}
                         {inventoryList()}
                         <div className="detail">
-                            {/*<!-- 내 아이템 자세히 보기 img -->*/}
+                            {/* 내 아이템 자세히 보기 img */}
                         </div>   
                     </div>
                 </div>
 
-                <a className="quiz" href="#;">
+                <a className="quiz" href="#;" onClick={quizListPopOpen}>
                     <img src={quizIcon} alt="퀴즈 아이콘"/>
                 </a>
                 
-                <div className="quiz_list">
+                <div ref={quizListRef} className="quiz_list">
                     <div className="layer p_r">
                         <h2>Quiz List</h2>
                         <a className="close" href="#;">
                             <img src={closeIcon} alt=""/>
                         </a>
-                        <ul></ul>
+                        {/* 퀴즈 리스트 */}
+                        {quizList()}
                     </div>
                 </div>
                 
