@@ -51,6 +51,9 @@ const Main = () => {
     //quizListRef
     const quizListRef = useRef();
 
+    //selectPopRef
+    const selectPopRef = useRef();
+
     // 소지한 돈
     let [myMoney, setMyMoney] = useState(0);
 
@@ -84,6 +87,9 @@ const Main = () => {
 
     // 캡슐 오픈 결과 이미지
     let [capsuleOpenImg, setCapsuleOpenImg] = useState(false);
+
+    // 퀴즈 리스트 idx 클릭
+    let [quizListClick, setQuizListClick] = useState(null);
 
     //퀴즈 리스트
     let quizTypeA = [
@@ -213,6 +219,10 @@ const Main = () => {
         coinImgDisplay();
         console.log('내가 가진 동전 개수 = ', myCoinCount)
     }, [myCoinCount]);
+
+    // useEffect(() => {
+    //     console.log('내가 클릭한 문제 index =',quizListClick)
+    // }, [quizListClick])
 
 //------------------------------------
 
@@ -459,26 +469,71 @@ const Main = () => {
 
     //(17) 퀴즈 리스트 팝업 오픈, 딤처리
     function quizListPopOpen(){
-        quizListRef.current.classList.add('on');
+        if (quizListRef.current) {
+            quizListRef.current.classList.add('on');
+        }
     }
 
     //(18) 퀴즈 리스트 생성
     function quizList(){
         const quizListMakeLi = quizTypeA.map((e, idx) => {
-            return (
-                <li key={idx}>
-                    <strong></strong>
-                    <span><i></i></span>
-                </li>
-                )
-            })
-            return (
-                <ul>{quizListMakeLi}</ul>
-            );
+        // console.log(e)
+        return (
+            <li key={idx} onClick={() => selectPopOpen(idx)}>
+                <strong>Quiz.{idx+1}</strong>
+                <span><i></i>+{quizTypeA[idx].getCoin}</span>
+            </li>
+            )
+        })
+        return (
+            <ul>{quizListMakeLi}</ul>
+        );
+    }
+    
+    //(19) 퀴즈 리스트 팝업 팝업 닫기, 딤처리 해제
+    function quizListPopClose(){
+        quizListRef.current.classList.remove('on');
     }
 
-    
-    
+    //(20) 문제 풀이 팝업 오픈
+    function selectPopOpen(idx){
+        if (selectPopRef.current) {
+            selectPopRef.current.classList.add('on');
+            selectPop(idx);
+            // console.log(idx)
+        }
+    }
+
+    //(21) 문제 풀이 팝업 제목, 문제, 정답 리스트 생성
+    function selectPop(event){
+        console.log(event)
+        const selectPopMake = quizTypeA.map((e, idx) => {
+            
+        return (
+            <>
+                <h2>Quiz.{idx+1}</h2>
+                <p>{quizTypeA[idx].question}</p>
+                {/* <ul>
+                    <li><span></span></li>
+                    <li><span></span></li>
+                    <li><span></span></li>
+                    <li><span></span></li>
+                </ul> */}
+            </>
+            )
+        })
+        return (
+            <>
+                {selectPopMake}
+            </>
+        );
+    }
+
+    //(22) 문제 풀이 팝업 오픈
+    function selectPopClose(){
+        selectPopRef.current.classList.remove('on');
+    }
+
     return (
         <div>
              <div 
@@ -558,7 +613,7 @@ const Main = () => {
                 <div ref={quizListRef} className="quiz_list">
                     <div className="layer p_r">
                         <h2>Quiz List</h2>
-                        <a className="close" href="#;">
+                        <a className="close" href="#;" onClick={quizListPopClose}>
                             <img src={closeIcon} alt=""/>
                         </a>
                         {/* 퀴즈 리스트 */}
@@ -566,19 +621,12 @@ const Main = () => {
                     </div>
                 </div>
                 
-                <div className="quiz_pop">
+                <div ref={selectPopRef} className="quiz_pop">
                     <div className="layer p_r">
-                        <h2></h2>
-                        <a className="close" href="#;">
+                        <a className="close" href="#;" onClick={selectPopClose}>
                             <img src={closeIcon} alt=""/>
                         </a>
-                        <p></p>
-                        <ul>
-                            <li><span></span></li>
-                            <li><span></span></li>
-                            <li><span></span></li>
-                            <li><span></span></li>
-                        </ul>
+                        {selectPop()}
                     </div>
                 </div>
                 
