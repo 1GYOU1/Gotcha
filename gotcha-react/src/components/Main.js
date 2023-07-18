@@ -513,12 +513,12 @@ const Main = () => {
             <>
                 <h2>Quiz.{idx+1}</h2>
                 <p>{quizTypeA[idx].question}</p>
-                {/* <ul>
-                    <li><span></span></li>
-                    <li><span></span></li>
-                    <li><span></span></li>
-                    <li><span></span></li>
-                </ul> */}
+                <ul>
+                    <li><span>{quizTypeA[idx].answer[0]}</span></li>
+                    <li><span>{quizTypeA[idx].answer[1]}</span></li>
+                    <li><span>{quizTypeA[idx].answer[2]}</span></li>
+                    <li><span>{quizTypeA[idx].answer[3]}</span></li>
+                </ul>
             </>
             )
         })
