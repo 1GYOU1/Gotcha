@@ -64,6 +64,9 @@ const Main = () => {
     // 플레이 카운트
     let [playCount, setPlayCount] = useState(0);
 
+    //QuizIndex
+    let [quizIndex, setQuizIndex] = useState(null);
+
     // 드래그 이벤트 처리를 위한 변수
     let [initialX, setInitialX] = useState(0);//동전 이미지의 left 초기값
     let [initialY, setInitialY] = useState(0);//동전 이미지의 top 초기값
@@ -220,9 +223,10 @@ const Main = () => {
         console.log('내가 가진 동전 개수 = ', myCoinCount)
     }, [myCoinCount]);
 
-    // useEffect(() => {
-    //     console.log('내가 클릭한 문제 index =',quizListClick)
-    // }, [quizListClick])
+    useEffect(() => {
+        console.log('내가 클릭한 문제 index =',quizIndex)
+        selectPop();
+    }, [quizIndex])
 
 //------------------------------------
 
@@ -498,38 +502,46 @@ const Main = () => {
     //(20) 문제 풀이 팝업 오픈
     function selectPopOpen(idx){
         if (selectPopRef.current) {
+            setQuizIndex(idx);//선택한 퀴즈 index 값 업데이트
             selectPopRef.current.classList.add('on');
-            selectPop(idx);
-            // console.log(idx)
+            selectPop();
         }
     }
 
     //(21) 문제 풀이 팝업 제목, 문제, 정답 리스트 생성
-    function selectPop(event){
-        console.log(event)
-        const selectPopMake = quizTypeA.map((e, idx) => {
-            
-        return (
+    function selectPop() {
+        // console.log('quizIndex= ',quizIndex)
+        if (quizTypeA[quizIndex]) { // 해당 인덱스의 항목이 존재하는지 확인
+            return (
             <>
-                <h2>Quiz.{idx+1}</h2>
-                <p>{quizTypeA[idx].question}</p>
+                <h2>Quiz.{quizIndex+1}</h2>
+                <p>{quizTypeA[quizIndex].question}</p>
                 <ul>
-                    <li><span>{quizTypeA[idx].answer[0]}</span></li>
-                    <li><span>{quizTypeA[idx].answer[1]}</span></li>
-                    <li><span>{quizTypeA[idx].answer[2]}</span></li>
-                    <li><span>{quizTypeA[idx].answer[3]}</span></li>
+                    <li onClick={() => answerCheck(0)}><span>{quizTypeA[quizIndex].answer[0]}</span></li>
+                    <li onClick={() => answerCheck(1)}><span>{quizTypeA[quizIndex].answer[1]}</span></li>
+                    <li onClick={() => answerCheck(2)}><span>{quizTypeA[quizIndex].answer[2]}</span></li>
+                    <li onClick={() => answerCheck(3)}><span>{quizTypeA[quizIndex].answer[3]}</span></li>
                 </ul>
             </>
-            )
-        })
-        return (
-            <>
-                {selectPopMake}
-            </>
-        );
+            );
+        } else {
+            return null; // 해당 인덱스의 항목이 없을 경우 null 반환
+        }
     }
 
-    //(22) 문제 풀이 팝업 오픈
+    //(22) 문제 풀이 정답 체크
+    function answerCheck(check){
+        console.log('check=',check)
+        if(quizTypeA[quizIndex].correctAnswer === check){
+            console.log('정답')
+        }else{
+            console.log('떙 !')
+            selectPopClose();//문제 풀이 팝업 닫기, 딤처리 제거
+            // console.log(quizListRef)
+        }
+    }
+
+    //(23) 문제 풀이 팝업 닫기, 딤처리 제거
     function selectPopClose(){
         selectPopRef.current.classList.remove('on');
     }
