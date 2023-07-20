@@ -91,8 +91,8 @@ const Main = () => {
     // 캡슐 오픈 결과 이미지
     let [capsuleOpenImg, setCapsuleOpenImg] = useState(false);
 
-    // 퀴즈 리스트 idx 클릭
-    let [quizListClick, setQuizListClick] = useState(null);
+    // 퀴즈 리스트 문제 풀고 off index
+    let [quizOff, setQuizOff] = useState([false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]);
 
     //퀴즈 리스트
     let quizTypeA = [
@@ -221,12 +221,13 @@ const Main = () => {
     useEffect(() => {
         coinImgDisplay();
         console.log('내가 가진 동전 개수 = ', myCoinCount)
-    }, [myCoinCount]);
+        console.log('내가 넣은 동전 개수 = ', payCoinCount)
+    }, [myCoinCount, payCoinCount]);
 
-    useEffect(() => {
-        console.log('내가 클릭한 문제 index =',quizIndex)
-        selectPop();
-    }, [quizIndex])
+    // useEffect(() => {
+    //     console.log('내가 클릭한 문제 index =',quizIndex)
+    //     selectPop();
+    // }, [quizIndex])
 
 //------------------------------------
 
@@ -335,7 +336,8 @@ const Main = () => {
     //(7) 동전 위치 초기화
     function coinImgDisplay(){
         coinRef.current.style.display = 'none';
-        if(myCoinCount > 0){//동전 이미지 생성
+        // console.log(payCoinCount)
+        if(myCoinCount > 0 && payCoinCount < 4){//동전 이미지 생성
             setTimeout(function(){
                 coinRef.current.style.left = initialX;
                 coinRef.current.style.top = initialY;
@@ -483,7 +485,7 @@ const Main = () => {
         const quizListMakeLi = quizTypeA.map((e, idx) => {
         // console.log(e)
         return (
-            <li key={idx} onClick={() => selectPopOpen(idx)}>
+            <li key={idx} className={quizOff[idx] === false ? '' : 'off'} onClick={() => selectPopOpen(idx)}>
                 <strong>Quiz.{idx+1}</strong>
                 <span><i></i>+{quizTypeA[idx].getCoin}</span>
             </li>
@@ -501,16 +503,20 @@ const Main = () => {
 
     //(20) 문제 풀이 팝업 오픈
     function selectPopOpen(idx){
-        if (selectPopRef.current) {
+        if (selectPopRef.current && quizOff[idx] === false) {//풀었던 문제가 아닌 경우
             setQuizIndex(idx);//선택한 퀴즈 index 값 업데이트
             selectPopRef.current.classList.add('on');
             selectPop();
+            setQuizOff((prevQuizOff) => {
+                const newState = [...prevQuizOff]; // 이전 상태 배열을 복사하여 새로운 배열 생성
+                newState[idx] = true; // 선택한 요소 값 true(li에 class off 추가)로 업데이트
+                return newState; // 새로운 배열로 상태 업데이트
+            });
         }
     }
 
     //(21) 문제 풀이 팝업 제목, 문제, 정답 리스트 생성
     function selectPop() {
-        // console.log('quizIndex= ',quizIndex)
         if (quizTypeA[quizIndex]) { // 해당 인덱스의 항목이 존재하는지 확인
             return (
             <>
@@ -531,19 +537,37 @@ const Main = () => {
 
     //(22) 문제 풀이 정답 체크
     function answerCheck(check){
-        console.log('check=',check)
-        if(quizTypeA[quizIndex].correctAnswer === check){
-            console.log('정답')
-        }else{
-            console.log('떙 !')
-            selectPopClose();//문제 풀이 팝업 닫기, 딤처리 제거
-            // console.log(quizListRef)
+        // console.log('check=',check)
+        if(window.confirm("확실한가요 ?")){//"예" 선택
+            if(quizTypeA[quizIndex].correctAnswer === check){
+                window.alert('정답 ! ^.^')
+                //동전 추가 지급
+                setMyMoney((e) => {
+                    return myMoneyRef.current.textContent = e + quizTypeA[quizIndex].getCoin
+                })
+                setMyCoinCount(parseInt(myMoneyRef.current.textContent / 500));
+                selectPopRef.current.classList.remove('on');//문제 풀이 팝업 닫기
+            }else{
+                window.alert('땡 ! ㅜ.ㅠ')
+                selectPopRef.current.classList.remove('on');//문제 풀이 팝업 닫기
+            }
+        }else{//"아니오" 선택
+            return false;
         }
     }
 
     //(23) 문제 풀이 팝업 닫기, 딤처리 제거
     function selectPopClose(){
-        selectPopRef.current.classList.remove('on');
+        if(window.confirm("지금 창을 닫으면 다시 이 문제를 풀 수 없습니다. 그래도 닫으시겠습니까 ?")){//"예" 선택
+            selectPopRef.current.classList.remove('on');
+        }else{//"아니오" 선택
+            return false;
+        }
+    }
+
+    //(24) 리셋 버튼 클릭시 값 초기화
+    function resetEvent (){
+        
     }
 
     return (
@@ -561,7 +585,7 @@ const Main = () => {
                 <div className="inner p_r">
 
                     <div className="top_area">
-                        <a className="reset" href="#;">
+                        <a className="reset" href="#;" onClick={resetEvent()}>
                             <img className="rs_txt" src={resetTxt} alt=""/>
                             <img className="rs_arr" src={resetArrow} alt=""/>
                         </a>
