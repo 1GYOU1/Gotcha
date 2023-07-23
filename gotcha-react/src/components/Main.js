@@ -94,7 +94,7 @@ const Main = () => {
     // 퀴즈 리스트 문제 풀고 off index
     let [quizOff, setQuizOff] = useState([false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]);
 
-    //퀴즈 리스트
+    // 퀴즈 리스트
     let quizTypeA = [
     {
         question : '쿠로미가 속한 애니메이션 제목은?',
@@ -223,11 +223,6 @@ const Main = () => {
         console.log('내가 가진 동전 개수 = ', myCoinCount)
         console.log('내가 넣은 동전 개수 = ', payCoinCount)
     }, [myCoinCount, payCoinCount]);
-
-    // useEffect(() => {
-    //     console.log('내가 클릭한 문제 index =',quizIndex)
-    //     selectPop();
-    // }, [quizIndex])
 
 //------------------------------------
 
@@ -567,7 +562,7 @@ const Main = () => {
 
     //(24) 리셋 버튼 클릭시 값 초기화
     function resetEvent (){
-        
+        window.location.href = '/';//인트로 화면으로
     }
 
     return (
@@ -585,7 +580,7 @@ const Main = () => {
                 <div className="inner p_r">
 
                     <div className="top_area">
-                        <a className="reset" href="#;" onClick={resetEvent()}>
+                        <a className="reset" href="#;" onClick={resetEvent}>
                             <img className="rs_txt" src={resetTxt} alt=""/>
                             <img className="rs_arr" src={resetArrow} alt=""/>
                         </a>
