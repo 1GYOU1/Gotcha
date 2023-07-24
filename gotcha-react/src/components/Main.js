@@ -5,10 +5,8 @@ import resetArrow from '../img/reset_arrow.png';
 import machine from '../img/machine.png';//뽑기 머신 이미지
 import machineHandle from '../img/machine_handle.png';//핸들 이미지
 import coinImg from '../img/coin.png';//핸들 이미지
-import closeIcon from '../img/close_icon.png';//닫기
-import quizIcon from '../img/quiz_icon.png';//퀴즈 아이콘
-import inventoryIcon from '../img/my_bag.png';//인벤토리 아이콘
-import inventoryListIcon from '../img/q_icon.png';//인벤토리 빈칸 아이콘
+import Quiz from './Quiz';
+import Inventory from './Inventory';
 
 const Main = () => {
 
@@ -203,12 +201,6 @@ const Main = () => {
 
         setInitialX(getComputedStyle(coinRef.current).getPropertyValue('left'))
         setInitialY(getComputedStyle(coinRef.current).getPropertyValue('top'))
-        
-        // console.log('currentX = ',currentX)
-
-        // setCurrentX(parseInt(getComputedStyle(coinRef.current).left))//현재 동전 이미지의 left 값 업데이트
-        // setCurrentY(parseInt(getComputedStyle(coinRef.current).top))//현재 동전 이미지의 top 값 업데이트
-
     }, []);
 
     //캡슐 이미지 업데이트
@@ -442,125 +434,26 @@ const Main = () => {
         setCapsuleOpenImg(false);//뽑은 캡슐 오픈 이미지 false로 변경
     }
     
-    //(14) 인벤토리 팝업 오픈, 딤처리
-    function inventoryOpen(){
-        inventoryOpenRef.current.classList.add('on');
-    }
+    /*
+    [ Inventory.js ]
 
-    //(15) 인벤토리 팝업 리스트 생성
-    function inventoryList(){
-        const inventoryListMakeLi = newRandomArr.map((e, idx) => {
-        // playCount에 따라 결과 이미지로 변경
-        const imgSrc = playCount >= idx + 1 ? `./img/open_img_${newRandomArr[idx]}.png` : inventoryListIcon;
-        return (
-            <li key={idx}>
-                <img src={imgSrc} alt='인벤토리 빈 칸'/>
-            </li>
-            )
-        })
-        return (
-            <ul>{inventoryListMakeLi}</ul>
-        );
-    }
+   (14) 인벤토리 팝업 오픈, 딤처리
+   (15) 인벤토리 팝업 리스트 생성
+   (16) 인벤토리 팝업 닫기, 딤처리 해제
+    */
 
-    //(16) 인벤토리 팝업 닫기, 딤처리 해제
-    function inventoryClose(){
-        inventoryOpenRef.current.classList.remove('on');
-    }
+    /*
+    [ Quiz.js ]
 
-    //(17) 퀴즈 리스트 팝업 오픈, 딤처리
-    function quizListPopOpen(){
-        if (quizListRef.current) {
-            quizListRef.current.classList.add('on');
-        }
-    }
-
-    //(18) 퀴즈 리스트 생성
-    function quizList(){
-        const quizListMakeLi = quizTypeA.map((e, idx) => {
-        // console.log(e)
-        return (
-            <li key={idx} className={quizOff[idx] === false ? '' : 'off'} onClick={() => selectPopOpen(idx)}>
-                <strong>Quiz.{idx+1}</strong>
-                <span><i></i>+{quizTypeA[idx].getCoin}</span>
-            </li>
-            )
-        })
-        return (
-            <ul>{quizListMakeLi}</ul>
-        );
-    }
-    
-    //(19) 퀴즈 리스트 팝업 팝업 닫기, 딤처리 해제
-    function quizListPopClose(){
-        quizListRef.current.classList.remove('on');
-    }
-
-    //(20) 문제 풀이 팝업 오픈
-    function selectPopOpen(idx){
-        if (selectPopRef.current && quizOff[idx] === false) {//풀었던 문제가 아닌 경우
-            setQuizIndex(idx);//선택한 퀴즈 index 값 업데이트
-            selectPopRef.current.classList.add('on');
-            selectPop();
-            setQuizOff((prevQuizOff) => {
-                const newState = [...prevQuizOff]; // 이전 상태 배열을 복사하여 새로운 배열 생성
-                newState[idx] = true; // 선택한 요소 값 true(li에 class off 추가)로 업데이트
-                return newState; // 새로운 배열로 상태 업데이트
-            });
-        }
-    }
-
-    //(21) 문제 풀이 팝업 제목, 문제, 정답 리스트 생성
-    function selectPop() {
-        if (quizTypeA[quizIndex]) { // 해당 인덱스의 항목이 존재하는지 확인
-            return (
-            <>
-                <h2>Quiz.{quizIndex+1}</h2>
-                <p>{quizTypeA[quizIndex].question}</p>
-                <ul>
-                    <li onClick={() => answerCheck(0)}><span>{quizTypeA[quizIndex].answer[0]}</span></li>
-                    <li onClick={() => answerCheck(1)}><span>{quizTypeA[quizIndex].answer[1]}</span></li>
-                    <li onClick={() => answerCheck(2)}><span>{quizTypeA[quizIndex].answer[2]}</span></li>
-                    <li onClick={() => answerCheck(3)}><span>{quizTypeA[quizIndex].answer[3]}</span></li>
-                </ul>
-            </>
-            );
-        } else {
-            return null; // 해당 인덱스의 항목이 없을 경우 null 반환
-        }
-    }
-
-    //(22) 문제 풀이 정답 체크
-    function answerCheck(check){
-        // console.log('check=',check)
-        if(window.confirm("확실한가요 ?")){//"예" 선택
-            if(quizTypeA[quizIndex].correctAnswer === check){
-                window.alert('정답 ! ^.^')
-                //동전 추가 지급
-                setMyMoney((e) => {
-                    return myMoneyRef.current.textContent = e + quizTypeA[quizIndex].getCoin
-                })
-                setMyCoinCount(parseInt(myMoneyRef.current.textContent / 500));
-                selectPopRef.current.classList.remove('on');//문제 풀이 팝업 닫기
-            }else{
-                window.alert('땡 ! ㅜ.ㅠ')
-                selectPopRef.current.classList.remove('on');//문제 풀이 팝업 닫기
-            }
-        }else{//"아니오" 선택
-            return false;
-        }
-    }
-
-    //(23) 문제 풀이 팝업 닫기, 딤처리 제거
-    function selectPopClose(){
-        if(window.confirm("지금 창을 닫으면 다시 이 문제를 풀 수 없습니다. 그래도 닫으시겠습니까 ?")){//"예" 선택
-            selectPopRef.current.classList.remove('on');
-        }else{//"아니오" 선택
-            return false;
-        }
-    }
-
-    //(24) 리셋 버튼 클릭시 값 초기화
+    (17) 퀴즈 리스트 팝업 오픈, 딤처리
+    (18) 퀴즈 리스트 생성
+    (19) 퀴즈 리스트 팝업 팝업 닫기, 딤처리 해제
+    (20) 문제 풀이 팝업 제목, 문제, 정답 리스트 생성
+    (21) 문제 풀이 정답 체크
+    (22) 문제 풀이 팝업 닫기, 딤처리 제거
+    */
+   
+    //(23) 리셋 버튼 클릭시 값 초기화
     function resetEvent (){
         window.location.href = '/';//인트로 화면으로
     }
@@ -618,48 +511,16 @@ const Main = () => {
                     {keepGoingbtn()}
                 </div>
                 
-                <a className="my_bag" href="#;" onClick={inventoryOpen}>
-                    <img src={inventoryIcon} alt="인벤토리 아이콘"/>
-                </a>
-                
-                <div ref={inventoryOpenRef} className="inventory_open">
-                    {/* 뽑았던 캡슐 img */}
-                    <div className="layer p_r">
-                        <h2>my collection</h2>
-                        <a className="close" href="#;" onClick={inventoryClose}>
-                            <img src={closeIcon} alt=""/>
-                        </a>
-                        {/* 내 아이템 img */}
-                        {inventoryList()}
-                        <div className="detail">
-                            {/* 내 아이템 자세히 보기 img */}
-                        </div>   
-                    </div>
-                </div>
+                <Inventory
+                newRandomArr={newRandomArr}
+                playCount={playCount}
+                />
 
-                <a className="quiz" href="#;" onClick={quizListPopOpen}>
-                    <img src={quizIcon} alt="퀴즈 아이콘"/>
-                </a>
-                
-                <div ref={quizListRef} className="quiz_list">
-                    <div className="layer p_r">
-                        <h2>Quiz List</h2>
-                        <a className="close" href="#;" onClick={quizListPopClose}>
-                            <img src={closeIcon} alt=""/>
-                        </a>
-                        {/* 퀴즈 리스트 */}
-                        {quizList()}
-                    </div>
-                </div>
-                
-                <div ref={selectPopRef} className="quiz_pop">
-                    <div className="layer p_r">
-                        <a className="close" href="#;" onClick={selectPopClose}>
-                            <img src={closeIcon} alt=""/>
-                        </a>
-                        {selectPop()}
-                    </div>
-                </div>
+                <Quiz
+                setMyMoney={setMyMoney}
+                myMoneyRef={myMoneyRef}
+                setMyCoinCount={setMyCoinCount}
+                />
                 
             </div>
         </div>
