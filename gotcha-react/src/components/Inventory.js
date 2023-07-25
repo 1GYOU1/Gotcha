@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import closeIcon from '../img/close_icon.png';//닫기
 import inventoryIcon from '../img/my_bag.png';//인벤토리 아이콘
 import inventoryListIcon from '../img/q_icon.png';//인벤토리 빈칸 아이콘

@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 // image
 import quizIcon from '../img/quiz_icon.png';//퀴즈 아이콘
 import closeIcon from '../img/close_icon.png';//닫기
-const Quiz = ({setMyMoney, myMoneyRef, setMyCoinCount}) => {
+const Quiz = ({myMoney, setMyMoney}) => {
     //quizListRef
     const quizListRef = useRef();
 
@@ -109,7 +109,6 @@ const Quiz = ({setMyMoney, myMoneyRef, setMyCoinCount}) => {
         }
     ]
 
-
     //(17) 퀴즈 리스트 팝업 오픈, 딤처리
     function quizListPopOpen(){
         if (quizListRef.current) {
@@ -120,7 +119,6 @@ const Quiz = ({setMyMoney, myMoneyRef, setMyCoinCount}) => {
     //(18) 퀴즈 리스트 생성
     function quizList(){
         const quizListMakeLi = quizTypeA.map((e, idx) => {
-        // console.log(e)
         return (
             <li key={idx} className={quizOff[idx] === false ? '' : 'off'} onClick={() => selectPopOpen(idx)}>
                 <strong>Quiz.{idx+1}</strong>
@@ -173,19 +171,17 @@ const Quiz = ({setMyMoney, myMoneyRef, setMyCoinCount}) => {
     }
 
     //(22) 문제 풀이 정답 체크
-    function answerCheck(check){
-        // console.log('check=',check)
+    function answerCheck(checkIdx){
         if(window.confirm("확실한가요 ?")){//"예" 선택
-            if(quizTypeA[quizIndex].correctAnswer === check){
+            if(quizTypeA[quizIndex].correctAnswer === checkIdx){
                 window.alert('정답 ! ^.^')
-                //동전 추가 지급
-                setMyMoney((e) => {
-                    return myMoneyRef.current.textContent = e + quizTypeA[quizIndex].getCoin
-                })
-                setMyCoinCount(parseInt(myMoneyRef.current.textContent / 500));
+
+                setMyMoney(myMoney + quizTypeA[quizIndex].getCoin)//동전 지급
+
                 selectPopRef.current.classList.remove('on');//문제 풀이 팝업 닫기
             }else{
                 window.alert('땡 ! ㅜ.ㅠ')
+
                 selectPopRef.current.classList.remove('on');//문제 풀이 팝업 닫기
             }
         }else{//"아니오" 선택
