@@ -57,6 +57,12 @@ const Main = () => {
     // 동전 드래그
     let [dragActive, setDragActive] = useState(false);
 
+    // 동전 화살표 이미지
+    let [coinArrow, setCoinArrow] = useState(false);
+
+    // 핸들 화살표 이미지
+    let [handleArrow, setHandleArrow] = useState(false);
+
     // 내가 넣은 동전 갯수 카운트
     let [payCoinCount, setPayCoinCount] = useState(0);
 
@@ -201,23 +207,42 @@ const Main = () => {
     //(7) 동전 위치 초기화
     function coinImgDisplay(){
         coinRef.current.style.display = 'none';
+        setCoinArrow(false);//화살표 이미지 false;
         if(myMoney > 0 && payCoinCount < playPrice/500){//동전 이미지 생성
             setTimeout(function(){
                 coinRef.current.style.left = initialX;
                 coinRef.current.style.top = initialY;
                 coinRef.current.style.display = 'block';
+                setCoinArrow(true);//화살표 이미지 true;
             }, 500)
+        }
+    }
+
+    //동전 드래그 화살표 애니메이션
+    function coinArrowEvent(){
+        if(coinArrow){
+            return (
+                <div className='coin_arrow'>
+                    <strong>Drag coin here !</strong>
+                    <img
+                    src={`./img/arr_test4.png`}
+                    alt="화살표 이미지"
+                    />
+                </div>
+            );
+        }else{
+            return null;
         }
     }
 
     //(8) 캡슐 뽑기 애니메이션 실행
     function capsuleOut(){
-        turnRef.current.classList.add('on');
+        setHandleArrow(true);//핸들 화살표 true
         console.log('돌려 !')
         handleRef.current.addEventListener("click", handleAni);//애니메이션 실행
     }
     function handleAni(){
-        turnRef.current.classList.remove('on');
+        setHandleArrow(false);//핸들 화살표 false
         handleRef.current.classList.add('on');//핸들 애니메이션
         setTimeout(function(){
             handleRef.current.classList.remove('on');
@@ -235,6 +260,23 @@ const Main = () => {
         }, 2800);
         handleRef.current.removeEventListener("click", handleAni);//핸들 클릭 이벤트 제거
     };
+
+    //핸들 화살표 애니메이션
+    function handleArrowEvent(){
+        if(handleArrow){
+            return (
+                <div className='handle_arrow'>
+                    <strong>Turn the handle !</strong>
+                    <img
+                    src={`./img/arr_test3.png`}
+                    alt="화살표 이미지"
+                    />
+                </div>
+            );
+        }else{
+            return null;
+        }
+    }
 
     //(9) 출구에 뽑은 캡슐 이미지 노출
     function myCapsuleImgOpen() {
@@ -343,15 +385,9 @@ const Main = () => {
              >
                 <div className="inner p_r">
 
-                    <div className="top_area">
-                        <a className="reset" href="#;" onClick={resetEvent}>
-                            <img className="rs_txt" src={resetTxt} alt=""/>
-                            <img className="rs_arr" src={resetArrow} alt=""/>
-                        </a>
-                        <p className="my_money">My money<br/>
-                            <strong>￦ <span>{myMoney}</span></strong>
-                        </p> 
-                    </div>
+                    <p className="my_money">My money<br/>
+                        <strong>￦ <span>{myMoney}</span></strong>
+                    </p> 
 
                     <div className="machine_area p_r">
                         <img className="machine" src={machine} alt="뽑기 머신 이미지"/>
@@ -360,7 +396,7 @@ const Main = () => {
                         {createBallImg()}
                         </div>
                         <img ref={handleRef} className="handle" src={machineHandle} alt="핸들 이미지"/>
-                        <strong ref={turnRef} className="turn">Turn the handle!</strong>
+                        {handleArrowEvent()}{/* 핸들 화살표 */}
                         <strong className="price">￦ <span>{playPrice}</span></strong>
                         <div ref={ballExitRef} className="capsule_exit">
                             {/* 내가 뽑은 캡슐 img */}
@@ -375,6 +411,12 @@ const Main = () => {
                 </div>
 
                 <img ref={coinRef} className="coin" src={coinImg} alt="동전 이미지"/>
+                {coinArrowEvent()}{/* 동전 화살표 */}
+
+                <a className="reset" href="#;" onClick={resetEvent}>
+                    <img className="rs_txt" src={resetTxt} alt=""/>
+                    <img className="rs_arr" src={resetArrow} alt=""/>
+                </a>
                 
                 <div ref={outBallDimRef} className="capsule_open">
                     {/* 방금 뽑은 캡슐 img */}
