@@ -6,7 +6,7 @@
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <title>pick machine</title>
      <link rel="stylesheet" href="./css/common.min.css">
-     <link rel="stylesheet" href="./css/pick-machine2.css">
+     <link rel="stylesheet" href="./css/gotcha-vanilla.css">
 </head>
 <body>
     
@@ -26,15 +26,9 @@
         <div class="main_area">
             <div class="inner p_r">
 
-                <div class="top_area">
-                    <a class="reset" href="#;">
-                        <img class="rs_txt" src="./img/reset_txt.png" alt="">
-                        <img class="rs_arr" src="./img/reset_arrow.png" alt="">
-                    </a>
-                    <p class="my_money">My money<br>
-                        <strong>￦ <span>2000</span></strong>
-                    </p> 
-                </div>
+                <p class="my_money">My money<br>
+                    <strong>￦ <span>2000</span></strong>
+                </p> 
 
                 <div class="machine_area p_r">
                     <img class="machine" src="./img/machine.png" alt="뽑기 머신 이미지">
@@ -42,7 +36,10 @@
                        <!-- 캡슐 Img -->
                     </div>
                     <img class="handle" src="./img/machine_handle.png" alt="핸들 이미지">
-                    <strong class="turn">Turn the handle!</strong>
+                    <div class='handle_arrow'>
+                        <strong>Turn the handle !</strong>
+                        <img src="./img/arr_test3.png" alt="화살표 이미지"/>
+                    </div>
                     <strong class="price">￦ <span>2000</span></strong>
                     <div class="capsule_exit">
                         <!-- 내가 뽑은 캡슐 img -->
@@ -56,6 +53,16 @@
             </div>
 
             <img class="coin" src="./img/coin.png" alt="동전 이미지">
+
+            <div class='coin_arrow'>
+                <strong>Drag coin here !</strong>
+                <img src="./img/arr_test4.png" alt="화살표 이미지"/>
+            </div>
+
+            <a class="reset" href="#;">
+                <img class="rs_txt" src="./img/reset_txt.png" alt="">
+                <img class="rs_arr" src="./img/reset_arrow.png" alt="">
+            </a>
             
             <div class="capsule_open">
                 <!-- 방금 뽑은 캡슐 img -->
@@ -114,6 +121,6 @@
         </div>
     </div>
 <!-- my script -->
-<script src="./js/js2.js"></script>
+<script src="./js/gotcha-vanilla.js"></script>
 </body>
 </html>

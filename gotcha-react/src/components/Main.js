@@ -19,9 +19,6 @@ const Main = () => {
 
     // coin_drop_area
     const coinDropAreaRef = useRef();
-
-    // turn
-    const turnRef = useRef();
     
     // handle
     const handleRef = useRef();

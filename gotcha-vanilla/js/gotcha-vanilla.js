@@ -235,6 +235,12 @@ let quizPopClose = document.querySelector(".quiz_pop .close");
 // 리셋 버튼
 let resetBtn = document.querySelector(".reset");
 
+// 동전 입구 화살표
+let coinArrow = document.querySelector(".coin_arrow");
+
+// 핸들 화살표
+let handleArrow = document.querySelector(".handle_arrow");
+
 // 랜덤 배열
 let arr = [];
 let newRandomArr = [];
@@ -387,24 +393,26 @@ function priceCount(){
 
 //(7) 동전 위치 초기화
 function coinImgDisplay(){
-    coinImg.style.display = 'none';
+    coinImg.style.display = "none";
+    coinArrow.style.display = "none";
     if(myCoinCount > 0){//동전 이미지 생성
         setTimeout(function(){
-            coinImg.style.display = 'block';
+            coinImg.style.display = "block";
             coinImg.style.left = initialY + "px";
             coinImg.style.top = initialX + "px";
+            coinArrow.style.display = "block";
         }, 500)
     }
 }
 
 //(8) 캡슐 뽑기 애니메이션 실행
 function capsuleOut(){
-    turn.classList.add('on');
+    handleArrow.style.display = "block";
     console.log('돌려 !')
     handle.addEventListener("click", handleAni);//애니메이션 실행
 }
 function handleAni(){
-    turn.classList.remove('on');
+    handleArrow.style.display = "none";
     handle.classList.add('on');//핸들 애니메이션
     setTimeout(function(){
         handle.classList.remove('on');
