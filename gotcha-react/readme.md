@@ -45,7 +45,9 @@ react-router-dom 설치 (Link 태그 사용)
 ### 1. repository 생성
 1. public
 
-2. Settings -> Pages -> branch 변경
+* 하단 모두 실행했는데도 진입이 안된다면 branch 변경 !
+2. Settings -> Pages -> branch 변경 -> gh-pages
+
 ### 2. git 연동
 
 git config --global 사용자 이름, 이메일
@@ -64,8 +66,6 @@ github 연결되었는지 확인 - 아무것도 나오지 않는다면 연결해
 
 github repository 연결 (https://github.com/사용자이름/레파지토리)
 >$ git remote add origin https://github.com/1gyou1/repository명
-
->$ git push -u origin master
 
 #### window
 
@@ -125,12 +125,15 @@ npm run build를 실행시키고 react-scripts build를 실행
 
 >$ npm run deploy
 
+마지막에 하단 명령어 실행해줘야 올라감 !
+>$ git push -u origin master
+
 #### package.json 폴더에 추가한 주소로 진입하여 확인
 
 #### ※ route 오류 ※
 
 <BrowserRouter> 사용 했을 때,
-<br>https://1gyou1.github.io/repository명로 진입해서
+<br>https://1gyou1.github.io/repository경로 진입해서
 <br>`<Link>`태그 타고 https://1gyou1.github.io/repository명/chocochococho
 <br>이동은 가능하지만, 직접 url을 입력하거나 진입해서 새로고침하면 404 Error 발생.
 
