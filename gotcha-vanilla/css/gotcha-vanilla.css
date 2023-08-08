@@ -13,8 +13,8 @@
 .main_area{display:none;}
 .main_area.on{animation:fade-in 0.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;display:block;width:100%;height:100vh;}
 .main_area .inner{display:flex;flex-direction:column;justify-content:center;align-items:center;height:100%}
-.main_area .reset{position:absolute;bottom:11%;left:50px;}
-.main_area .reset img{position:absolute;top:0;left:0;width:70px;}
+.main_area .reset{position:absolute;bottom:120px;left:50px;width:70px;}
+.main_area .reset img{position:absolute;top:0;left:0;width:100%;}
 .main_area .reset img.rs_txt{transform:scale(0.8);}
 .main_area .reset:hover img.rs_txt{transform:scale(0.9);transition:all ease 0.5s;}
 .main_area .reset:hover img.rs_arr{-webkit-animation: rotate-center 8s linear infinite both;animation: rotate-center 8s linear infinite both;}
@@ -105,12 +105,14 @@
 	.inner{width:100vw;}
 	.main_area .top_area .my_money{font-size:20px;}
 	.main_area .top_area .my_money strong{font-size:24px;}
+	.main_area .coin_arrow strong{left:58px;}
 	.main_area .my_bag{width:70px;bottom:15px;right:15px;}
 	.main_area .my_bag:hover{width:70px;bottom:15px;right:15px;}
 	.main_area .quiz{width:70px;bottom:15px;right:90px;}
 	.main_area .quiz:hover{width:70px;bottom:15px;right:90px;}
+	.main_area .reset{position:absolute;bottom:70px;left:15px;width:50px;}
 }
-@media screen and (max-width:600px){
+@media screen and (max-width:650px){
 	.main_area .top_area{top:15vw;}
 	.main_area .pay_coin{margin-top:0;}
 	.main_area .machine_area{width:300px;margin-top:0;}
@@ -121,12 +123,17 @@
 	.main_area .machine_area .price{top:436px;right:210px;font-size:16px;}
 	.main_area .machine_area .capsule_exit{top:440px;width:75px;height:75px;}
 	.main_area .machine_area .coin_drop_area{top:404px;left:203px;width:95px;height:95px;}
-	.main_area .coin{top:750px;left:30px;width:65px;}
+	.main_area .coin_arrow{margin-left:131px;top:56.5%;}
+	.main_area .coin_arrow strong{left:31px;}
+	.main_area .machine_area .handle_arrow{top:48.5%;}
+	.main_area .machine_area .handle_arrow strong{left:120px;font-size:16px;}
+	.main_area .machine_area .handle_arrow img{width:175px;}
+	.main_area .coin{top:470px;left:30px;width:60px;}
 	.main_area .capsule_open.on{background:rgba(0,0,0,0.75);}
 	.main_area .capsule_open img.my_ball{width:25%;}
-	.main_area .capsule_open img.open_ball{width:50%;}
-	.main_area .capsule_open img.keep_going_btn{top:25px;right:25px;width:72px;}
-	.main_area .inventory_open .layer{width:90%;padding-bottom:20px;}
+	.main_area .capsule_open img.open_ball{width:35%;}
+	.main_area .capsule_open img.keep_going_btn{top:9%;right:25px;width:72px;}
+	.main_area .inventory_open .layer{width:70%;padding-bottom:20px;}
 	.main_area .inventory_open .layer .close{right:20px;}
 	.main_area .inventory_open .layer ul{width:90%;}
 	.main_area .inventory_open .layer ul li{width:30%;height:auto;}
@@ -140,14 +147,21 @@
 	.main_area .quiz_list .layer ul li:nth-of-type(3n){margin-right:0;}
 	.main_area .quiz_list .layer ul li:nth-of-type(n+13){margin-bottom:0;}
 }
-@media screen and (max-width:385px){
+@media screen and (max-width:420px){
 	.main_area .machine_area{width:230px;margin-top:20px;}
+	.main_area .my_money{top:8%;}
 	.main_area .machine_area .balls{top:62px;margin-left:-98px;width:196px;}
 	.main_area .machine_area .price{top:334px;right:152px;font-size:12px;}
 	.main_area .machine_area .handle{margin-left:-22px;width:50px;margin-left:-23px;top:267px;}
 	.main_area .machine_area .turn{top:277px;padding:3px;right:-65px;}
 	.main_area .machine_area .coin_drop_area{top:306px;left:156px;width:73px;height:78px;}
-	.main_area .coin{top:585px;width:55px;}
+	.main_area .coin{top:405px;left:15px;width:45px;}
+	.main_area .coin_arrow{margin-left:23%;top:59.5%;}
+	.main_area .coin_arrow img{width:70%;}
+	.main_area .coin_arrow strong{top:-43%;left:-2%;font-size:0.7rem;background:whitesmoke;padding:1vw;border-radius:10px;}
+	.main_area .machine_area .handle_arrow{margin-left:12%;top:49.5%}
+	.main_area .machine_area .handle_arrow img{width:140%;}
+	.main_area .machine_area .handle_arrow strong{top:-25%;left:53%;font-size:0.7rem;background:whitesmoke;padding:1vw;border-radius:10px;}
 	.main_area .my_bag{width:60px;}
 	.main_area .my_bag:hover{width:60px;}
 	.main_area .quiz{width:60px;right:80px;}
@@ -155,4 +169,8 @@
 	.main_area .machine_area .capsule_exit{top:338px;width:59px;height:58px;}
 	.main_area .inventory_open .layer{width:85%;}
 	.main_area .quiz_list .layer{width:85%;}
+	.main_area .quiz_list .layer ul li{padding:3vw 0;}
+	.main_area .quiz_list .layer ul li span i{width:6vw;height:6vw;}
+	.main_area .quiz_list .layer ul li.off:after{font-size:1.3rem;}
+	.main_area .quiz_pop .layer{width:90%;}
 }
