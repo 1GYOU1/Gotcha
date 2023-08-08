@@ -276,13 +276,10 @@ function startBtnEvent(){
         startArea.classList.remove('out');
         startArea.style.display = 'none';
         mainArea.classList.add('on');
-        // mainArea.style.display = 'block';
+        mainArea.style.display = 'block';
         randomResult();//랜덤 결과 생성
         createBallImg();//캡슐 이미지 생성
     }, 1000);
-    setTimeout(function(){
-        // mainArea.classList.remove('on');
-    }, 1500)
     coinImgDisplay();//동전 위치 초기화
     creatQuizList();//팝업 리스트 생성
 }
@@ -630,6 +627,7 @@ function resetEvent(){
     coinImg.style.display = 'none';//동전 이미지 숨김
     startArea.style.display = "block";
     mainArea.style.display = "none";
+    mainArea.classList.remove('on');
 
     //뽑은 캡슐 이미지 초기화
     let ballsImg = document.querySelector(".balls img");
