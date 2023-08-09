@@ -2,7 +2,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import './css/common.min.css';
 import './css/intro.min.css';
-import './css/pick-machine2.css';
+import './css/gotcha-react.css';
 import Header from "./components/Header";
 import Main from "./components/Main";
 import Start from "./components/Start";
