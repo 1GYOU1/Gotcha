@@ -7,9 +7,10 @@
 
 ### MainPage View
 
-![intro](https://github.com/1GYOU1/kirbyTodoList/assets/90018379/5ef6b0e0-bb59-47c3-9de3-891607f9aba2)
+![ezgif com-gif-maker](https://github.com/1GYOU1/Javascript/assets/90018379/e423444a-98cc-410d-af47-8427cb57ea13)
 
-![turn](https://github.com/1GYOU1/kirbyTodoList/assets/90018379/ee4b79d8-3f29-41fb-8abf-e4197e88f1ee)
+![turn2](https://github.com/1GYOU1/Javascript/assets/90018379/7e0e79c3-eac0-452e-ad48-b52548b60cf0)
+
 
 <br>
 
