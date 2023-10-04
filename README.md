@@ -1,11 +1,11 @@
 # Gotcha-project
 
-### 1. Gotcha-vanilla version
+### 1. Gotcha-vanilla.js version
  - 순수 바닐라 자바스크립트로 캡슐 뽑기 구현
 
 <br>
 
-### MainPage View
+### 👀 MainPage View
 
 ![ezgif com-gif-maker](https://github.com/1GYOU1/Javascript/assets/90018379/e423444a-98cc-410d-af47-8427cb57ea13)
 
@@ -14,7 +14,7 @@
 
 <br>
 
-### 주요 기술 스택
+### 📌 주요 기술 스택
 <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=HTML5&logoColor=white"/>
 <img src="https://img.shields.io/badge/CSS3-F68212?style=flat-square&logo=CSS3&logoColor=white"/>
 <img src="https://img.shields.io/badge/SCSS-CC6699?style=flat-square&logo=Sass&logoColor=white"/>
@@ -27,7 +27,7 @@
 
 <br>
 
-### 주요 기능
+### 📌 주요 기능
 - 인트로 애니메이션
 - 캡슐 뽑기 애니메이션
 - 동전 드래그 앤 드롭
@@ -37,7 +37,8 @@
 
 <br>
 
-### Github Page : 추후 업데이트 예정.
+### Github Pages
+https://1gyou1.github.io/Gotcha/gotcha-vanilla/gotcha-vanilla.html
 
 <br>
 
