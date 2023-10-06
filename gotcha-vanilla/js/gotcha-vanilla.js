@@ -453,13 +453,6 @@ function outBallDimEvent(e){
             keepGoingbtn.setAttribute("src", "./img/return.png");//버튼 이미지
             keepGoingbtn.setAttribute("alt", "계속");
             outBallDim.append(keepGoingbtn);
-
-            inventoryCount++;//인벤토리 카운트 횟수 ++
-            payCoinCount -= priceCoin;//지불한 동전 가격만큼 마이너스
-            payCoin.textContent = payCoinCount;//지불한 동전 갯수 텍스트 업데이트
-
-            console.log(payCoinCount)
-            console.log('인벤토리 아이템 ' + inventoryCount + '개 획득 !')
         })
     }, {once : true})//한 번만 실행
     keepGoingEvent(keepGoingbtn, e);
@@ -471,6 +464,12 @@ function keepGoingEvent(keepGoingbtn, item){
         outBallDim.classList.remove('on');//딤 제거
         keepGoingbtn.remove();//이어서 하기 버튼 제거
         item.remove();//뽑은 이미지 제거
+
+        payCoinCount -= priceCoin;//지불한 동전 가격만큼 마이너스
+        payCoin.textContent = payCoinCount;//지불한 동전 갯수 텍스트 업데이트
+        inventoryCount++;//인벤토리 카운트 횟수 ++
+        console.log(payCoinCount)
+        console.log('인벤토리 아이템 ' + inventoryCount + '개 획득 !')
     });
 }
 
