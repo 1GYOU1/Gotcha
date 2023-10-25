@@ -130,9 +130,11 @@ npm run build를 실행시키고 react-scripts build를 실행
 
 #### package.json 폴더에 추가한 주소로 진입하여 확인
 
-#### ※ route 오류 ※
+<br>
 
-<BrowserRouter> 사용 했을 때,
+### ※ route 오류 ※
+
+`<BrowserRouter>` 사용 했을 때,
 <br>https://1gyou1.github.io/repository경로 진입해서
 <br>`<Link>`태그 타고 https://1gyou1.github.io/repository명/chocochococho
 <br>이동은 가능하지만, 직접 url을 입력하거나 진입해서 새로고침하면 404 Error 발생.
@@ -179,4 +181,52 @@ const App = () => {
 }
 
 export default App;
+```
+
+<br>
+
+### useNavigate() 사용
+
+- BrowserRouter 태그에 basename={process.env.PUBLIC_URL} 추가해서 package.json 파일 Homepage 주소를 기준으로 경로가 생성되게 변경.
+
+ex) "homepage": "https://1gyou1.github.io/Gotcha-react" 라고 작성했다면,
+하단 App.js를 실행했을때, 
+- https://1gyou1.github.io/Gotcha-react -> path="/"
+- https://1gyou1.github.io/Gotcha-react/start -> path:"/start"
+
+package.json
+```js
+"homepage": "https://1gyou1.github.io/Gotcha-react"
+```
+
+src/index.js
+```js
+<BrowserRouter basename={process.env.PUBLIC_URL}>
+  <App />
+</BrowserRouter>
+```
+
+src/App.js
+```js
+<Routes>
+  <Route path="/" element={<Intro />} />
+  <Route path="/start" element={<Start />} />
+  <Route path="/main" element={<Main />} />
+</Routes>
+```
+
+src/components/Intro.js
+```js
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
+const Intro = () => {
+
+    const navigate = useNavigate();
+
+    //Start.js로 이동
+    setTimeout(() => {
+        navigate('/start');
+    }, 8900);
+    ...
 ```
