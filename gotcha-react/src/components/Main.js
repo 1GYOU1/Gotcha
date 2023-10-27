@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 // image
 import resetTxt from '../img/reset_txt.png';
 import resetArrow from '../img/reset_arrow.png';
@@ -10,6 +11,8 @@ import Quiz from './Quiz';
 import Inventory from './Inventory';
 
 const Main = () => {
+
+    const navigate = useNavigate();
 
     // main_area
     const mainAreaRef = useRef();
@@ -71,6 +74,9 @@ const Main = () => {
 
     // 캡슐 오픈 결과 이미지
     let [capsuleOpenImg, setCapsuleOpenImg] = useState(false);
+
+    // 캡슐 이어서 진행하기 버튼
+    let [reGobtn, setReGobtn] = useState(false);
 
 //------------------------------------
 
@@ -312,7 +318,10 @@ const Main = () => {
                 className="my_ball"
                 src={`./img/ball_${playCount}.png`}
                 alt="뽑은 캡슐"
-                onClick={() => setCapsuleOpenImg(true)}
+                onClick={() => {
+                    setCapsuleOpenImg(true);
+                    setReGobtn(true);
+                }}
                 />
             );
         }
@@ -342,6 +351,8 @@ const Main = () => {
         myCapsuleImgOpen();//exit 캡슐 이미지 제거
 
         setCapsuleOpenImg(false);//뽑은 캡슐 오픈 이미지 false로 변경
+
+        setReGobtn(false);//이어서 진행하기 버튼 노출
     }
     
     /*
@@ -365,7 +376,8 @@ const Main = () => {
    
     //(23) 리셋 버튼 클릭시 값 초기화
     function resetEvent (){
-        window.location.href = '/';//인트로 화면으로
+        navigate('/start');
+        // window.location.href = '/';//인트로 화면으로
     }
 
     return (
@@ -418,12 +430,14 @@ const Main = () => {
                 <div ref={outBallDimRef} className="capsule_open">
                     {/* 방금 뽑은 캡슐 img */}
                     {outBallDimCapsuleImg()}
-                    {keepGoingbtn()}
+                    {reGobtn ? (
+                        keepGoingbtn()
+                    ) : null}
                 </div>
                 
                 <Inventory
                 newRandomArr={newRandomArr}
-                playCount={playCount}
+                inventoryCount={inventoryCount}
                 />
 
                 <Quiz

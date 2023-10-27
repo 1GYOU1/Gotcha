@@ -16,6 +16,7 @@ function App() {
 	useEffect(() => {
 		const showTime = setTimeout(() => {
 			setShowIntro(false);
+			console.log('main 진입 ?')
 		}, 8900);
 	
 		return () => {
@@ -25,7 +26,11 @@ function App() {
 	
 	//main에서 intro 재실행되는 오류 때문에 추가
 	useEffect(() => {
-		if (location.pathname === "/main") {
+		if (location.pathname === "/main" || location.pathname === "/start") {
+		
+		//gh-pages 배포용 루트
+		// if (location.pathname === "/Gotcha-react/main" || location.pathname === "/Gotcha-react/start") {
+			console.log('router test')
 			setShowIntro(false);
 		}
 	}, [location]);
@@ -33,18 +38,17 @@ function App() {
 	return (
 		<div>
 			{showIntro ? (
-				<Intro />
+				<Routes>
+					<Route path="/" element={<Intro />} />
+				</Routes>
 			) : (
 				<div>
 					<Header />
-				</div>
-			)}
-
-			{!showIntro && (
-				<Routes>
-					<Route path="/" element={<Start />} />
+					<Routes>
+					<Route path="/start" element={<Start />} />
 					<Route path="/main" element={<Main />} />
 				</Routes>
+				</div>
 			)}
 		</div>
 	);

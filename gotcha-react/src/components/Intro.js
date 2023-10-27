@@ -1,6 +1,14 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Intro = () => {
+
+    const navigate = useNavigate();
+
+    //Start.js로 이동
+    setTimeout(() => {
+        navigate('/start');
+    }, 8900);
 
     return (
         <div>

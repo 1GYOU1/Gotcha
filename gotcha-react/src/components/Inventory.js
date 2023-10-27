@@ -3,7 +3,7 @@ import closeIcon from '../img/close_icon.png';//닫기
 import inventoryIcon from '../img/my_bag.png';//인벤토리 아이콘
 import inventoryListIcon from '../img/q_icon.png';//인벤토리 빈칸 아이콘
 
-const Inventory = ({newRandomArr, playCount}) => {
+const Inventory = ({newRandomArr, inventoryCount}) => {
     //inventory_open
     const inventoryOpenRef = useRef();
 
@@ -15,8 +15,8 @@ const Inventory = ({newRandomArr, playCount}) => {
     //(15) 인벤토리 팝업 리스트 생성
     function inventoryList(){
         const inventoryListMakeLi = newRandomArr.map((e, idx) => {
-        // playCount에 따라 결과 이미지로 변경
-        const imgSrc = playCount >= idx + 1 ? `./img/open_img_${newRandomArr[idx]}.png` : inventoryListIcon;
+        // inventoryCount에 따라 결과 이미지로 변경
+        const imgSrc = inventoryCount >= idx + 1 ? `./img/open_img_${newRandomArr[idx]}.png` : inventoryListIcon;
         return (
             <li key={idx}>
                 <img src={imgSrc} alt='인벤토리 빈 칸'/>

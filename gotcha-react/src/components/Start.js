@@ -1,8 +1,11 @@
 import React, { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Start = () => {
 	const startAreaRef = useRef();//start_area
 	const startBtnRef = useRef();//start_btn
+
+	const navigate = useNavigate();
 
 	const startBtnClickEvent = () => {
 
@@ -18,7 +21,8 @@ const Start = () => {
 
 		//Main.js로 이동
 		setTimeout(() => {
-			window.location.href = '/main';
+			navigate('/main');
+			// window.location.href = '/Gotcha-react/main';
 		}, 1000);
 	};
 
